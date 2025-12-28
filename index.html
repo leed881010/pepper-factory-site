@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pepper Factory</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+        .apps {
+            display: grid;
+            gap: 20px;
+        }
+        .app-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 24px;
+            transition: transform 0.2s, background 0.2s;
+        }
+        .app-card:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+        .app-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+        .app-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        .app-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        .app-desc {
+            color: #aaa;
+            margin-bottom: 16px;
+        }
+        .app-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .app-links a {
+            color: #4da6ff;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .app-links a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Pepper Factory</h1>
+            <p class="subtitle">Simple & Useful iOS Apps</p>
+        </header>
+
+        <div class="apps">
+            <div class="app-card">
+                <div class="app-header">
+                    <div class="app-icon" style="background: #FF6B6B;">🍅</div>
+                    <span class="app-name">OneThing</span>
+                </div>
+                <p class="app-desc">포모도로 타이머로 집중력을 높이세요. 히스토리 추적, D-Day, 앱 차단 기능 제공.</p>
+                <div class="app-links">
+                    <a href="privacy/onething.html">개인정보처리방침</a>
+                    <a href="terms/onething.html">이용약관</a>
+                </div>
+            </div>
+
+            <div class="app-card">
+                <div class="app-header">
+                    <div class="app-icon" style="background: #4ECDC4;">✓</div>
+                    <span class="app-name">Habit</span>
+                </div>
+                <p class="app-desc">매일 습관을 추적하고 기록하세요. 주간/월간 캘린더로 한눈에 확인.</p>
+                <div class="app-links">
+                    <a href="privacy/habit.html">개인정보처리방침</a>
+                    <a href="terms/habit.html">이용약관</a>
+                </div>
+            </div>
+
+            <div class="app-card">
+                <div class="app-header">
+                    <div class="app-icon" style="background: #FFE66D;">💪</div>
+                    <span class="app-name">BulkUp</span>
+                </div>
+                <p class="app-desc">운동 타이머 앱. 근력운동, 유산소, 인터벌 타이머 지원.</p>
+                <div class="app-links">
+                    <a href="privacy/bulkup.html">개인정보처리방침</a>
+                    <a href="terms/bulkup.html">이용약관</a>
+                </div>
+            </div>
+
+            <div class="app-card">
+                <div class="app-header">
+                    <div class="app-icon" style="background: #95E1D3;">📊</div>
+                    <span class="app-name">AdMob Tracker</span>
+                </div>
+                <p class="app-desc">AdMob 수익을 실시간으로 확인하세요. 위젯으로 홈 화면에서 바로 확인.</p>
+                <div class="app-links">
+                    <a href="privacy/admob-tracker.html">개인정보처리방침</a>
+                    <a href="terms/admob-tracker.html">이용약관</a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2024 Pepper Factory. All rights reserved.</p>
+            <p style="margin-top: 8px;">Contact: pepperfactory.dev@gmail.com</p>
+        </footer>
+    </div>
+</body>
+</html>
