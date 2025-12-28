@@ -70,18 +70,28 @@
             font-size: 0.9rem;
             line-height: 1.4;
         }
-        footer {
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
             text-align: center;
-            margin-top: 80px;
+            font-size: 0.85rem;
             color: #666;
-            font-size: 0.9rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
-        footer a {
+        .bottom-bar a {
             color: #888;
             text-decoration: none;
         }
-        footer a:hover {
+        .bottom-bar a:hover {
             color: #fff;
+        }
+        .container {
+            padding-bottom: 60px;
         }
     </style>
 </head>
@@ -118,14 +128,14 @@
             </a>
         </div>
 
-        <footer>
-            <p style="margin-bottom: 12px;">
-                <a href="privacy.html">Privacy Policy</a>
-                <span style="margin: 0 12px; color: #444;">|</span>
-                <a href="terms.html">Terms of Use</a>
-            </p>
-            <p>&copy; 2024 Pepper Factory. All rights reserved.</p>
-        </footer>
+    </div>
+
+    <div class="bottom-bar">
+        <a href="privacy.html">Privacy Policy</a>
+        <span style="margin: 0 12px; color: #444;">|</span>
+        <a href="terms.html">Terms of Use</a>
+        <span style="margin: 0 12px; color: #444;">|</span>
+        <span>&copy; 2024 Pepper Factory</span>
     </div>
 </body>
 </html>
