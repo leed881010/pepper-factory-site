@@ -36,6 +36,18 @@
         .features ul { list-style: none; }
         .features li { padding: 8px 0; color: #ccc; display: flex; align-items: center; gap: 10px; }
         .features li::before { content: "✓"; color: #FFE66D; }
+        .download-btn {
+            display: inline-block;
+            background: #007AFF;
+            color: #fff;
+            padding: 12px 32px;
+            border-radius: 24px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 16px;
+            transition: background 0.2s;
+        }
+        .download-btn:hover { background: #0056b3; }
         .links { display: flex; flex-direction: column; gap: 12px; }
         .link-item {
             background: rgba(255,255,255,0.05); border-radius: 12px;
@@ -55,6 +67,7 @@
             <img src="../images/bulkup-icon.png" class="app-icon" alt="BulkUp">
             <h1>BulkUp</h1>
             <p class="tagline">운동 타이머 & 기록</p>
+            <a href="https://apps.apple.com/app/id6447776886" class="download-btn" target="_blank">Download on App Store</a>
         </div>
         <div class="description">
             BulkUp은 근력운동, 유산소, 인터벌 운동을 위한 타이머 앱입니다.
