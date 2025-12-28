@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BulkUp - Pepper Factory</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+        .container { max-width: 600px; margin: 0 auto; padding: 40px 20px; }
+        .back { color: #4da6ff; text-decoration: none; font-size: 0.9rem; display: inline-block; margin-bottom: 32px; }
+        .back:hover { text-decoration: underline; }
+        .app-header { text-align: center; margin-bottom: 40px; }
+        .app-icon {
+            width: 120px; height: 120px; border-radius: 28px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 60px; margin: 0 auto 20px;
+            object-fit: cover;
+        }
+        h1 { font-size: 2rem; margin-bottom: 8px; }
+        .tagline { color: #888; font-size: 1.1rem; }
+        .description {
+            background: rgba(255,255,255,0.05); border-radius: 16px;
+            padding: 24px; margin-bottom: 24px; line-height: 1.7; color: #ccc;
+        }
+        .features {
+            background: rgba(255,255,255,0.05); border-radius: 16px;
+            padding: 24px; margin-bottom: 24px;
+        }
+        .features h3 { margin-bottom: 16px; font-size: 1.1rem; }
+        .features ul { list-style: none; }
+        .features li { padding: 8px 0; color: #ccc; display: flex; align-items: center; gap: 10px; }
+        .features li::before { content: "✓"; color: #FFE66D; }
+        .links { display: flex; flex-direction: column; gap: 12px; }
+        .link-item {
+            background: rgba(255,255,255,0.05); border-radius: 12px;
+            padding: 16px 20px; color: #fff; text-decoration: none;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: background 0.2s;
+        }
+        .link-item:hover { background: rgba(255,255,255,0.1); }
+        .link-item span:last-child { color: #888; }
+        footer { text-align: center; margin-top: 60px; color: #666; font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back">← Back to Apps</a>
+        <div class="app-header">
+            <img src="../images/bulkup-icon.png" class="app-icon" alt="BulkUp">
+            <h1>BulkUp</h1>
+            <p class="tagline">운동 타이머 & 기록</p>
+        </div>
+        <div class="description">
+            BulkUp은 근력운동, 유산소, 인터벌 운동을 위한 타이머 앱입니다.
+            세트 간 휴식 시간을 관리하고, 운동 기록을 HealthKit과 연동하세요.
+        </div>
+        <div class="features">
+            <h3>Features</h3>
+            <ul>
+                <li>근력운동 / 유산소 / 인터벌 타이머</li>
+                <li>세트별 휴식 시간 관리</li>
+                <li>운동 히스토리 기록</li>
+                <li>HealthKit 연동</li>
+                <li>Live Activity 지원</li>
+                <li>Apple Watch 앱</li>
+            </ul>
+        </div>
+        <div class="links">
+            <a href="../privacy/bulkup.html" class="link-item">
+                <span>Privacy Policy</span>
+                <span>→</span>
+            </a>
+            <a href="../terms/bulkup.html" class="link-item">
+                <span>Terms of Use</span>
+                <span>→</span>
+            </a>
+        </div>
+        <footer>
+            <p>&copy; 2024 Pepper Factory</p>
+            <p style="margin-top: 4px;">pepperfactory.dev@gmail.com</p>
+        </footer>
+    </div>
+</body>
+</html>

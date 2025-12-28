@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneThing - Pepper Factory</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+        .container { max-width: 600px; margin: 0 auto; padding: 40px 20px; }
+        .back { color: #4da6ff; text-decoration: none; font-size: 0.9rem; display: inline-block; margin-bottom: 32px; }
+        .back:hover { text-decoration: underline; }
+        .app-header { text-align: center; margin-bottom: 40px; }
+        .app-icon {
+            width: 120px; height: 120px; border-radius: 28px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 60px; margin: 0 auto 20px;
+            object-fit: cover;
+        }
+        h1 { font-size: 2rem; margin-bottom: 8px; }
+        .tagline { color: #888; font-size: 1.1rem; }
+        .description {
+            background: rgba(255,255,255,0.05); border-radius: 16px;
+            padding: 24px; margin-bottom: 24px; line-height: 1.7; color: #ccc;
+        }
+        .features {
+            background: rgba(255,255,255,0.05); border-radius: 16px;
+            padding: 24px; margin-bottom: 24px;
+        }
+        .features h3 { margin-bottom: 16px; font-size: 1.1rem; }
+        .features ul { list-style: none; }
+        .features li { padding: 8px 0; color: #ccc; display: flex; align-items: center; gap: 10px; }
+        .features li::before { content: "✓"; color: #FF6B6B; }
+        .links { display: flex; flex-direction: column; gap: 12px; }
+        .link-item {
+            background: rgba(255,255,255,0.05); border-radius: 12px;
+            padding: 16px 20px; color: #fff; text-decoration: none;
+            display: flex; justify-content: space-between; align-items: center;
+            transition: background 0.2s;
+        }
+        .link-item:hover { background: rgba(255,255,255,0.1); }
+        .link-item span:last-child { color: #888; }
+        footer { text-align: center; margin-top: 60px; color: #666; font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back">← Back to Apps</a>
+        <div class="app-header">
+            <img src="../images/onething-icon.png" class="app-icon" alt="OneThing">
+            <h1>OneThing</h1>
+            <p class="tagline">포모도로 타이머로 집중력 향상</p>
+        </div>
+        <div class="description">
+            OneThing은 포모도로 기법을 활용한 집중력 향상 앱입니다.
+            25분 집중, 5분 휴식의 사이클로 생산성을 높이고, 히스토리와 통계로 성장을 확인하세요.
+        </div>
+        <div class="features">
+            <h3>Features</h3>
+            <ul>
+                <li>포모도로 타이머</li>
+                <li>집중 시간 히스토리 & 통계</li>
+                <li>할 일 목록 관리</li>
+                <li>D-Day 카운트다운</li>
+                <li>앱 차단 (Screen Time)</li>
+                <li>iCloud 동기화</li>
+                <li>홈 화면 위젯</li>
+            </ul>
+        </div>
+        <div class="links">
+            <a href="../privacy/onething.html" class="link-item">
+                <span>Privacy Policy</span>
+                <span>→</span>
+            </a>
+            <a href="../terms/onething.html" class="link-item">
+                <span>Terms of Use</span>
+                <span>→</span>
+            </a>
+        </div>
+        <footer>
+            <p>&copy; 2024 Pepper Factory</p>
+            <p style="margin-top: 4px;">pepperfactory.dev@gmail.com</p>
+        </footer>
+    </div>
+</body>
+</html>

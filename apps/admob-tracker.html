@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdMob Tracker - Pepper Factory</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .back {
+            color: #4da6ff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 32px;
+        }
+        .back:hover { text-decoration: underline; }
+        .app-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .app-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #95E1D3, #7dd3c4);
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        .tagline {
+            color: #888;
+            font-size: 1.1rem;
+        }
+        .description {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            line-height: 1.7;
+            color: #ccc;
+        }
+        .features {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .features h3 {
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+        }
+        .features ul {
+            list-style: none;
+        }
+        .features li {
+            padding: 8px 0;
+            color: #ccc;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .features li::before {
+            content: "✓";
+            color: #95E1D3;
+        }
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .link-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 16px 20px;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+        .link-item:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        .link-item span:last-child {
+            color: #888;
+        }
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            color: #666;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back">← Back to Apps</a>
+
+        <div class="app-header">
+            <div class="app-icon">📊</div>
+            <h1>AdMob Tracker</h1>
+            <p class="tagline">AdMob 수익을 실시간으로 확인</p>
+        </div>
+
+        <div class="description">
+            AdMob Tracker는 Google AdMob 수익을 iOS 앱에서 바로 확인할 수 있게 해주는 앱입니다.
+            매번 웹 대시보드에 들어갈 필요 없이, 앱과 위젯으로 오늘의 수익을 빠르게 확인하세요.
+        </div>
+
+        <div class="features">
+            <h3>Features</h3>
+            <ul>
+                <li>Google 계정으로 간편 로그인</li>
+                <li>오늘 / 이번 주 / 이번 달 수익 확인</li>
+                <li>앱별 수익 현황</li>
+                <li>지난 달 대비 비교</li>
+                <li>홈 화면 위젯 지원</li>
+            </ul>
+        </div>
+
+        <div class="links">
+            <a href="../privacy/admob-tracker.html" class="link-item">
+                <span>Privacy Policy</span>
+                <span>→</span>
+            </a>
+            <a href="../terms/admob-tracker.html" class="link-item">
+                <span>Terms of Use</span>
+                <span>→</span>
+            </a>
+        </div>
+
+        <footer>
+            <p>&copy; 2024 Pepper Factory</p>
+            <p style="margin-top: 4px;">pepperfactory.dev@gmail.com</p>
+        </footer>
+    </div>
+</body>
+</html>
