@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - Pepper Factory</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 20px 100px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+        }
+        .support-section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        p {
+            color: #aaa;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+        .contact-info {
+            background: rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 20px;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .contact-item:last-child {
+            margin-bottom: 0;
+        }
+        .contact-icon {
+            font-size: 24px;
+            margin-right: 16px;
+            width: 40px;
+            text-align: center;
+        }
+        .contact-text {
+            color: #fff;
+        }
+        .contact-text a {
+            color: #4da6ff;
+            text-decoration: none;
+        }
+        .contact-text a:hover {
+            text-decoration: underline;
+        }
+        .faq-item {
+            margin-bottom: 24px;
+        }
+        .faq-item:last-child {
+            margin-bottom: 0;
+        }
+        .faq-question {
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .faq-answer {
+            color: #aaa;
+            line-height: 1.6;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: #888;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        .back-link:hover {
+            color: #fff;
+        }
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #666;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .bottom-bar a {
+            color: #888;
+            text-decoration: none;
+        }
+        .bottom-bar a:hover {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">&larr; Back to Home</a>
+
+        <header>
+            <h1>Support</h1>
+            <p class="subtitle">We're here to help</p>
+        </header>
+
+        <div class="support-section">
+            <h2>Contact Us</h2>
+            <p>If you have any questions, feedback, or need assistance with our apps, please don't hesitate to reach out.</p>
+
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span class="contact-icon">&#9993;</span>
+                    <div class="contact-text">
+                        <a href="mailto:pepper.factory.corp@gmail.com">pepper.factory.corp@gmail.com</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="support-section">
+            <h2>FAQ</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">How do I restore my purchase?</div>
+                <div class="faq-answer">Go to Settings in the app and tap "Restore Purchases". Make sure you're signed in with the same Apple ID you used for the original purchase.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How do I sync data across devices?</div>
+                <div class="faq-answer">Our apps use iCloud to sync data automatically. Make sure iCloud is enabled for the app in your device settings (Settings > Apple ID > iCloud).</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How do I cancel my subscription?</div>
+                <div class="faq-answer">Open the Settings app on your device, tap your name, then Subscriptions. Select the subscription you want to cancel and follow the instructions.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">I found a bug. How do I report it?</div>
+                <div class="faq-answer">Please email us with a description of the issue, your device model, and iOS version. Screenshots or screen recordings are very helpful!</div>
+            </div>
+        </div>
+
+        <div class="support-section">
+            <h2>Our Apps</h2>
+            <p>
+                <strong>OneThing</strong> - Pomodoro timer for better focus<br>
+                <strong>Habit</strong> - Daily habit tracker<br>
+                <strong>BulkUp</strong> - Workout timer & tracker<br>
+                <strong>AdMob Tracker</strong> - Real-time AdMob revenue monitoring
+            </p>
+        </div>
+    </div>
+
+    <div class="bottom-bar">
+        <a href="privacy.html">Privacy Policy</a>
+        <span style="margin: 0 12px; color: #444;">|</span>
+        <a href="terms.html">Terms of Use</a>
+        <span style="margin: 0 12px; color: #444;">|</span>
+        <span>&copy; 2024 Pepper Factory</span>
+    </div>
+</body>
+</html>
