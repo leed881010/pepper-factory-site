@@ -30,7 +30,7 @@
             --app-gradient: linear-gradient(135deg, #4A90D9 0%, #6BA3E0 100%);
 
             /* Spacing */
-            --section-gap: 100px;
+            --section-gap: 60px;
             --container-max: 1000px;
         }
 
@@ -307,11 +307,24 @@
         }
 
         .description-text p {
-            margin-bottom: 20px;
+            margin-bottom: 8px;
         }
 
         .description-text p:last-child {
             margin-bottom: 0;
+        }
+
+        .contact-link {
+            display: inline-block;
+            margin-top: 24px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .contact-link:hover {
+            color: var(--app-color);
         }
 
         .highlight {
@@ -550,7 +563,7 @@
         /* Responsive */
         @media (max-width: 768px) {
             :root {
-                --section-gap: 80px;
+                --section-gap: 40px;
             }
 
             .nav-inner {
@@ -650,11 +663,6 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <a href="../" class="back-link">
-                <span>←</span>
-                <span data-i18n="back_to_home">홈으로 돌아가기</span>
-            </a>
-
             <div class="hero-content">
                 <img src="../images/habit-icon.png" alt="Weekly" class="app-icon-large">
 
@@ -669,9 +677,6 @@
                         <a href="https://apps.apple.com/app/id6737146330" target="_blank" class="btn btn-primary" data-i18n="download_app">
                             <span>App Store에서 다운로드</span>
                             <span>↓</span>
-                        </a>
-                        <a href="../support.html" class="btn btn-secondary" data-i18n="contact_support">
-                            문의하기
                         </a>
                     </div>
                 </div>
@@ -696,10 +701,6 @@
     <!-- Screenshots Section -->
     <section class="screenshots">
         <div class="container">
-            <div class="section-header">
-                <div class="section-label" data-i18n="screenshots_label">Screenshots</div>
-                <h2 class="section-title" data-i18n="screenshots_title">앱 미리보기</h2>
-            </div>
             <div class="screenshots-wrapper">
                 <div class="screenshot-item"><img data-screenshot="0_APP_IPHONE_65_0.jpg" src="../images/screenshots/habit/ko/0_APP_IPHONE_65_0.jpg" alt="Weekly Screenshot 1"></div>
                 <div class="screenshot-item"><img data-screenshot="1_APP_IPHONE_65_1.jpg" src="../images/screenshots/habit/ko/1_APP_IPHONE_65_1.jpg" alt="Weekly Screenshot 2"></div>
@@ -766,6 +767,7 @@
                 <a href="https://apps.apple.com/app/id6737146330" target="_blank" rel="noopener">
                     <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" alt="Download on the App Store" class="appstore-badge">
                 </a>
+                <a href="../support.html" class="contact-link" data-i18n="contact_support">문의하기</a>
             </div>
         </div>
     </section>
