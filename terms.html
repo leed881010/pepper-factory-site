@@ -571,7 +571,7 @@
         };
 
         function setLanguage(lang) {
-            localStorage.setItem('language', lang);
+            localStorage.setItem('pf-lang', lang);
 
             // Update text content
             document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -595,7 +595,7 @@
 
         // Initialize language on page load
         document.addEventListener('DOMContentLoaded', () => {
-            const savedLang = localStorage.getItem('language');
+            const savedLang = localStorage.getItem('pf-lang');
             const browserLang = navigator.language.slice(0, 2);
             const supportedLangs = ['ko', 'en', 'ja'];
 

@@ -1095,9 +1095,21 @@
         }
 
         function getInitialLanguage() {
+            // 1. Check URL query parameter first (e.g., ?lang=ko)
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlLang = urlParams.get('lang');
+            if (urlLang && translations[urlLang]) {
+                localStorage.setItem('pf-lang', urlLang);
+                // Clean up URL
+                window.history.replaceState({}, '', window.location.pathname);
+                return urlLang;
+            }
+
+            // 2. Check localStorage
             const saved = localStorage.getItem('pf-lang');
             if (saved && translations[saved]) return saved;
 
+            // 3. Check browser language
             const browserLang = navigator.language.slice(0, 2);
             if (translations[browserLang]) return browserLang;
 
