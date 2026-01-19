@@ -4,171 +4,791 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ad Revenue Tracker - Pepper Factory</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --color-bg: #FBF9F6;
+            --color-bg-warm: #F5F0E8;
+            --color-text: #1A1A1A;
+            --color-text-secondary: #6B6B6B;
+            --color-accent: #FF9500;
+            --color-accent-light: #FFF3E0;
+            --color-accent-dark: #E67E00;
+            --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            font-family: var(--font-main);
+            background: var(--color-bg);
+            color: var(--color-text);
             min-height: 100vh;
-            color: #fff;
+            overflow-x: hidden;
         }
-        .container {
-            max-width: 600px;
+
+        /* Grain overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.03;
+            z-index: 1000;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 16px 24px;
+            background: rgba(251, 249, 246, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px;
-        }
-        .back {
-            color: #4da6ff;
-            text-decoration: none;
-            font-size: 0.9rem;
-            display: inline-block;
-            margin-bottom: 32px;
-        }
-        .back:hover { text-decoration: underline; }
-        .app-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        .app-icon {
-            width: 120px;
-            height: 120px;
-            border-radius: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 60px;
-            margin: 0 auto 20px;
-            background: linear-gradient(135deg, #95E1D3, #7dd3c4);
-        }
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 8px;
-        }
-        .tagline {
-            color: #888;
-            font-size: 1.1rem;
-        }
-        .description {
-            background: rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 24px;
-            line-height: 1.7;
-            color: #ccc;
-        }
-        .features {
-            background: rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 24px;
-        }
-        .features h3 {
-            margin-bottom: 16px;
-            font-size: 1.1rem;
-        }
-        .features ul {
-            list-style: none;
-        }
-        .features li {
-            padding: 8px 0;
-            color: #ccc;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .features li::before {
-            content: "✓";
-            color: #95E1D3;
-        }
-        .app-store-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #007AFF;
-            color: #fff;
-            padding: 12px 24px;
-            border-radius: 24px;
-            text-decoration: none;
-            font-weight: 600;
-            margin-top: 16px;
-            transition: background 0.2s;
-        }
-        .app-store-btn:hover { background: #0056b3; }
-        .app-store-btn svg { width: 20px; height: 20px; }
-        .links {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .link-item {
-            background: rgba(255,255,255,0.05);
-            border-radius: 12px;
-            padding: 16px 20px;
-            color: #fff;
-            text-decoration: none;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: background 0.2s;
         }
-        .link-item:hover {
-            background: rgba(255,255,255,0.1);
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--color-text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .link-item span:last-child {
-            color: #888;
+
+        .nav-logo-icon {
+            font-size: 1.5rem;
         }
-        footer {
-            text-align: center;
-            margin-top: 60px;
-            color: #666;
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-text);
+        }
+
+        .lang-switcher {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 20px;
             font-size: 0.85rem;
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: var(--font-main);
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            transition: all 0.2s;
+        }
+
+        .lang-btn.active {
+            background: white;
+            color: var(--color-text);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 140px 24px 80px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 500px;
+            background: linear-gradient(180deg, var(--color-accent-light) 0%, transparent 100%);
+            z-index: -1;
+        }
+
+        .app-icon-wrapper {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 32px;
+        }
+
+        .app-icon {
+            width: 140px;
+            height: 140px;
+            border-radius: 32px;
+            box-shadow: 0 20px 60px rgba(255, 149, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.1);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .app-icon-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(255, 149, 0, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-tagline {
+            font-size: 1.25rem;
+            color: var(--color-text-secondary);
+            max-width: 500px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            background: var(--color-text);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 32px;
+            background: white;
+            color: var(--color-text);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-bg-warm);
+            transform: translateY(-2px);
+        }
+
+        /* Description Section */
+        .description-section {
+            padding: 40px 24px 80px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .description-card {
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .description-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-accent), var(--color-accent-dark));
+        }
+
+        .description-text {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: var(--color-text-secondary);
+        }
+
+        .description-text .highlight {
+            color: var(--color-accent);
+            font-weight: 600;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 80px 24px;
+            background: white;
+        }
+
+        .features-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .features-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 48px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--color-bg);
+            border-radius: 20px;
+            padding: 32px;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--color-accent-light), white);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-dark) 100%);
+            z-index: -1;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .cta-section p {
+            font-size: 1.15rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 40px;
+            background: white;
+            color: var(--color-accent);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .cta-button svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--color-text);
+            color: white;
+            padding: 60px 24px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 60px;
+        }
+
+        .footer-brand h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .footer-brand p {
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.6;
+        }
+
+        .footer-links h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .footer-links a {
+            display: block;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 8px 0;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 40px auto 0;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero-tagline {
+                font-size: 1.1rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .cta-section h2 {
+                font-size: 1.75rem;
+            }
+
+            .description-card {
+                padding: 28px;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .fade-in-delay-1 { animation-delay: 0.1s; }
+        .fade-in-delay-2 { animation-delay: 0.2s; }
+        .fade-in-delay-3 { animation-delay: 0.3s; }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="../index.html" class="back">← Back to Apps</a>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="nav-logo-icon">🌶️</span>
+                <span>Pepper Factory</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html" data-i18n="nav_apps">Apps</a>
+                <a href="mailto:pepperfactory.manager@gmail.com" data-i18n="nav_support">Support</a>
+                <a href="../privacy.html" data-i18n="nav_privacy">Privacy</a>
+                <div class="lang-switcher">
+                    <button class="lang-btn" data-lang="ko">KO</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="ja">JA</button>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-        <div class="app-header">
-            <img src="../images/admob-tracker-icon.png" class="app-icon" alt="Ad Revenue Tracker">
-            <h1>Ad Revenue Tracker</h1>
-            <p class="tagline">광고 수익을 한눈에 확인</p>
-            <a href="https://apps.apple.com/us/app/id6757126845" class="app-store-btn" target="_blank">
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="app-icon-wrapper fade-in">
+            <div class="app-icon-glow"></div>
+            <img src="../images/admob-tracker-icon.png" alt="Ad Revenue Tracker" class="app-icon">
+        </div>
+        <h1 class="fade-in fade-in-delay-1">Ad Revenue Tracker</h1>
+        <p class="hero-tagline fade-in fade-in-delay-2" data-i18n="hero_tagline">
+            AdMob과 AdSense 광고 수익을 한눈에
+        </p>
+        <div class="hero-buttons fade-in fade-in-delay-3">
+            <a href="https://apps.apple.com/app/id6757126845" class="btn-primary" target="_blank">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-                App Store
+                <span data-i18n="btn_appstore">App Store</span>
             </a>
-        </div>
-
-        <div class="description">
-            Ad Revenue Tracker는 Google AdMob 수익을 iOS 앱에서 바로 확인할 수 있게 해주는 앱입니다.
-            매번 웹 대시보드에 들어갈 필요 없이, 앱과 위젯으로 오늘의 수익을 빠르게 확인하세요.
-        </div>
-
-        <div class="features">
-            <h3>Features</h3>
-            <ul>
-                <li>Google 계정으로 간편 로그인</li>
-                <li>오늘 / 이번 주 / 이번 달 수익 확인</li>
-                <li>앱별 수익 현황</li>
-                <li>지난 달 대비 비교</li>
-                <li>홈 화면 위젯 지원</li>
-            </ul>
-        </div>
-
-        <div class="links">
-            <a href="../privacy.html" class="link-item">
-                <span>Privacy Policy</span>
-                <span>→</span>
-            </a>
-            <a href="../terms.html" class="link-item">
-                <span>Terms of Use</span>
+            <a href="../index.html" class="btn-secondary">
+                <span data-i18n="btn_all_apps">All Apps</span>
                 <span>→</span>
             </a>
         </div>
+    </section>
 
-        <footer>
-            <p>&copy; 2024 Pepper Factory</p>
-        </footer>
-    </div>
+    <!-- Description Section -->
+    <section class="description-section">
+        <div class="description-card fade-in">
+            <p class="description-text" data-i18n="description">
+                Ad Tracker로 <span class="highlight">AdMob</span>과 <span class="highlight">AdSense</span> 광고 수익을 실시간으로 확인하세요.
+                직관적인 대시보드로 매일, 매주, 매달의 수익을 한눈에 파악하고, 각 앱별로 상세한 수익 분석을 확인할 수 있습니다.
+                Google 계정으로 안전하게 로그인하여 데이터를 보호하면서도 편리하게 수익을 관리하세요.
+            </p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="features-container">
+            <h2 class="features-title fade-in" data-i18n="features_title">Features</h2>
+            <div class="features-grid">
+                <div class="feature-card fade-in fade-in-delay-1">
+                    <div class="feature-icon">📊</div>
+                    <h3 data-i18n="feature_1_title">Real-time Dashboard</h3>
+                    <p data-i18n="feature_1_desc">Check your daily, weekly, and monthly earnings at a glance with an intuitive dashboard</p>
+                </div>
+                <div class="feature-card fade-in fade-in-delay-2">
+                    <div class="feature-icon">📱</div>
+                    <h3 data-i18n="feature_2_title">Per-App Analytics</h3>
+                    <p data-i18n="feature_2_desc">View detailed revenue breakdown for each of your apps</p>
+                </div>
+                <div class="feature-card fade-in fade-in-delay-3">
+                    <div class="feature-icon">📈</div>
+                    <h3 data-i18n="feature_3_title">Visual Charts</h3>
+                    <p data-i18n="feature_3_desc">Track your earnings trends with beautiful charts</p>
+                </div>
+                <div class="feature-card fade-in fade-in-delay-1">
+                    <div class="feature-icon">🔐</div>
+                    <h3 data-i18n="feature_4_title">Secure Google Sign-In</h3>
+                    <p data-i18n="feature_4_desc">Your data is protected with secure Google authentication</p>
+                </div>
+                <div class="feature-card fade-in fade-in-delay-2">
+                    <div class="feature-icon">🎯</div>
+                    <h3 data-i18n="feature_5_title">Key Metrics</h3>
+                    <p data-i18n="feature_5_desc">Monitor important metrics like eCPM, fill rate, and impressions</p>
+                </div>
+                <div class="feature-card fade-in fade-in-delay-3">
+                    <div class="feature-icon">📲</div>
+                    <h3 data-i18n="feature_6_title">Home Screen Widget</h3>
+                    <p data-i18n="feature_6_desc">Check your earnings instantly with the home screen widget</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2 class="fade-in" data-i18n="cta_title">Track Your Ad Revenue</h2>
+        <p class="fade-in fade-in-delay-1" data-i18n="cta_subtitle">Start monitoring your AdMob & AdSense earnings today</p>
+        <a href="https://apps.apple.com/app/id6757126845" class="cta-button fade-in fade-in-delay-2" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <span data-i18n="btn_download">Download Free</span>
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h3>🌶️ Pepper Factory</h3>
+                <p data-i18n="footer_desc">Making small apps for big changes in everyday life.</p>
+            </div>
+            <div class="footer-links">
+                <h4 data-i18n="footer_apps">Apps</h4>
+                <a href="onething.html">OneThing</a>
+                <a href="habit.html">Weekly</a>
+                <a href="bulkup.html">Workout Timy</a>
+                <a href="admob-tracker.html">Ad Revenue Tracker</a>
+            </div>
+            <div class="footer-links">
+                <h4 data-i18n="footer_company">Company</h4>
+                <a href="../privacy.html" data-i18n="nav_privacy">Privacy Policy</a>
+                <a href="../terms.html" data-i18n="footer_terms">Terms of Use</a>
+                <a href="mailto:pepperfactory.manager@gmail.com" data-i18n="nav_support">Support</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Pepper Factory. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Translations
+        const translations = {
+            ko: {
+                nav_apps: "Apps",
+                nav_support: "Support",
+                nav_privacy: "Privacy",
+                hero_tagline: "AdMob과 AdSense 광고 수익을 한눈에",
+                btn_appstore: "App Store",
+                btn_all_apps: "모든 앱 보기",
+                description: "Ad Tracker로 <span class=\"highlight\">AdMob</span>과 <span class=\"highlight\">AdSense</span> 광고 수익을 실시간으로 확인하세요. 직관적인 대시보드로 매일, 매주, 매달의 수익을 한눈에 파악하고, 각 앱별로 상세한 수익 분석을 확인할 수 있습니다. Google 계정으로 안전하게 로그인하여 데이터를 보호하면서도 편리하게 수익을 관리하세요.",
+                features_title: "주요 기능",
+                feature_1_title: "실시간 대시보드",
+                feature_1_desc: "직관적인 대시보드로 일간, 주간, 월간 수익을 한눈에 확인하세요",
+                feature_2_title: "앱별 수익 분석",
+                feature_2_desc: "각 앱별로 상세한 수익 현황을 확인할 수 있습니다",
+                feature_3_title: "시각적 차트",
+                feature_3_desc: "아름다운 차트로 수익 추이를 파악하세요",
+                feature_4_title: "안전한 Google 로그인",
+                feature_4_desc: "Google 인증으로 데이터가 안전하게 보호됩니다",
+                feature_5_title: "핵심 지표",
+                feature_5_desc: "eCPM, 게재율, 노출수 등 중요한 지표를 모니터링하세요",
+                feature_6_title: "홈 화면 위젯",
+                feature_6_desc: "위젯으로 홈 화면에서 바로 수익을 확인하세요",
+                cta_title: "광고 수익을 추적하세요",
+                cta_subtitle: "지금 바로 AdMob & AdSense 수익 모니터링을 시작하세요",
+                btn_download: "무료 다운로드",
+                footer_desc: "일상에 작은 변화를 만드는 앱을 만듭니다.",
+                footer_apps: "Apps",
+                footer_company: "Company",
+                footer_terms: "이용약관"
+            },
+            en: {
+                nav_apps: "Apps",
+                nav_support: "Support",
+                nav_privacy: "Privacy",
+                hero_tagline: "Track AdMob & AdSense revenue at a glance",
+                btn_appstore: "App Store",
+                btn_all_apps: "All Apps",
+                description: "Track your <span class=\"highlight\">AdMob</span> and <span class=\"highlight\">AdSense</span> advertising revenue in real-time with Ad Tracker. Check your daily, weekly, and monthly earnings at a glance with an intuitive dashboard, and view detailed revenue breakdown for each app. Sign in securely with your Google account to protect your data while conveniently managing your earnings.",
+                features_title: "Features",
+                feature_1_title: "Real-time Dashboard",
+                feature_1_desc: "Check your daily, weekly, and monthly earnings at a glance with an intuitive dashboard",
+                feature_2_title: "Per-App Analytics",
+                feature_2_desc: "View detailed revenue breakdown for each of your apps",
+                feature_3_title: "Visual Charts",
+                feature_3_desc: "Track your earnings trends with beautiful charts",
+                feature_4_title: "Secure Google Sign-In",
+                feature_4_desc: "Your data is protected with secure Google authentication",
+                feature_5_title: "Key Metrics",
+                feature_5_desc: "Monitor important metrics like eCPM, fill rate, and impressions",
+                feature_6_title: "Home Screen Widget",
+                feature_6_desc: "Check your earnings instantly with the home screen widget",
+                cta_title: "Track Your Ad Revenue",
+                cta_subtitle: "Start monitoring your AdMob & AdSense earnings today",
+                btn_download: "Download Free",
+                footer_desc: "Making small apps for big changes in everyday life.",
+                footer_apps: "Apps",
+                footer_company: "Company",
+                footer_terms: "Terms of Use"
+            },
+            ja: {
+                nav_apps: "Apps",
+                nav_support: "Support",
+                nav_privacy: "Privacy",
+                hero_tagline: "AdMobとAdSenseの広告収益をひと目で",
+                btn_appstore: "App Store",
+                btn_all_apps: "すべてのアプリ",
+                description: "Ad Trackerで、<span class=\"highlight\">AdMob</span>と<span class=\"highlight\">AdSense</span>の広告収益をリアルタイムで追跡しましょう。直感的なダッシュボードで日次、週次、月次の収益を一目で確認し、各アプリの詳細な収益分析も確認できます。Googleアカウントで安全にサインインして、データを保護しながら便利に収益を管理しましょう。",
+                features_title: "主な機能",
+                feature_1_title: "リアルタイムダッシュボード",
+                feature_1_desc: "直感的なダッシュボードで日次、週次、月次の収益を一目で確認",
+                feature_2_title: "アプリ別収益分析",
+                feature_2_desc: "各アプリの詳細な収益内訳を確認できます",
+                feature_3_title: "ビジュアルチャート",
+                feature_3_desc: "美しいチャートで収益の推移を把握",
+                feature_4_title: "安全なGoogleサインイン",
+                feature_4_desc: "Googleの認証でデータが安全に保護されます",
+                feature_5_title: "主要指標",
+                feature_5_desc: "eCPM、フィルレート、インプレッションなどの重要な指標をモニタリング",
+                feature_6_title: "ホーム画面ウィジェット",
+                feature_6_desc: "ウィジェットでホーム画面から直接収益を確認",
+                cta_title: "広告収益を追跡しよう",
+                cta_subtitle: "今すぐAdMobとAdSenseの収益モニタリングを始めましょう",
+                btn_download: "無料ダウンロード",
+                footer_desc: "日常に小さな変化をもたらすアプリを作っています。",
+                footer_apps: "Apps",
+                footer_company: "Company",
+                footer_terms: "利用規約"
+            }
+        };
+
+        // Language detection and switching
+        function detectLanguage() {
+            const saved = localStorage.getItem('pf-lang');
+            if (saved && translations[saved]) return saved;
+
+            const browserLang = navigator.language.toLowerCase();
+            if (browserLang.startsWith('ko')) return 'ko';
+            if (browserLang.startsWith('ja')) return 'ja';
+            return 'en';
+        }
+
+        function setLanguage(lang) {
+            localStorage.setItem('pf-lang', lang);
+            document.documentElement.lang = lang;
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (translations[lang][key]) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        el.placeholder = translations[lang][key];
+                    } else {
+                        el.innerHTML = translations[lang][key];
+                    }
+                }
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            const lang = detectLanguage();
+            setLanguage(lang);
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+            });
+
+            // Scroll animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
 </body>
 </html>

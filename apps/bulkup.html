@@ -3,90 +3,870 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BulkUp - Pepper Factory</title>
+    <title>Workout Timy - Workout Timer | Pepper Factory</title>
+    <meta name="description" content="근력 강화, 유산소 운동, 인터벌, 타바타 운동까지 모든 운동을 위한 타이머">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../images/favicon.png">
+
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            color: #fff;
+        :root {
+            /* Base Colors */
+            --bg-cream: #FBF9F6;
+            --bg-warm: #F7F4EF;
+            --text-primary: #1A1A1A;
+            --text-secondary: #6B6B6B;
+            --text-tertiary: #9A9A9A;
+            --border-light: rgba(0, 0, 0, 0.06);
+
+            /* App Accent Color */
+            --app-color: #34C759;
+            --app-bg: #F0FAF3;
+            --app-gradient: linear-gradient(135deg, #34C759 0%, #5DD879 100%);
+
+            /* Spacing */
+            --section-gap: 100px;
+            --container-max: 1000px;
         }
-        .container { max-width: 600px; margin: 0 auto; padding: 40px 20px; }
-        .back { color: #4da6ff; text-decoration: none; font-size: 0.9rem; display: inline-block; margin-bottom: 32px; }
-        .back:hover { text-decoration: underline; }
-        .app-header { text-align: center; margin-bottom: 40px; }
-        .app-icon {
-            width: 120px; height: 120px; border-radius: 28px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 60px; margin: 0 auto 20px;
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-cream);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Grain Texture Overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.03;
+            z-index: 1000;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Container */
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(251, 249, 246, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .nav-logo-img {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
             object-fit: cover;
         }
-        h1 { font-size: 2rem; margin-bottom: 8px; }
-        .tagline { color: #888; font-size: 1.1rem; }
-        .description {
-            background: rgba(255,255,255,0.05); border-radius: 16px;
-            padding: 24px; margin-bottom: 24px; line-height: 1.7; color: #ccc;
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
         }
-        .features {
-            background: rgba(255,255,255,0.05); border-radius: 16px;
-            padding: 24px; margin-bottom: 24px;
-        }
-        .features h3 { margin-bottom: 16px; font-size: 1.1rem; }
-        .features ul { list-style: none; }
-        .features li { padding: 8px 0; color: #ccc; display: flex; align-items: center; gap: 10px; }
-        .features li::before { content: "✓"; color: #FFE66D; }
-        .download-btn {
-            display: inline-block;
-            background: #007AFF;
-            color: #fff;
-            padding: 12px 32px;
-            border-radius: 24px;
+
+        .nav-links a {
             text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .lang-switcher {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--bg-warm);
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-tertiary);
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .lang-btn.active {
+            background: white;
+            color: var(--text-primary);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .lang-btn:hover:not(.active) {
+            color: var(--text-primary);
+        }
+
+        /* Back Button */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin-bottom: 32px;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--text-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 140px 0 80px;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .app-icon-large {
+            width: 140px;
+            height: 140px;
+            border-radius: 32px;
+            box-shadow: 0 20px 60px rgba(52, 199, 89, 0.3);
+            animation: floatIcon 3s ease-in-out infinite;
+        }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero-text {
+            padding-top: 8px;
+        }
+
+        .app-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--app-bg);
+            color: var(--app-color);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.8rem;
             font-weight: 600;
-            margin-top: 16px;
-            transition: background 0.2s;
+            margin-bottom: 16px;
+            animation: fadeInUp 0.6s ease-out;
         }
-        .download-btn:hover { background: #0056b3; }
-        .links { display: flex; flex-direction: column; gap: 12px; }
-        .link-item {
-            background: rgba(255,255,255,0.05); border-radius: 12px;
-            padding: 16px 20px; color: #fff; text-decoration: none;
-            display: flex; justify-content: space-between; align-items: center;
-            transition: background 0.2s;
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+            animation: fadeInUp 0.6s ease-out 0.1s both;
         }
-        .link-item:hover { background: rgba(255,255,255,0.1); }
-        .link-item span:last-child { color: #888; }
-        footer { text-align: center; margin-top: 60px; color: #666; font-size: 0.85rem; }
+
+        .hero-tagline {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            animation: fadeInUp 0.6s ease-out 0.2s both;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.6s ease-out 0.3s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--app-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2DB14E;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(52, 199, 89, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--text-primary);
+            border: 1px solid var(--border-light);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-warm);
+            transform: translateY(-2px);
+        }
+
+        /* Description Section */
+        .description {
+            padding: 60px 0 var(--section-gap);
+        }
+
+        .description-card {
+            background: white;
+            border-radius: 24px;
+            padding: 48px;
+            border: 1px solid var(--border-light);
+        }
+
+        .description-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .description-text p {
+            margin-bottom: 20px;
+        }
+
+        .description-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight {
+            color: var(--app-color);
+            font-weight: 600;
+        }
+
+        /* Features Section */
+        .features {
+            padding: var(--section-gap) 0;
+            background: var(--bg-warm);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--app-color);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: clamp(1.75rem, 4vw, 2.25rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 32px;
+            border-radius: 20px;
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .feature-icon {
+            width: 52px;
+            height: 52px;
+            background: var(--app-bg);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .feature-desc {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: var(--section-gap) 0;
+            text-align: center;
+        }
+
+        .cta-box {
+            background: var(--app-gradient);
+            border-radius: 32px;
+            padding: 80px 40px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.08;
+            pointer-events: none;
+        }
+
+        .cta-title {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .cta-subtitle {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .cta .appstore-badge {
+            height: 54px;
+            transition: transform 0.3s, opacity 0.3s;
+            position: relative;
+        }
+
+        .cta .appstore-badge:hover {
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 0 40px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.125rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-copyright {
+            width: 100%;
+            text-align: center;
+            padding-top: 40px;
+            margin-top: 40px;
+            border-top: 1px solid var(--border-light);
+            color: var(--text-tertiary);
+            font-size: 0.875rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            :root {
+                --section-gap: 80px;
+            }
+
+            .nav-inner {
+                height: 64px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 120px 0 60px;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .app-icon-large {
+                width: 120px;
+                height: 120px;
+                margin: 0 auto;
+            }
+
+            .hero-cta {
+                justify-content: center;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .description-card {
+                padding: 32px 24px;
+            }
+
+            .cta-box {
+                padding: 60px 24px;
+                border-radius: 24px;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="../index.html" class="back">← Back to Apps</a>
-        <div class="app-header">
-            <img src="../images/bulkup-icon.png" class="app-icon" alt="BulkUp">
-            <h1>BulkUp</h1>
-            <p class="tagline">운동 타이머 & 기록</p>
-            <a href="https://apps.apple.com/app/id6447776886" class="download-btn" target="_blank">Download on App Store</a>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-inner">
+            <a href="../" class="nav-logo">
+                <img src="../images/logo.jpg" alt="Pepper Factory" class="nav-logo-img">
+                Pepper Factory
+            </a>
+
+            <div class="nav-links">
+                <a href="../#apps" data-i18n="nav_apps">Apps</a>
+                <a href="../support.html" data-i18n="nav_support">Support</a>
+                <a href="../privacy.html" data-i18n="nav_privacy">Privacy</a>
+            </div>
+
+            <div class="nav-right">
+                <div class="lang-switcher">
+                    <button class="lang-btn" data-lang="ko">KO</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="ja">JA</button>
+                </div>
+                <button class="mobile-menu-btn" aria-label="Menu">☰</button>
+            </div>
         </div>
-        <div class="description">
-            BulkUp은 근력운동, 유산소, 인터벌 운동을 위한 타이머 앱입니다.
-            세트 간 휴식 시간을 관리하고, 운동 기록을 HealthKit과 연동하세요.
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <a href="../" class="back-link">
+                <span>←</span>
+                <span data-i18n="back_to_home">홈으로 돌아가기</span>
+            </a>
+
+            <div class="hero-content">
+                <img src="../images/bulkup-icon.png" alt="Workout Timy" class="app-icon-large">
+
+                <div class="hero-text">
+                    <div class="app-badge">
+                        <span>💪</span>
+                        <span>Workout Timer</span>
+                    </div>
+                    <h1 class="hero-title" data-i18n="app_name">운동 타이미</h1>
+                    <p class="hero-tagline" data-i18n="app_tagline">타바타, 루틴, 집중, 헬스, 인터벌 타이머</p>
+                    <div class="hero-cta">
+                        <a href="https://apps.apple.com/app/id6447776886" target="_blank" class="btn btn-primary" data-i18n="download_app">
+                            <span>App Store에서 다운로드</span>
+                            <span>↓</span>
+                        </a>
+                        <a href="../support.html" class="btn btn-secondary" data-i18n="contact_support">
+                            문의하기
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="features">
-            <h3>Features</h3>
-            <ul>
-                <li>근력운동 / 유산소 / 인터벌 타이머</li>
-                <li>세트별 휴식 시간 관리</li>
-                <li>운동 히스토리 기록</li>
-                <li>HealthKit 연동</li>
-                <li>Live Activity 지원</li>
-                <li>Apple Watch 앱</li>
-            </ul>
+    </section>
+
+    <!-- Description Section -->
+    <section class="description">
+        <div class="container">
+            <div class="description-card">
+                <div class="description-text" data-i18n="app_description">
+                    <p><span class="highlight">운동 타이미</span>는 근력 강화, 유산소 운동, 인터벌, 타바타 운동까지 모든 운동을 위한 타이머를 제공합니다.</p>
+                    <p>운동 타이머를 통해 <span class="highlight">운동에 집중</span>하고 끝까지 완수할 수 있도록 도와줍니다.</p>
+                    <p><span class="highlight">우리가 당신의 운동을 도와줄게요!</span></p>
+                </div>
+            </div>
         </div>
-        <footer>
-            <p>&copy; 2024 Pepper Factory</p>
-        </footer>
-    </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label" data-i18n="features_label">Features</div>
+                <h2 class="section-title" data-i18n="features_title">운동을 돕는 기능들</h2>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⏱</div>
+                    <div class="feature-title" data-i18n="feature_1_title">운동별 특화 타이머</div>
+                    <p class="feature-desc" data-i18n="feature_1_desc">인터벌, 타바타, 근력, 유산소에 맞는 타이머를 제공합니다.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎚</div>
+                    <div class="feature-title" data-i18n="feature_2_title">쉬운 타이머 설정</div>
+                    <p class="feature-desc" data-i18n="feature_2_desc">라운드별 세팅부터 자동 휴식까지 쉽고 간단한 조작이 가능합니다.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔔</div>
+                    <div class="feature-title" data-i18n="feature_3_title">강력한 사운드 알림</div>
+                    <p class="feature-desc" data-i18n="feature_3_desc">앱을 보고있지 않더라도 5/3/1 사운드 알림과 푸시 알림을 제공합니다.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-title" data-i18n="feature_4_title">자동 운동 기록</div>
+                    <p class="feature-desc" data-i18n="feature_4_desc">수행한 운동 종목, 세트 수, 시간을 자동으로 기록합니다.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <div class="feature-title" data-i18n="feature_5_title">주별 운동 목표</div>
+                    <p class="feature-desc" data-i18n="feature_5_desc">주별 운동 목표 횟수를 설정하고 기록 및 위젯으로 확인하세요.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <div class="feature-title" data-i18n="feature_6_title">Live Activity 지원</div>
+                    <p class="feature-desc" data-i18n="feature_6_desc">잠금 화면과 다이나믹 아일랜드에서 운동 현황을 확인하세요.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-box">
+                <h2 class="cta-title" data-i18n="cta_title">지금 운동을 시작하세요</h2>
+                <p class="cta-subtitle" data-i18n="cta_subtitle">App Store에서 무료로 다운로드할 수 있습니다.</p>
+                <a href="https://apps.apple.com/app/id6447776886" target="_blank" rel="noopener">
+                    <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" alt="Download on the App Store" class="appstore-badge">
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-logo">
+                Pepper Factory
+            </div>
+
+            <div class="footer-links">
+                <a href="../support.html" data-i18n="footer_support">Support</a>
+                <a href="../privacy.html" data-i18n="footer_privacy">Privacy Policy</a>
+                <a href="../terms.html" data-i18n="footer_terms">Terms of Use</a>
+            </div>
+
+            <div class="footer-copyright">
+                © 2024 Pepper Factory. <span data-i18n="footer_rights">All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Translations
+        const translations = {
+            ko: {
+                nav_apps: 'Apps',
+                nav_support: 'Support',
+                nav_privacy: 'Privacy',
+                back_to_home: '홈으로 돌아가기',
+                app_name: '운동 타이미',
+                app_tagline: '타바타, 루틴, 집중, 헬스, 인터벌 타이머',
+                download_app: '<span>App Store에서 다운로드</span><span>↓</span>',
+                contact_support: '문의하기',
+                app_description: '<p><span class="highlight">운동 타이미</span>는 근력 강화, 유산소 운동, 인터벌, 타바타 운동까지 모든 운동을 위한 타이머를 제공합니다.</p><p>운동 타이머를 통해 <span class="highlight">운동에 집중</span>하고 끝까지 완수할 수 있도록 도와줍니다.</p><p><span class="highlight">우리가 당신의 운동을 도와줄게요!</span></p>',
+                features_label: 'Features',
+                features_title: '운동을 돕는 기능들',
+                feature_1_title: '운동별 특화 타이머',
+                feature_1_desc: '인터벌, 타바타, 근력, 유산소에 맞는 타이머를 제공합니다.',
+                feature_2_title: '쉬운 타이머 설정',
+                feature_2_desc: '라운드별 세팅부터 자동 휴식까지 쉽고 간단한 조작이 가능합니다.',
+                feature_3_title: '강력한 사운드 알림',
+                feature_3_desc: '앱을 보고있지 않더라도 5/3/1 사운드 알림과 푸시 알림을 제공합니다.',
+                feature_4_title: '자동 운동 기록',
+                feature_4_desc: '수행한 운동 종목, 세트 수, 시간을 자동으로 기록합니다.',
+                feature_5_title: '주별 운동 목표',
+                feature_5_desc: '주별 운동 목표 횟수를 설정하고 기록 및 위젯으로 확인하세요.',
+                feature_6_title: 'Live Activity 지원',
+                feature_6_desc: '잠금 화면과 다이나믹 아일랜드에서 운동 현황을 확인하세요.',
+                cta_title: '지금 운동을 시작하세요',
+                cta_subtitle: 'App Store에서 무료로 다운로드할 수 있습니다.',
+                footer_support: 'Support',
+                footer_privacy: 'Privacy Policy',
+                footer_terms: 'Terms of Use',
+                footer_rights: 'All rights reserved.'
+            },
+            en: {
+                nav_apps: 'Apps',
+                nav_support: 'Support',
+                nav_privacy: 'Privacy',
+                back_to_home: 'Back to Home',
+                app_name: 'Workout Timy',
+                app_tagline: 'WOD, Interval, HIIT, CrossFit',
+                download_app: '<span>Download on App Store</span><span>↓</span>',
+                contact_support: 'Contact Us',
+                app_description: '<p><span class="highlight">Workout Timy</span> provides timers for everything from Strength, HIIT, Tabata, to Intervals.</p><p>Our Workout Timer helps you <span class="highlight">focus on your workouts</span> and finish them.</p><p><span class="highlight">We\'re here to help you with your workout!</span></p>',
+                features_label: 'Features',
+                features_title: 'Features to Power Your Workout',
+                feature_1_title: 'Workout-specific Timers',
+                feature_1_desc: 'Timers for Strength, HIIT, Tabata, and Intervals.',
+                feature_2_title: 'Easy Timer Settings',
+                feature_2_desc: 'Easy and simple operation from setting rounds to automatic breaks.',
+                feature_3_title: 'Powerful Sound Alerts',
+                feature_3_desc: '5/3/1 sound and push notifications even when you\'re not looking at the app.',
+                feature_4_title: 'Auto Workout Recording',
+                feature_4_desc: 'Automatically logs exercises performed, number of sets, and time.',
+                feature_5_title: 'Weekly Workout Goals',
+                feature_5_desc: 'Set weekly workout goals and track with widgets.',
+                feature_6_title: 'Live Activity Support',
+                feature_6_desc: 'Check your workout status on lock screen and Dynamic Island.',
+                cta_title: 'Start Your Workout Now',
+                cta_subtitle: 'Download for free from the App Store.',
+                footer_support: 'Support',
+                footer_privacy: 'Privacy Policy',
+                footer_terms: 'Terms of Use',
+                footer_rights: 'All rights reserved.'
+            },
+            ja: {
+                nav_apps: 'Apps',
+                nav_support: 'Support',
+                nav_privacy: 'Privacy',
+                back_to_home: 'ホームに戻る',
+                app_name: '運動タイマー',
+                app_tagline: 'ジム、インターバル、HIIT、クロスフィット',
+                download_app: '<span>App Storeでダウンロード</span><span>↓</span>',
+                contact_support: 'お問い合わせ',
+                app_description: '<p><span class="highlight">運動タイマー</span>は、ストレングス、HIIT、タバタ、インターバルなど、すべてのタイマーを提供します。</p><p>私たちのワークアウトタイマーは、あなたの<span class="highlight">トレーニングに集中</span>し、それらを完了するのに役立ちます。</p><p><span class="highlight">私たちがあなたのトレーニングをサポートします！</span></p>',
+                features_label: 'Features',
+                features_title: 'トレーニングをサポートする機能',
+                feature_1_title: 'ワークアウト別タイマー',
+                feature_1_desc: 'ストレングス、HIIT、タバタ、インターバル用タイマー。',
+                feature_2_title: '簡単なタイマー設定',
+                feature_2_desc: 'ラウンド設定から自動休憩まで、簡単でシンプルな操作。',
+                feature_3_title: '強力なサウンドアラート',
+                feature_3_desc: 'アプリを見ていない時でも、5/3/1サウンドとプッシュ通知でお知らせ。',
+                feature_4_title: '自動ワークアウト記録',
+                feature_4_desc: '実施したエクササイズ、セット数、時間を自動的に記録します。',
+                feature_5_title: '週間ワークアウト目標',
+                feature_5_desc: '週間トレーニング目標を設定し、ウィジェットで確認。',
+                feature_6_title: 'Live Activity対応',
+                feature_6_desc: 'ロック画面やダイナミックアイランドでワークアウト状況を確認。',
+                cta_title: '今すぐトレーニングを始めましょう',
+                cta_subtitle: 'App Storeで無料ダウンロード。',
+                footer_support: 'Support',
+                footer_privacy: 'Privacy Policy',
+                footer_terms: 'Terms of Use',
+                footer_rights: 'All rights reserved.'
+            }
+        };
+
+        // Language Management
+        function setLanguage(lang) {
+            localStorage.setItem('pf-lang', lang);
+            document.documentElement.lang = lang;
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+        }
+
+        function getInitialLanguage() {
+            const saved = localStorage.getItem('pf-lang');
+            if (saved && translations[saved]) return saved;
+
+            const browserLang = navigator.language.slice(0, 2);
+            if (translations[browserLang]) return browserLang;
+
+            return 'ko';
+        }
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+        });
+
+        setLanguage(getInitialLanguage());
+
+        // Nav shadow on scroll
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.05)';
+            } else {
+                nav.style.boxShadow = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
