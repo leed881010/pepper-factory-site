@@ -30,7 +30,7 @@
             --app-gradient: linear-gradient(135deg, #4A90D9 0%, #6BA3E0 100%);
 
             /* Spacing */
-            --section-gap: 60px;
+            --section-gap: 40px;
             --container-max: 1000px;
         }
 
@@ -188,7 +188,7 @@
 
         /* Hero Section */
         .hero {
-            padding: 140px 0 80px;
+            padding: 140px 0 40px;
         }
 
         .hero-content {
@@ -290,7 +290,7 @@
 
         /* Description Section */
         .description {
-            padding: 60px 0 var(--section-gap);
+            padding: 20px 0 var(--section-gap);
         }
 
         .description-card {
@@ -315,12 +315,13 @@
         }
 
         .contact-link {
-            display: inline-block;
-            margin-top: 24px;
+            display: block;
+            margin-top: 20px;
             color: var(--text-secondary);
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             transition: color 0.2s;
+            text-align: center;
         }
 
         .contact-link:hover {
@@ -334,7 +335,7 @@
 
         /* Screenshots Section */
         .screenshots {
-            padding: var(--section-gap) 0 60px;
+            padding: var(--section-gap) 0 var(--section-gap);
         }
 
         .screenshots-wrapper {
@@ -385,7 +386,7 @@
 
         .section-header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 40px;
         }
 
         .section-label {
@@ -455,7 +456,7 @@
         .cta-box {
             background: var(--app-gradient);
             border-radius: 32px;
-            padding: 80px 40px;
+            padding: 48px 32px;
             color: white;
             position: relative;
             overflow: hidden;
@@ -499,7 +500,7 @@
 
         /* Footer */
         footer {
-            padding: 60px 0 40px;
+            padding: 40px 0 32px;
             border-top: 1px solid var(--border-light);
         }
 
@@ -563,7 +564,7 @@
         /* Responsive */
         @media (max-width: 768px) {
             :root {
-                --section-gap: 40px;
+                --section-gap: 32px;
             }
 
             .nav-inner {
@@ -767,8 +768,8 @@
                 <a href="https://apps.apple.com/app/id6737146330" target="_blank" rel="noopener">
                     <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" alt="Download on the App Store" class="appstore-badge">
                 </a>
-                <a href="../support.html" class="contact-link" data-i18n="contact_support">문의하기</a>
             </div>
+            <a href="../support.html" class="contact-link" data-i18n="contact_support">문의하기</a>
         </div>
     </section>
 
