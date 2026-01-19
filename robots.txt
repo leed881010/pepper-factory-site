@@ -1,0 +1,12 @@
+# Pepper Factory - robots.txt
+# https://pepper-factory.com
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://pepper-factory.com/sitemap.xml
+
+# Disallow admin/private directories (if any)
+Disallow: /.claude/
+Disallow: /.git/

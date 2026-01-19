@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- Main Page with language alternatives -->
+  <url>
+    <loc>https://pepper-factory.com/</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://pepper-factory.com/?lang=ko"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://pepper-factory.com/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://pepper-factory.com/?lang=ja"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://pepper-factory.com/"/>
+    <lastmod>2025-01-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- App Pages -->
+  <url>
+    <loc>https://pepper-factory.com/apps/onething.html</loc>
+    <lastmod>2025-01-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://pepper-factory.com/apps/habit.html</loc>
+    <lastmod>2025-01-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://pepper-factory.com/apps/bulkup.html</loc>
+    <lastmod>2025-01-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://pepper-factory.com/apps/admob-tracker.html</loc>
+    <lastmod>2025-01-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Support Pages -->
+  <url>
+    <loc>https://pepper-factory.com/support.html</loc>
+    <lastmod>2025-01-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://pepper-factory.com/privacy.html</loc>
+    <lastmod>2025-01-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://pepper-factory.com/terms.html</loc>
+    <lastmod>2025-01-19</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+</urlset>
