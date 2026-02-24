@@ -732,9 +732,20 @@
 
         // Language detection and switching
         function detectLanguage() {
+            // 1. Check URL query parameter first (e.g., ?lang=en)
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlLang = urlParams.get('lang');
+            if (urlLang && translations[urlLang]) {
+                localStorage.setItem('pf-lang', urlLang);
+                window.history.replaceState({}, '', window.location.pathname);
+                return urlLang;
+            }
+
+            // 2. Check localStorage
             const saved = localStorage.getItem('pf-lang');
             if (saved && translations[saved]) return saved;
 
+            // 3. Check browser language
             const browserLang = navigator.language.toLowerCase();
             if (browserLang.startsWith('ko')) return 'ko';
             if (browserLang.startsWith('ja')) return 'ja';
