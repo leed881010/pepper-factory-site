@@ -3,6 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        // Early language detection — runs before body renders to prevent FOUC
+        (function() {
+            var supported = ['ko', 'en', 'ja'];
+            var lang = null;
+
+            // 1. URL ?lang= parameter
+            var match = location.search.match(/[?&]lang=([^&]+)/);
+            if (match && supported.indexOf(match[1]) !== -1) {
+                lang = match[1];
+                localStorage.setItem('pf-lang', lang);
+                history.replaceState({}, '', location.pathname);
+            }
+
+            // 2. localStorage
+            if (!lang) {
+                var saved = localStorage.getItem('pf-lang');
+                if (saved && supported.indexOf(saved) !== -1) lang = saved;
+            }
+
+            // 3. Browser language
+            if (!lang) {
+                var bl = (navigator.language || '').slice(0, 2);
+                lang = supported.indexOf(bl) !== -1 ? bl : 'ko';
+                localStorage.setItem('pf-lang', lang);
+            }
+
+            document.documentElement.lang = lang;
+            window.__pfLang = lang;
+        })();
+    </script>
     <title>Pepper Factory - Simple & Useful iOS Apps</title>
     <meta name="description" content="집중, 습관, 운동, 수익 관리를 위한 심플하고 유용한 iOS 앱">
     <meta name="keywords" content="iOS apps, productivity, pomodoro, habit tracker, workout timer, AdMob tracker">
@@ -78,6 +109,8 @@
         body {
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg-cream);
+            opacity: 0;
+            transition: opacity 0.15s ease;
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
@@ -1157,10 +1190,33 @@
             }
         };
 
+        // Page metadata per language
+        const pageMeta = {
+            ko: {
+                title: 'Pepper Factory - 심플하고 유용한 iOS 앱',
+                description: '집중, 습관, 운동, 수익 관리를 위한 심플하고 유용한 iOS 앱'
+            },
+            en: {
+                title: 'Pepper Factory - Simple & Useful iOS Apps',
+                description: 'Simple and useful iOS apps for focus, habits, workouts, and revenue tracking'
+            },
+            ja: {
+                title: 'Pepper Factory - シンプルで便利なiOSアプリ',
+                description: '集中、習慣、運動、収益管理のためのシンプルで便利なiOSアプリ'
+            }
+        };
+
         // Language Management
         function setLanguage(lang) {
             localStorage.setItem('pf-lang', lang);
             document.documentElement.lang = lang;
+
+            // Update page title & meta description
+            if (pageMeta[lang]) {
+                document.title = pageMeta[lang].title;
+                const metaDesc = document.querySelector('meta[name="description"]');
+                if (metaDesc) metaDesc.content = pageMeta[lang].description;
+            }
 
             // Update active button
             document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -1174,28 +1230,9 @@
                     el.innerHTML = translations[lang][key];
                 }
             });
-        }
 
-        function getInitialLanguage() {
-            // 1. Check URL query parameter first (e.g., ?lang=ko)
-            const urlParams = new URLSearchParams(window.location.search);
-            const urlLang = urlParams.get('lang');
-            if (urlLang && translations[urlLang]) {
-                localStorage.setItem('pf-lang', urlLang);
-                // Clean up URL
-                window.history.replaceState({}, '', window.location.pathname);
-                return urlLang;
-            }
-
-            // 2. Check localStorage
-            const saved = localStorage.getItem('pf-lang');
-            if (saved && translations[saved]) return saved;
-
-            // 3. Check browser language
-            const browserLang = navigator.language.slice(0, 2);
-            if (translations[browserLang]) return browserLang;
-
-            return 'ko';
+            // Reveal body after language is applied
+            document.body.style.opacity = '1';
         }
 
         // Language switcher event
@@ -1203,8 +1240,8 @@
             btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
         });
 
-        // Initialize language
-        setLanguage(getInitialLanguage());
+        // Initialize with language detected in <head>
+        setLanguage(window.__pfLang || 'ko');
 
         // Scroll animations
         const observerOptions = {

@@ -3,6 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        (function() {
+            var supported = ['ko', 'en', 'ja'];
+            var lang = null;
+            var match = location.search.match(/[?&]lang=([^&]+)/);
+            if (match && supported.indexOf(match[1]) !== -1) {
+                lang = match[1];
+                localStorage.setItem('pf-lang', lang);
+                history.replaceState({}, '', location.pathname);
+            }
+            if (!lang) { var saved = localStorage.getItem('pf-lang'); if (saved && supported.indexOf(saved) !== -1) lang = saved; }
+            if (!lang) { var bl = (navigator.language || '').slice(0, 2); lang = supported.indexOf(bl) !== -1 ? bl : 'ko'; localStorage.setItem('pf-lang', lang); }
+            document.documentElement.lang = lang;
+            window.__pfLang = lang;
+        })();
+    </script>
     <title>Ad Revenue Tracker - Pepper Factory</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,6 +45,8 @@
             font-family: var(--font-main);
             background: var(--color-bg);
             color: var(--color-text);
+            opacity: 0;
+            transition: opacity 0.15s ease;
             min-height: 100vh;
             overflow-x: hidden;
         }
@@ -730,28 +748,6 @@
             }
         };
 
-        // Language detection and switching
-        function detectLanguage() {
-            // 1. Check URL query parameter first (e.g., ?lang=en)
-            const urlParams = new URLSearchParams(window.location.search);
-            const urlLang = urlParams.get('lang');
-            if (urlLang && translations[urlLang]) {
-                localStorage.setItem('pf-lang', urlLang);
-                window.history.replaceState({}, '', window.location.pathname);
-                return urlLang;
-            }
-
-            // 2. Check localStorage
-            const saved = localStorage.getItem('pf-lang');
-            if (saved && translations[saved]) return saved;
-
-            // 3. Check browser language
-            const browserLang = navigator.language.toLowerCase();
-            if (browserLang.startsWith('ko')) return 'ko';
-            if (browserLang.startsWith('ja')) return 'ja';
-            return 'en';
-        }
-
         function setLanguage(lang) {
             localStorage.setItem('pf-lang', lang);
             document.documentElement.lang = lang;
@@ -770,12 +766,13 @@
                     }
                 }
             });
+
+            document.body.style.opacity = '1';
         }
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            const lang = detectLanguage();
-            setLanguage(lang);
+            setLanguage(window.__pfLang || 'ko');
 
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
