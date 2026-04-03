@@ -31,13 +31,13 @@
     <meta property="og:url" content="https://pepper-factory.com/apps/bulkup.html">
     <meta property="og:title" content="Workout Timy - Workout Timer">
     <meta property="og:description" content="근력 강화, 유산소 운동, 인터벌, 타바타 운동까지 모든 운동을 위한 타이머">
-    <meta property="og:image" content="https://pepper-factory.com/images/bulkup-icon.png">
+    <meta property="og:image" content="https://pepper-factory.com/images/bulkup-icon.jpg">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Workout Timy - Workout Timer">
     <meta name="twitter:description" content="근력 강화, 유산소 운동, 인터벌, 타바타 운동까지 모든 운동을 위한 타이머">
-    <meta name="twitter:image" content="https://pepper-factory.com/images/bulkup-icon.png">
+    <meta name="twitter:image" content="https://pepper-factory.com/images/bulkup-icon.jpg">
 
     <!-- App Store Smart Banner -->
     <meta name="apple-itunes-app" content="app-id=6447776886">
@@ -179,6 +179,22 @@
         .description-text p { margin-bottom: 8px; }
         .description-text p:last-child { margin-bottom: 0; }
         .highlight { color: var(--accent); font-weight: 600; }
+
+        /* Screenshots */
+        .screenshots { padding: 0 0 60px; }
+        .screenshot-scroll {
+            display: flex; gap: 16px;
+            overflow-x: auto; scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 8px;
+        }
+        .screenshot-scroll::-webkit-scrollbar { display: none; }
+        .screenshot-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+        .screenshot-scroll img {
+            height: 480px; border-radius: var(--radius);
+            scroll-snap-align: center; flex-shrink: 0;
+            border: 1px solid var(--border);
+        }
 
         /* Features */
         .features { padding: 0 0 60px; }
@@ -364,7 +380,7 @@
     <!-- Hero -->
     <section class="hero">
         <div class="container">
-            <img src="../images/bulkup-icon.png" alt="Workout Timy" class="hero-icon">
+            <img src="../images/bulkup-icon.jpg" alt="Workout Timy" class="hero-icon">
             <h1 class="hero-title" data-i18n="app_name">운동 타이미</h1>
             <p class="hero-tagline" data-i18n="app_tagline">타바타, 루틴, 집중, 헬스, 인터벌 타이머</p>
             <a href="https://apps.apple.com/app/id6447776886" target="_blank" rel="noopener">
@@ -382,6 +398,20 @@
                     <p>TTS 음성 안내와 Live Activity로 화면을 보지 않아도 <span class="highlight">운동에 집중</span>할 수 있어요.</p>
                     <p><span class="highlight">우리가 당신의 운동을 도와줄게요!</span></p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots -->
+    <section class="screenshots">
+        <div class="container">
+            <div class="screenshot-scroll">
+                <img src="../images/screenshots/bulkup/ko/0_screenshot.webp" alt="Workout Timy Screenshot 1">
+                <img src="../images/screenshots/bulkup/ko/1_screenshot.webp" alt="Workout Timy Screenshot 2">
+                <img src="../images/screenshots/bulkup/ko/2_screenshot.webp" alt="Workout Timy Screenshot 3">
+                <img src="../images/screenshots/bulkup/ko/3_screenshot.webp" alt="Workout Timy Screenshot 4">
+                <img src="../images/screenshots/bulkup/ko/4_screenshot.webp" alt="Workout Timy Screenshot 5">
+                <img src="../images/screenshots/bulkup/ko/5_screenshot.webp" alt="Workout Timy Screenshot 6">
             </div>
         </div>
     </section>
