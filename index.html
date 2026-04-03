@@ -4,32 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
-        // Early language detection — runs before body renders to prevent FOUC
         (function() {
             var supported = ['ko', 'en', 'ja'];
             var lang = null;
-
-            // 1. URL ?lang= parameter
             var match = location.search.match(/[?&]lang=([^&]+)/);
             if (match && supported.indexOf(match[1]) !== -1) {
                 lang = match[1];
                 localStorage.setItem('pf-lang', lang);
                 history.replaceState({}, '', location.pathname);
             }
-
-            // 2. localStorage
-            if (!lang) {
-                var saved = localStorage.getItem('pf-lang');
-                if (saved && supported.indexOf(saved) !== -1) lang = saved;
-            }
-
-            // 3. Browser language
-            if (!lang) {
-                var bl = (navigator.language || '').slice(0, 2);
-                lang = supported.indexOf(bl) !== -1 ? bl : 'ko';
-                localStorage.setItem('pf-lang', lang);
-            }
-
+            if (!lang) { var saved = localStorage.getItem('pf-lang'); if (saved && supported.indexOf(saved) !== -1) lang = saved; }
+            if (!lang) { var bl = (navigator.language || '').slice(0, 2); lang = supported.indexOf(bl) !== -1 ? bl : 'ko'; localStorage.setItem('pf-lang', lang); }
             document.documentElement.lang = lang;
             window.__pfLang = lang;
         })();
@@ -39,14 +24,12 @@
     <meta name="keywords" content="iOS apps, productivity, pomodoro, habit tracker, workout timer, AdMob tracker">
     <meta name="author" content="Pepper Factory">
 
-    <!-- Canonical & Language Alternates -->
     <link rel="canonical" href="https://pepper-factory.com/">
     <link rel="alternate" hreflang="ko" href="https://pepper-factory.com/?lang=ko">
     <link rel="alternate" hreflang="en" href="https://pepper-factory.com/?lang=en">
     <link rel="alternate" hreflang="ja" href="https://pepper-factory.com/?lang=ja">
     <link rel="alternate" hreflang="x-default" href="https://pepper-factory.com/">
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://pepper-factory.com/">
     <meta property="og:title" content="Pepper Factory - Simple & Useful iOS Apps">
@@ -56,727 +39,253 @@
     <meta property="og:locale:alternate" content="en_US">
     <meta property="og:locale:alternate" content="ja_JP">
 
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://pepper-factory.com/">
     <meta name="twitter:title" content="Pepper Factory - Simple & Useful iOS Apps">
     <meta name="twitter:description" content="집중, 습관, 운동, 수익 관리를 위한 심플하고 유용한 iOS 앱">
     <meta name="twitter:image" content="https://pepper-factory.com/images/og-image.png">
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Favicon -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="images/favicon.png">
 
     <style>
         :root {
-            /* Base Colors */
-            --bg-cream: #FBF9F6;
-            --bg-warm: #F7F4EF;
-            --text-primary: #1A1A1A;
-            --text-secondary: #6B6B6B;
-            --text-tertiary: #9A9A9A;
-            --border-light: rgba(0, 0, 0, 0.06);
-
-            /* App Accent Colors */
-            --onething-color: #FF6B4A;
-            --onething-bg: #FFF5F3;
-            --habit-color: #4A90D9;
-            --habit-bg: #F0F6FC;
-            --bulkup-color: #34C759;
-            --bulkup-bg: #F0FAF3;
-            --admob-color: #FF9500;
-            --admob-bg: #FFF8F0;
-
-            /* Spacing */
-            --section-gap: 120px;
-            --container-max: 1200px;
+            --bg: #0A0A0A;
+            --bg-card: #141414;
+            --bg-hover: #1A1A1A;
+            --text: #F5F5F5;
+            --text-secondary: #888;
+            --text-tertiary: #555;
+            --border: rgba(255,255,255,0.06);
+            --accent: #FF6B4A;
+            --radius: 16px;
+            --max-w: 1080px;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-cream);
-            opacity: 0;
-            transition: opacity 0.15s ease;
-            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
             line-height: 1.6;
-            overflow-x: hidden;
+            opacity: 0;
+            transition: opacity 0.2s;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Grain Texture Overlay */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            opacity: 0.03;
-            z-index: 1000;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
+        .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
 
-        /* Container */
-        .container {
-            max-width: var(--container-max);
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* Navigation */
+        /* Nav */
         nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            background: rgba(251, 249, 246, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-light);
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(10,10,10,0.8);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
         }
-
         .nav-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 72px;
+            max-width: var(--max-w); margin: 0 auto; padding: 0 24px;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 64px;
         }
-
         .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            color: var(--text-primary);
-            font-weight: 700;
-            font-size: 1.25rem;
+            display: flex; align-items: center; gap: 10px;
+            text-decoration: none; color: var(--text);
+            font-weight: 700; font-size: 1.05rem;
         }
-
-        .nav-logo-img {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            object-fit: cover;
-        }
-
-        .nav-logo-icon {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, #FF6B4A 0%, #FF9500 100%);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 32px;
-        }
-
+        .nav-logo img { width: 32px; height: 32px; border-radius: 8px; }
+        .nav-right { display: flex; align-items: center; gap: 20px; }
+        .nav-links { display: flex; gap: 24px; }
         .nav-links a {
-            text-decoration: none;
-            color: var(--text-secondary);
-            font-weight: 500;
-            font-size: 0.95rem;
+            text-decoration: none; color: var(--text-secondary);
+            font-size: 0.9rem; font-weight: 500;
             transition: color 0.2s;
         }
-
-        .nav-links a:hover {
-            color: var(--text-primary);
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
+        .nav-links a:hover { color: var(--text); }
         .lang-switcher {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            background: var(--bg-warm);
-            padding: 6px 10px;
-            border-radius: 8px;
-            font-size: 0.85rem;
+            display: flex; gap: 2px;
+            background: var(--bg-card); padding: 4px; border-radius: 8px;
         }
-
         .lang-btn {
-            background: none;
-            border: none;
-            padding: 4px 8px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-            color: var(--text-tertiary);
-            transition: all 0.2s;
-            font-family: inherit;
+            background: none; border: none; padding: 4px 10px; border-radius: 6px;
+            cursor: pointer; font-weight: 500; font-size: 0.8rem;
+            color: var(--text-tertiary); transition: all 0.2s; font-family: inherit;
         }
+        .lang-btn.active { background: var(--bg-hover); color: var(--text); }
+        .lang-btn:hover:not(.active) { color: var(--text-secondary); }
 
-        .lang-btn.active {
-            background: white;
-            color: var(--text-primary);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        .mobile-menu-btn {
+            display: none; background: none; border: none; cursor: pointer;
+            color: var(--text); font-size: 1.4rem;
+            min-width: 44px; min-height: 44px;
+            align-items: center; justify-content: center;
         }
-
-        .lang-btn:hover:not(.active) {
-            color: var(--text-primary);
+        .mobile-menu {
+            display: none; position: fixed; top: 64px; left: 0; right: 0;
+            background: rgba(10,10,10,0.95); backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 8px 24px 20px; z-index: 99;
+            transform: translateY(-10px); opacity: 0;
+            transition: transform 0.3s, opacity 0.3s; pointer-events: none;
         }
+        .mobile-menu.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+        .mobile-menu a {
+            display: block; padding: 14px 0; text-decoration: none;
+            color: var(--text); font-weight: 500; font-size: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .mobile-menu a:last-child { border-bottom: none; }
 
-        /* Hero Section */
+        /* Hero */
         .hero {
-            padding: 160px 0 100px;
+            padding: 160px 0 80px;
             text-align: center;
-            position: relative;
         }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: white;
-            padding: 8px 16px;
-            border-radius: 100px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-            animation: fadeInUp 0.8s ease-out;
+        .hero-sub {
+            font-size: 0.9rem; font-weight: 500;
+            color: var(--accent); margin-bottom: 20px;
+            letter-spacing: 0.05em;
         }
-
-        .hero-badge::before {
-            content: '🍎';
-        }
-
         .hero-title {
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 800;
-            line-height: 1.15;
-            margin-bottom: 20px;
-            letter-spacing: -0.02em;
-            animation: fadeInUp 0.8s ease-out 0.1s both;
+            font-size: clamp(2.2rem, 5.5vw, 3.5rem);
+            font-weight: 700; line-height: 1.2;
+            margin-bottom: 20px; letter-spacing: -0.02em;
         }
-
         .hero-title span {
-            background: linear-gradient(135deg, #FF6B4A 0%, #FF9500 50%, #34C759 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            background: linear-gradient(135deg, #FF6B4A, #FF9500);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-
-        .hero-subtitle {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            max-width: 500px;
-            margin: 0 auto 40px;
-            animation: fadeInUp 0.8s ease-out 0.2s both;
+        .hero-desc {
+            font-size: 1.1rem; color: var(--text-secondary);
+            max-width: 480px; margin: 0 auto 40px;
         }
+        .hero-badges { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .appstore-link img { height: 48px; transition: opacity 0.2s; }
+        .appstore-link:hover img { opacity: 0.8; }
 
-        .hero-cta {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-            animation: fadeInUp 0.8s ease-out 0.3s both;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 14px 28px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1rem;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-family: inherit;
-            cursor: pointer;
-            border: none;
-        }
-
-        .btn-primary {
-            background: var(--text-primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #333;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-        }
-
-        .btn-secondary {
-            background: white;
-            color: var(--text-primary);
-            border: 1px solid var(--border-light);
-        }
-
-        .btn-secondary:hover {
-            background: var(--bg-warm);
-            transform: translateY(-2px);
-        }
-
-        /* Stats Section */
-        .stats {
-            padding: 60px 0;
-            border-top: 1px solid var(--border-light);
-            border-bottom: 1px solid var(--border-light);
-            background: var(--bg-warm);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            text-align: center;
-        }
-
-        .stat-item {
-            opacity: 0;
-            animation: fadeInUp 0.6s ease-out forwards;
-        }
-
-        .stat-item:nth-child(1) { animation-delay: 0.1s; }
-        .stat-item:nth-child(2) { animation-delay: 0.2s; }
-        .stat-item:nth-child(3) { animation-delay: 0.3s; }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-        }
-
-        .stat-label {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        /* Apps Section */
-        .apps {
-            padding: var(--section-gap) 0;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
+        /* Apps */
+        .apps { padding: 80px 0; }
         .section-label {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--text-tertiary);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 12px;
+            text-align: center; font-size: 0.85rem; font-weight: 600;
+            color: var(--text-tertiary); text-transform: uppercase;
+            letter-spacing: 0.08em; margin-bottom: 12px;
         }
-
         .section-title {
-            font-size: clamp(1.75rem, 4vw, 2.5rem);
-            font-weight: 700;
-            letter-spacing: -0.02em;
+            text-align: center; font-size: clamp(1.5rem, 3.5vw, 2rem);
+            font-weight: 700; margin-bottom: 48px;
         }
-
         .apps-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
         }
-
         .app-card {
-            background: white;
-            border-radius: 24px;
-            padding: 40px;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            border: 1px solid var(--border-light);
-            position: relative;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(30px);
+            background: var(--bg-card); border-radius: var(--radius);
+            padding: 32px; text-decoration: none; color: inherit;
+            border: 1px solid var(--border);
+            transition: background 0.3s, border-color 0.3s;
+            display: flex; flex-direction: column;
         }
-
-        .app-card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .app-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            opacity: 0;
-            transition: opacity 0.4s;
-        }
-
-        .app-card[data-app="onething"]::before { background: var(--onething-bg); }
-        .app-card[data-app="habit"]::before { background: var(--habit-bg); }
-        .app-card[data-app="bulkup"]::before { background: var(--bulkup-bg); }
-        .app-card[data-app="admob"]::before { background: var(--admob-bg); }
-
-        .app-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-        }
-
-        .app-card:hover::before {
-            opacity: 1;
-        }
-
-        .app-card-content {
-            position: relative;
-            z-index: 1;
-        }
-
+        .app-card:hover { background: var(--bg-hover); border-color: rgba(255,255,255,0.1); }
+        .app-card-top { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
         .app-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 20px;
-            margin-bottom: 24px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            width: 56px; height: 56px; border-radius: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3); flex-shrink: 0;
+        }
+        .app-name { font-size: 1.15rem; font-weight: 700; }
+        .app-category { font-size: 0.8rem; color: var(--text-tertiary); margin-top: 2px; }
+        .app-desc { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; }
+        .app-rating {
+            margin-top: auto; padding-top: 16px;
+            font-size: 0.8rem; color: var(--text-tertiary);
         }
 
-        .app-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .app-name .arrow {
-            opacity: 0;
-            transform: translateX(-8px);
-            transition: all 0.3s;
-        }
-
-        .app-card:hover .app-name .arrow {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .app-tagline {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-        .app-meta {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            font-size: 0.875rem;
-            color: var(--text-tertiary);
-        }
-
-        .app-meta span {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .app-color-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        .app-card[data-app="onething"] .app-color-dot { background: var(--onething-color); }
-        .app-card[data-app="habit"] .app-color-dot { background: var(--habit-color); }
-        .app-card[data-app="bulkup"] .app-color-dot { background: var(--bulkup-color); }
-        .app-card[data-app="admob"] .app-color-dot { background: var(--admob-color); }
-
-        /* Features Section */
-        .features {
-            padding: var(--section-gap) 0;
-            background: var(--bg-warm);
-        }
-
+        /* Features */
+        .features { padding: 80px 0; border-top: 1px solid var(--border); }
         .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 32px;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
         }
-
         .feature-card {
-            background: white;
-            padding: 32px;
-            border-radius: 20px;
-            border: 1px solid var(--border-light);
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s ease;
+            padding: 28px; border-radius: var(--radius);
+            background: var(--bg-card); border: 1px solid var(--border);
+            transition: background 0.3s;
         }
-
-        .feature-card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
+        .feature-card:hover { background: var(--bg-hover); }
         .feature-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--bg-cream);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin-bottom: 20px;
+            width: 40px; height: 40px; margin-bottom: 16px;
+            display: flex; align-items: center; justify-content: center;
         }
+        .feature-icon svg {
+            width: 22px; height: 22px; stroke: var(--accent);
+            fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+        }
+        .feature-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; }
+        .feature-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
 
-        .feature-title {
-            font-size: 1.125rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .feature-desc {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        /* CTA Section */
-        .cta {
-            padding: var(--section-gap) 0;
-            text-align: center;
-        }
-
-        .cta-box {
-            background: linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 100%);
-            border-radius: 32px;
-            padding: 80px 40px;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-            opacity: 0.05;
-            pointer-events: none;
-        }
-
-        .cta-title {
-            font-size: clamp(1.75rem, 4vw, 2.5rem);
-            font-weight: 700;
-            margin-bottom: 16px;
-            position: relative;
-        }
-
-        .cta-subtitle {
-            font-size: 1.125rem;
-            opacity: 0.7;
-            margin-bottom: 40px;
-            position: relative;
-        }
-
-        .cta-badges {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-            position: relative;
-        }
-
-        .appstore-badge {
-            height: 54px;
-            transition: transform 0.3s, opacity 0.3s;
-        }
-
-        .appstore-badge:hover {
-            transform: scale(1.05);
-        }
+        /* CTA */
+        .cta { padding: 80px 0; text-align: center; }
+        .cta-title { font-size: clamp(1.5rem, 3.5vw, 2rem); font-weight: 700; margin-bottom: 12px; }
+        .cta-desc { color: var(--text-secondary); margin-bottom: 32px; }
 
         /* Footer */
-        footer {
-            padding: 60px 0 40px;
-            border-top: 1px solid var(--border-light);
-        }
-
+        footer { padding: 48px 0 32px; border-top: 1px solid var(--border); }
         .footer-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 24px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 16px;
         }
-
         .footer-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 700;
-            font-size: 1.125rem;
+            display: flex; align-items: center; gap: 8px;
+            font-weight: 600; font-size: 0.95rem;
         }
-
-        .footer-logo-img {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            object-fit: cover;
-        }
-
-        .footer-logo-icon {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, #FF6B4A 0%, #FF9500 100%);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 32px;
-        }
-
+        .footer-logo img { width: 28px; height: 28px; border-radius: 7px; }
+        .footer-links { display: flex; gap: 24px; }
         .footer-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: color 0.2s;
+            color: var(--text-secondary); text-decoration: none;
+            font-size: 0.85rem; transition: color 0.2s;
         }
-
-        .footer-links a:hover {
-            color: var(--text-primary);
-        }
-
-        .footer-copyright {
-            width: 100%;
-            text-align: center;
-            padding-top: 40px;
-            margin-top: 40px;
-            border-top: 1px solid var(--border-light);
-            color: var(--text-tertiary);
-            font-size: 0.875rem;
+        .footer-links a:hover { color: var(--text); }
+        .footer-copy {
+            width: 100%; text-align: center; padding-top: 32px; margin-top: 32px;
+            border-top: 1px solid var(--border);
+            color: var(--text-tertiary); font-size: 0.8rem;
         }
 
         /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .fade-in {
+            opacity: 0; transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
         }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-sub { animation: fadeIn 0.6s ease both; }
+        .hero-title { animation: fadeIn 0.6s ease 0.1s both; }
+        .hero-desc { animation: fadeIn 0.6s ease 0.2s both; }
+        .hero-badges { animation: fadeIn 0.6s ease 0.3s both; }
 
         /* Responsive */
-        @media (max-width: 900px) {
-            .apps-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .nav-links {
-                display: none;
-            }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: flex; }
+            .mobile-menu { display: block; }
+            .apps-grid { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: 1fr; }
+            .hero { padding: 120px 0 60px; }
+            .app-card { padding: 24px; }
+            .footer-inner { flex-direction: column; text-align: center; }
+            .footer-links { flex-wrap: wrap; justify-content: center; }
         }
-
-        @media (max-width: 600px) {
-            :root {
-                --section-gap: 80px;
-            }
-
-            .nav-inner {
-                height: 64px;
-            }
-
-            .hero {
-                padding: 120px 0 60px;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-                gap: 24px;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .app-card {
-                padding: 28px;
-            }
-
-            .cta-box {
-                padding: 60px 24px;
-                border-radius: 24px;
-            }
-
-            .footer-inner {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .footer-links {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 20px;
-            }
-        }
-
-        /* Mobile menu */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-            font-size: 1.5rem;
-        }
-
-        @media (max-width: 900px) {
-            .mobile-menu-btn {
-                display: block;
-            }
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 
-    <!-- JSON-LD Structured Data for GEO -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -785,69 +294,31 @@
         "alternateName": ["페퍼팩토리", "ペッパーファクトリー"],
         "url": "https://pepper-factory.com",
         "logo": "https://pepper-factory.com/images/logo.jpg",
-        "description": "Simple & Useful iOS Apps for Everyday Life - Focus, Habits, Workout, Revenue Tracking",
+        "description": "Simple & Useful iOS Apps for Everyday Life",
         "email": "leedi@pepper-factory.com",
-        "sameAs": [
-            "https://apps.apple.com/developer/id1621897751"
-        ],
-        "knowsAbout": ["iOS Development", "Mobile Apps", "Productivity Apps", "Pomodoro Timer", "Habit Tracking", "Workout Timer"],
+        "sameAs": ["https://apps.apple.com/developer/id1621897751"],
         "makesOffer": [
-            {
-                "@type": "Offer",
-                "itemOffered": {
-                    "@type": "SoftwareApplication",
-                    "name": "OneThing",
-                    "operatingSystem": "iOS",
-                    "applicationCategory": "ProductivityApplication"
-                }
-            },
-            {
-                "@type": "Offer",
-                "itemOffered": {
-                    "@type": "SoftwareApplication",
-                    "name": "Weekly - Habit Tracker",
-                    "operatingSystem": "iOS",
-                    "applicationCategory": "LifestyleApplication"
-                }
-            },
-            {
-                "@type": "Offer",
-                "itemOffered": {
-                    "@type": "SoftwareApplication",
-                    "name": "Workout Timy",
-                    "operatingSystem": "iOS",
-                    "applicationCategory": "HealthAndFitnessApplication"
-                }
-            },
-            {
-                "@type": "Offer",
-                "itemOffered": {
-                    "@type": "SoftwareApplication",
-                    "name": "Ad Revenue Tracker",
-                    "operatingSystem": "iOS",
-                    "applicationCategory": "FinanceApplication"
-                }
-            }
+            { "@type": "Offer", "itemOffered": { "@type": "SoftwareApplication", "name": "OneThing", "operatingSystem": "iOS", "applicationCategory": "ProductivityApplication" } },
+            { "@type": "Offer", "itemOffered": { "@type": "SoftwareApplication", "name": "Weekly - Habit Tracker", "operatingSystem": "iOS", "applicationCategory": "LifestyleApplication" } },
+            { "@type": "Offer", "itemOffered": { "@type": "SoftwareApplication", "name": "Workout Timy", "operatingSystem": "iOS", "applicationCategory": "HealthAndFitnessApplication" } },
+            { "@type": "Offer", "itemOffered": { "@type": "SoftwareApplication", "name": "Ad Revenue Tracker", "operatingSystem": "iOS", "applicationCategory": "FinanceApplication" } }
         ]
     }
     </script>
 </head>
 <body>
-    <!-- Navigation -->
     <nav>
-        <div class="container nav-inner">
+        <div class="nav-inner">
             <a href="/" class="nav-logo">
-                <img src="images/logo.jpg" alt="Pepper Factory" class="nav-logo-img">
+                <img src="images/logo.jpg" alt="Pepper Factory">
                 Pepper Factory
             </a>
-
-            <div class="nav-links">
-                <a href="#apps" data-i18n="nav_apps">Apps</a>
-                <a href="support.html" data-i18n="nav_support">Support</a>
-                <a href="privacy.html" data-i18n="nav_privacy">Privacy</a>
-            </div>
-
             <div class="nav-right">
+                <div class="nav-links">
+                    <a href="#apps" data-i18n="nav_apps">Apps</a>
+                    <a href="support.html" data-i18n="nav_support">Support</a>
+                    <a href="privacy.html" data-i18n="nav_privacy">Privacy</a>
+                </div>
                 <div class="lang-switcher">
                     <button class="lang-btn" data-lang="ko">KO</button>
                     <button class="lang-btn" data-lang="en">EN</button>
@@ -858,161 +329,119 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#apps" data-i18n="nav_apps">Apps</a>
+        <a href="support.html" data-i18n="nav_support">Support</a>
+        <a href="privacy.html" data-i18n="nav_privacy">Privacy</a>
+    </div>
+
     <section class="hero">
         <div class="container">
-            <div class="hero-badge" data-i18n="hero_badge">iOS Apps for Everyday Life</div>
+            <div class="hero-sub" data-i18n="hero_badge">일상을 위한 iOS 앱</div>
             <h1 class="hero-title" data-i18n="hero_title">
                 작은 앱으로<br><span>큰 변화</span>를 만들다
             </h1>
-            <p class="hero-subtitle" data-i18n="hero_subtitle">
+            <p class="hero-desc" data-i18n="hero_subtitle">
                 집중, 습관, 운동, 수익 관리까지.<br>당신의 일상을 더 나아지게 만드는 심플한 앱들.
             </p>
-            <div class="hero-cta">
-                <a href="#apps" class="btn btn-primary" data-i18n="hero_cta_apps">
-                    <span>앱 둘러보기</span>
-                    <span>→</span>
-                </a>
-                <a href="support.html" class="btn btn-secondary" data-i18n="hero_cta_contact">
-                    문의하기
+            <div class="hero-badges">
+                <a href="https://apps.apple.com/us/developer/pepper-factory/id1621897753" target="_blank" rel="noopener" class="appstore-link">
+                    <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/white/en-us?size=250x83" alt="Download on the App Store">
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Stats Section -->
-    <section class="stats">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-number">4</div>
-                    <div class="stat-label" data-i18n="stat_apps">Apps</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">4.7+</div>
-                    <div class="stat-label" data-i18n="stat_rating">Average Rating</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">100K+</div>
-                    <div class="stat-label" data-i18n="stat_users">Downloads</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Apps Section -->
     <section class="apps" id="apps">
         <div class="container">
-            <div class="section-header">
-                <div class="section-label" data-i18n="apps_label">Our Apps</div>
-                <h2 class="section-title" data-i18n="apps_title">당신의 목표를 위한 도구들</h2>
-            </div>
+            <div class="section-label" data-i18n="apps_label">Our Apps</div>
+            <h2 class="section-title" data-i18n="apps_title">당신의 목표를 위한 도구들</h2>
 
             <div class="apps-grid">
-                <a href="apps/onething.html" class="app-card" data-app="onething">
-                    <div class="app-card-content">
+                <a href="apps/onething.html" class="app-card fade-in">
+                    <div class="app-card-top">
                         <img src="images/onething-icon.png" alt="OneThing" class="app-icon">
-                        <div class="app-name">
-                            <span data-i18n="app_onething_name">원띵</span>
-                            <span class="arrow">→</span>
-                        </div>
-                        <p class="app-tagline" data-i18n="app_onething_desc">타이머, 할일, 앱 차단, 타임랩스</p>
-                        <div class="app-meta">
-                            <span><span class="app-color-dot"></span> Focus Timer</span>
-                            <span>⭐ 4.8</span>
+                        <div>
+                            <div class="app-name" data-i18n="app_onething_name">원띵</div>
+                            <div class="app-category">Focus Timer</div>
                         </div>
                     </div>
+                    <div class="app-desc" data-i18n="app_onething_desc">타이머, 할일, 앱 차단, 타임랩스</div>
+                    <div class="app-rating">★ 4.8</div>
                 </a>
 
-                <a href="apps/habit.html" class="app-card" data-app="habit">
-                    <div class="app-card-content">
+                <a href="apps/habit.html" class="app-card fade-in">
+                    <div class="app-card-top">
                         <img src="images/habit-icon.png" alt="Weekly" class="app-icon">
-                        <div class="app-name">
-                            <span data-i18n="app_habit_name">Weekly</span>
-                            <span class="arrow">→</span>
-                        </div>
-                        <p class="app-tagline" data-i18n="app_habit_desc">쉽고 강력한 습관 만들기</p>
-                        <div class="app-meta">
-                            <span><span class="app-color-dot"></span> Habit Tracker</span>
-                            <span>⭐ 4.7</span>
+                        <div>
+                            <div class="app-name" data-i18n="app_habit_name">Weekly</div>
+                            <div class="app-category">Habit Tracker</div>
                         </div>
                     </div>
+                    <div class="app-desc" data-i18n="app_habit_desc">쉽고 강력한 습관 만들기</div>
+                    <div class="app-rating">★ 4.7</div>
                 </a>
 
-                <a href="apps/bulkup.html" class="app-card" data-app="bulkup">
-                    <div class="app-card-content">
+                <a href="apps/bulkup.html" class="app-card fade-in">
+                    <div class="app-card-top">
                         <img src="images/bulkup-icon.png" alt="Workout Timy" class="app-icon">
-                        <div class="app-name">
-                            <span data-i18n="app_bulkup_name">운동 타이미</span>
-                            <span class="arrow">→</span>
-                        </div>
-                        <p class="app-tagline" data-i18n="app_bulkup_desc">근력, 유산소, 인터벌, 커스텀, YouTube 타이머</p>
-                        <div class="app-meta">
-                            <span><span class="app-color-dot"></span> Workout Timer</span>
-                            <span>⭐ 4.6</span>
+                        <div>
+                            <div class="app-name" data-i18n="app_bulkup_name">운동 타이미</div>
+                            <div class="app-category">Workout Timer</div>
                         </div>
                     </div>
+                    <div class="app-desc" data-i18n="app_bulkup_desc">근력, 유산소, 인터벌, 커스텀, YouTube 타이머</div>
+                    <div class="app-rating">★ 4.6</div>
                 </a>
 
-                <a href="apps/admob-tracker.html" class="app-card" data-app="admob">
-                    <div class="app-card-content">
+                <a href="apps/admob-tracker.html" class="app-card fade-in">
+                    <div class="app-card-top">
                         <img src="images/admob-tracker-icon.png" alt="Ad Revenue Tracker" class="app-icon">
-                        <div class="app-name">
-                            <span data-i18n="app_admob_name">Ad Revenue Tracker</span>
-                            <span class="arrow">→</span>
-                        </div>
-                        <p class="app-tagline" data-i18n="app_admob_desc">AdMob + AdSense 수익 추적, 다중 통화</p>
-                        <div class="app-meta">
-                            <span><span class="app-color-dot"></span> Revenue Dashboard</span>
-                            <span>⭐ 4.7</span>
+                        <div>
+                            <div class="app-name" data-i18n="app_admob_name">Ad Revenue Tracker</div>
+                            <div class="app-category">Revenue Dashboard</div>
                         </div>
                     </div>
+                    <div class="app-desc" data-i18n="app_admob_desc">AdMob + AdSense 수익 추적, 다중 통화</div>
+                    <div class="app-rating">★ 4.7</div>
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
     <section class="features">
         <div class="container">
-            <div class="section-header">
-                <div class="section-label" data-i18n="features_label">Why Pepper Factory</div>
-                <h2 class="section-title" data-i18n="features_title">왜 우리 앱을 선택해야 할까요?</h2>
-            </div>
+            <div class="section-label" data-i18n="features_label">Why Pepper Factory</div>
+            <h2 class="section-title" data-i18n="features_title">왜 우리 앱을 선택해야 할까요?</h2>
 
             <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">✨</div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2z"/></svg></div>
                     <div class="feature-title" data-i18n="feature_simple_title">심플한 디자인</div>
                     <p class="feature-desc" data-i18n="feature_simple_desc">필요한 기능만 담았습니다. 복잡함 없이 바로 사용할 수 있어요.</p>
                 </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🔒</div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
                     <div class="feature-title" data-i18n="feature_privacy_title">프라이버시 우선</div>
                     <p class="feature-desc" data-i18n="feature_privacy_desc">당신의 데이터는 당신의 것. 서버에 저장하지 않습니다.</p>
                 </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">☁️</div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/></svg></div>
                     <div class="feature-title" data-i18n="feature_sync_title">iCloud 동기화</div>
                     <p class="feature-desc" data-i18n="feature_sync_desc">모든 Apple 기기에서 끊김없이 사용하세요.</p>
                 </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🔄</div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg></div>
                     <div class="feature-title" data-i18n="feature_update_title">꾸준한 업데이트</div>
                     <p class="feature-desc" data-i18n="feature_update_desc">사용자 피드백을 반영해 지속적으로 개선합니다.</p>
                 </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🌙</div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div>
                     <div class="feature-title" data-i18n="feature_dark_title">다크모드 지원</div>
                     <p class="feature-desc" data-i18n="feature_dark_desc">눈이 편안한 다크모드로 언제든 사용하세요.</p>
                 </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">💬</div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
                     <div class="feature-title" data-i18n="feature_support_title">빠른 지원</div>
                     <p class="feature-desc" data-i18n="feature_support_desc">문제가 있으면 바로 도와드려요. 피드백은 언제나 환영합니다.</p>
                 </div>
@@ -1020,278 +449,159 @@
         </div>
     </section>
 
-    <!-- CTA Section -->
     <section class="cta">
         <div class="container">
-            <div class="cta-box">
-                <h2 class="cta-title" data-i18n="cta_title">지금 시작하세요</h2>
-                <p class="cta-subtitle" data-i18n="cta_subtitle">App Store에서 무료로 다운로드할 수 있습니다.</p>
-                <div class="cta-badges">
-                    <a href="https://apps.apple.com/us/developer/pepper-factory/id1621897753" target="_blank" rel="noopener">
-                        <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" alt="Download on the App Store" class="appstore-badge">
-                    </a>
-                </div>
+            <h2 class="cta-title" data-i18n="cta_title">지금 시작하세요</h2>
+            <p class="cta-desc" data-i18n="cta_subtitle">App Store에서 무료로 다운로드할 수 있습니다.</p>
+            <div class="hero-badges">
+                <a href="https://apps.apple.com/us/developer/pepper-factory/id1621897753" target="_blank" rel="noopener" class="appstore-link">
+                    <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/white/en-us?size=250x83" alt="Download on the App Store">
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-inner">
                 <div class="footer-logo">
+                    <img src="images/logo.jpg" alt="Pepper Factory">
                     Pepper Factory
                 </div>
-
                 <div class="footer-links">
                     <a href="support.html" data-i18n="footer_support">Support</a>
                     <a href="privacy.html" data-i18n="footer_privacy">Privacy Policy</a>
                     <a href="terms.html" data-i18n="footer_terms">Terms of Use</a>
                 </div>
-
-                <div class="footer-copyright">
-                    © 2024 Pepper Factory. <span data-i18n="footer_rights">All rights reserved.</span>
-                </div>
+            </div>
+            <div class="footer-copy">
+                &copy; 2025 Pepper Factory. <span data-i18n="footer_rights">All rights reserved.</span>
             </div>
         </div>
     </footer>
 
     <script>
-        // Translations
         const translations = {
             ko: {
-                nav_apps: 'Apps',
-                nav_support: 'Support',
-                nav_privacy: 'Privacy',
+                nav_apps: 'Apps', nav_support: 'Support', nav_privacy: 'Privacy',
                 hero_badge: '일상을 위한 iOS 앱',
                 hero_title: '작은 앱으로<br><span>큰 변화</span>를 만들다',
                 hero_subtitle: '집중, 습관, 운동, 수익 관리까지.<br>당신의 일상을 더 나아지게 만드는 심플한 앱들.',
-                hero_cta_apps: '<span>앱 둘러보기</span><span>→</span>',
-                hero_cta_contact: '문의하기',
-                stat_apps: 'Apps',
-                stat_rating: '평균 평점',
-                stat_users: '다운로드',
-                apps_label: 'Our Apps',
-                apps_title: '당신의 목표를 위한 도구들',
-                app_onething_name: '원띵',
-                app_onething_desc: '타이머, 할일, 앱 차단, 타임랩스',
-                app_habit_name: 'Weekly',
-                app_habit_desc: '쉽고 강력한 습관 만들기',
-                app_bulkup_name: '운동 타이미',
-                app_bulkup_desc: '근력, 유산소, 인터벌, 커스텀, YouTube 타이머',
-                app_admob_name: 'Ad Revenue Tracker',
-                app_admob_desc: 'AdMob + AdSense 수익 추적, 다중 통화',
-                features_label: 'Why Pepper Factory',
-                features_title: '왜 우리 앱을 선택해야 할까요?',
-                feature_simple_title: '심플한 디자인',
-                feature_simple_desc: '필요한 기능만 담았습니다. 복잡함 없이 바로 사용할 수 있어요.',
-                feature_privacy_title: '프라이버시 우선',
-                feature_privacy_desc: '당신의 데이터는 당신의 것. 서버에 저장하지 않습니다.',
-                feature_sync_title: 'iCloud 동기화',
-                feature_sync_desc: '모든 Apple 기기에서 끊김없이 사용하세요.',
-                feature_update_title: '꾸준한 업데이트',
-                feature_update_desc: '사용자 피드백을 반영해 지속적으로 개선합니다.',
-                feature_dark_title: '다크모드 지원',
-                feature_dark_desc: '눈이 편안한 다크모드로 언제든 사용하세요.',
-                feature_support_title: '빠른 지원',
-                feature_support_desc: '문제가 있으면 바로 도와드려요. 피드백은 언제나 환영합니다.',
-                cta_title: '지금 시작하세요',
-                cta_subtitle: 'App Store에서 무료로 다운로드할 수 있습니다.',
-                footer_support: 'Support',
-                footer_privacy: 'Privacy Policy',
-                footer_terms: 'Terms of Use',
-                footer_rights: 'All rights reserved.'
+                apps_label: 'Our Apps', apps_title: '당신의 목표를 위한 도구들',
+                app_onething_name: '원띵', app_onething_desc: '타이머, 할일, 앱 차단, 타임랩스',
+                app_habit_name: 'Weekly', app_habit_desc: '쉽고 강력한 습관 만들기',
+                app_bulkup_name: '운동 타이미', app_bulkup_desc: '근력, 유산소, 인터벌, 커스텀, YouTube 타이머',
+                app_admob_name: 'Ad Revenue Tracker', app_admob_desc: 'AdMob + AdSense 수익 추적, 다중 통화',
+                features_label: 'Why Pepper Factory', features_title: '왜 우리 앱을 선택해야 할까요?',
+                feature_simple_title: '심플한 디자인', feature_simple_desc: '필요한 기능만 담았습니다. 복잡함 없이 바로 사용할 수 있어요.',
+                feature_privacy_title: '프라이버시 우선', feature_privacy_desc: '당신의 데이터는 당신의 것. 서버에 저장하지 않습니다.',
+                feature_sync_title: 'iCloud 동기화', feature_sync_desc: '모든 Apple 기기에서 끊김없이 사용하세요.',
+                feature_update_title: '꾸준한 업데이트', feature_update_desc: '사용자 피드백을 반영해 지속적으로 개선합니다.',
+                feature_dark_title: '다크모드 지원', feature_dark_desc: '눈이 편안한 다크모드로 언제든 사용하세요.',
+                feature_support_title: '빠른 지원', feature_support_desc: '문제가 있으면 바로 도와드려요. 피드백은 언제나 환영합니다.',
+                cta_title: '지금 시작하세요', cta_subtitle: 'App Store에서 무료로 다운로드할 수 있습니다.',
+                footer_support: 'Support', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Use', footer_rights: 'All rights reserved.'
             },
             en: {
-                nav_apps: 'Apps',
-                nav_support: 'Support',
-                nav_privacy: 'Privacy',
+                nav_apps: 'Apps', nav_support: 'Support', nav_privacy: 'Privacy',
                 hero_badge: 'iOS Apps for Everyday Life',
                 hero_title: 'Make <span>Big Changes</span><br>with Small Apps',
                 hero_subtitle: 'Focus, habits, workouts, and revenue tracking.<br>Simple apps that make your everyday life better.',
-                hero_cta_apps: '<span>Explore Apps</span><span>→</span>',
-                hero_cta_contact: 'Contact Us',
-                stat_apps: 'Apps',
-                stat_rating: 'Avg. Rating',
-                stat_users: 'Downloads',
-                apps_label: 'Our Apps',
-                apps_title: 'Tools for Your Goals',
-                app_onething_name: 'One Thing',
-                app_onething_desc: 'Timer, Todos, App Blocking, Timelapse',
-                app_habit_name: 'Weekly',
-                app_habit_desc: 'Easy & Powerful Habit Building',
-                app_bulkup_name: 'Workout Timy',
-                app_bulkup_desc: 'Strength, Cardio, Interval, Custom, YouTube',
-                app_admob_name: 'Ad Revenue Tracker',
-                app_admob_desc: 'AdMob + AdSense Revenue, Multi-Currency',
-                features_label: 'Why Pepper Factory',
-                features_title: 'Why Choose Our Apps?',
-                feature_simple_title: 'Simple Design',
-                feature_simple_desc: 'Only essential features. Ready to use without complexity.',
-                feature_privacy_title: 'Privacy First',
-                feature_privacy_desc: 'Your data stays yours. We don\'t store it on servers.',
-                feature_sync_title: 'iCloud Sync',
-                feature_sync_desc: 'Seamlessly use across all your Apple devices.',
-                feature_update_title: 'Regular Updates',
-                feature_update_desc: 'Continuously improving based on user feedback.',
-                feature_dark_title: 'Dark Mode',
-                feature_dark_desc: 'Easy on the eyes, available anytime.',
-                feature_support_title: 'Quick Support',
-                feature_support_desc: 'We\'re here to help. Feedback is always welcome.',
-                cta_title: 'Get Started Today',
-                cta_subtitle: 'Download for free from the App Store.',
-                footer_support: 'Support',
-                footer_privacy: 'Privacy Policy',
-                footer_terms: 'Terms of Use',
-                footer_rights: 'All rights reserved.'
+                apps_label: 'Our Apps', apps_title: 'Tools for Your Goals',
+                app_onething_name: 'One Thing', app_onething_desc: 'Timer, Todos, App Blocking, Timelapse',
+                app_habit_name: 'Weekly', app_habit_desc: 'Easy & Powerful Habit Building',
+                app_bulkup_name: 'Workout Timy', app_bulkup_desc: 'Strength, Cardio, Interval, Custom, YouTube',
+                app_admob_name: 'Ad Revenue Tracker', app_admob_desc: 'AdMob + AdSense Revenue, Multi-Currency',
+                features_label: 'Why Pepper Factory', features_title: 'Why Choose Our Apps?',
+                feature_simple_title: 'Simple Design', feature_simple_desc: 'Only essential features. Ready to use without complexity.',
+                feature_privacy_title: 'Privacy First', feature_privacy_desc: 'Your data stays yours. We don\'t store it on servers.',
+                feature_sync_title: 'iCloud Sync', feature_sync_desc: 'Seamlessly use across all your Apple devices.',
+                feature_update_title: 'Regular Updates', feature_update_desc: 'Continuously improving based on user feedback.',
+                feature_dark_title: 'Dark Mode', feature_dark_desc: 'Easy on the eyes, available anytime.',
+                feature_support_title: 'Quick Support', feature_support_desc: 'We\'re here to help. Feedback is always welcome.',
+                cta_title: 'Get Started Today', cta_subtitle: 'Download for free from the App Store.',
+                footer_support: 'Support', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Use', footer_rights: 'All rights reserved.'
             },
             ja: {
-                nav_apps: 'Apps',
-                nav_support: 'Support',
-                nav_privacy: 'Privacy',
+                nav_apps: 'Apps', nav_support: 'Support', nav_privacy: 'Privacy',
                 hero_badge: '日常のためのiOSアプリ',
                 hero_title: '小さなアプリで<br><span>大きな変化</span>を',
                 hero_subtitle: '集中、習慣、運動、収益管理まで。<br>あなたの日常をより良くするシンプルなアプリ。',
-                hero_cta_apps: '<span>アプリを見る</span><span>→</span>',
-                hero_cta_contact: 'お問い合わせ',
-                stat_apps: 'アプリ',
-                stat_rating: '平均評価',
-                stat_users: 'ダウンロード',
-                apps_label: 'Our Apps',
-                apps_title: '目標達成のためのツール',
-                app_onething_name: 'One Thing',
-                app_onething_desc: 'タイマー、タスク、アプリブロック、タイムラプス',
-                app_habit_name: 'Weekly',
-                app_habit_desc: '簡単で強力な習慣づくり',
-                app_bulkup_name: '運動タイマー',
-                app_bulkup_desc: '筋トレ、有酸素、インターバル、カスタム、YouTube',
-                app_admob_name: 'Ad Revenue Tracker',
-                app_admob_desc: 'AdMob + AdSense収益追跡、多通貨対応',
-                features_label: 'Why Pepper Factory',
-                features_title: 'なぜ私たちのアプリを選ぶべきか？',
-                feature_simple_title: 'シンプルなデザイン',
-                feature_simple_desc: '必要な機能だけ。複雑さなしですぐに使えます。',
-                feature_privacy_title: 'プライバシー優先',
-                feature_privacy_desc: 'あなたのデータはあなたのもの。サーバーに保存しません。',
-                feature_sync_title: 'iCloud同期',
-                feature_sync_desc: 'すべてのAppleデバイスでシームレスに使用。',
-                feature_update_title: '定期的なアップデート',
-                feature_update_desc: 'ユーザーフィードバックを反映して継続的に改善。',
-                feature_dark_title: 'ダークモード対応',
-                feature_dark_desc: '目に優しいダークモードでいつでも使用可能。',
-                feature_support_title: '迅速なサポート',
-                feature_support_desc: '問題があればすぐにお手伝い。フィードバックはいつでも歓迎。',
-                cta_title: '今すぐ始めましょう',
-                cta_subtitle: 'App Storeで無料ダウンロード。',
-                footer_support: 'Support',
-                footer_privacy: 'Privacy Policy',
-                footer_terms: 'Terms of Use',
-                footer_rights: 'All rights reserved.'
+                apps_label: 'Our Apps', apps_title: '目標達成のためのツール',
+                app_onething_name: 'One Thing', app_onething_desc: 'タイマー、タスク、アプリブロック、タイムラプス',
+                app_habit_name: 'Weekly', app_habit_desc: '簡単で強力な習慣づくり',
+                app_bulkup_name: '運動タイマー', app_bulkup_desc: '筋トレ、有酸素、インターバル、カスタム、YouTube',
+                app_admob_name: 'Ad Revenue Tracker', app_admob_desc: 'AdMob + AdSense収益追跡、多通貨対応',
+                features_label: 'Why Pepper Factory', features_title: 'なぜ私たちのアプリを選ぶべきか？',
+                feature_simple_title: 'シンプルなデザイン', feature_simple_desc: '必要な機能だけ。複雑さなしですぐに使えます。',
+                feature_privacy_title: 'プライバシー優先', feature_privacy_desc: 'あなたのデータはあなたのもの。サーバーに保存しません。',
+                feature_sync_title: 'iCloud同期', feature_sync_desc: 'すべてのAppleデバイスでシームレスに使用。',
+                feature_update_title: '定期的なアップデート', feature_update_desc: 'ユーザーフィードバックを反映して継続的に改善。',
+                feature_dark_title: 'ダークモード対応', feature_dark_desc: '目に優しいダークモードでいつでも使用可能。',
+                feature_support_title: '迅速なサポート', feature_support_desc: '問題があればすぐにお手伝い。フィードバックはいつでも歓迎。',
+                cta_title: '今すぐ始めましょう', cta_subtitle: 'App Storeで無料ダウンロード。',
+                footer_support: 'Support', footer_privacy: 'Privacy Policy', footer_terms: 'Terms of Use', footer_rights: 'All rights reserved.'
             }
         };
 
-        // Page metadata per language
         const pageMeta = {
-            ko: {
-                title: 'Pepper Factory - 심플하고 유용한 iOS 앱',
-                description: '집중, 습관, 운동, 수익 관리를 위한 심플하고 유용한 iOS 앱'
-            },
-            en: {
-                title: 'Pepper Factory - Simple & Useful iOS Apps',
-                description: 'Simple and useful iOS apps for focus, habits, workouts, and revenue tracking'
-            },
-            ja: {
-                title: 'Pepper Factory - シンプルで便利なiOSアプリ',
-                description: '集中、習慣、運動、収益管理のためのシンプルで便利なiOSアプリ'
-            }
+            ko: { title: 'Pepper Factory - 심플하고 유용한 iOS 앱', description: '집중, 습관, 운동, 수익 관리를 위한 심플하고 유용한 iOS 앱' },
+            en: { title: 'Pepper Factory - Simple & Useful iOS Apps', description: 'Simple and useful iOS apps for focus, habits, workouts, and revenue tracking' },
+            ja: { title: 'Pepper Factory - シンプルで便利なiOSアプリ', description: '集中、習慣、運動、収益管理のためのシンプルで便利なiOSアプリ' }
         };
 
-        // Language Management
         function setLanguage(lang) {
             localStorage.setItem('pf-lang', lang);
             document.documentElement.lang = lang;
-
-            // Update page title & meta description
             if (pageMeta[lang]) {
                 document.title = pageMeta[lang].title;
-                const metaDesc = document.querySelector('meta[name="description"]');
-                if (metaDesc) metaDesc.content = pageMeta[lang].description;
+                const m = document.querySelector('meta[name="description"]');
+                if (m) m.content = pageMeta[lang].description;
             }
-
-            // Update active button
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.lang === lang);
             });
-
-            // Update all translatable elements
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.dataset.i18n;
-                if (translations[lang] && translations[lang][key]) {
-                    el.innerHTML = translations[lang][key];
-                }
+                if (translations[lang] && translations[lang][key]) el.innerHTML = translations[lang][key];
             });
-
-            // Reveal body after language is applied
             document.body.style.opacity = '1';
         }
 
-        // Language switcher event
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
         });
-
-        // Initialize with language detected in <head>
         setLanguage(window.__pfLang || 'ko');
 
+        // Mobile menu
+        const menuBtn = document.querySelector('.mobile-menu-btn');
+        const menu = document.getElementById('mobileMenu');
+        let open = false;
+        menuBtn.addEventListener('click', () => {
+            open = !open;
+            menu.classList.toggle('open', open);
+            menuBtn.textContent = open ? '✕' : '☰';
+        });
+        menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+            open = false; menu.classList.remove('open'); menuBtn.textContent = '☰';
+        }));
+
         // Scroll animations
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        // Observe app cards
-        document.querySelectorAll('.app-card').forEach((card, index) => {
-            card.style.transitionDelay = `${index * 0.1}s`;
-            observer.observe(card);
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+        document.querySelectorAll('.fade-in').forEach((el, i) => {
+            el.style.transitionDelay = `${i * 0.06}s`;
+            obs.observe(el);
         });
 
-        // Observe feature cards
-        document.querySelectorAll('.feature-card').forEach((card, index) => {
-            card.style.transitionDelay = `${index * 0.08}s`;
-            observer.observe(card);
-        });
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+                const t = document.querySelector(a.getAttribute('href'));
+                if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
-        });
-
-        // Nav background on scroll
-        const nav = document.querySelector('nav');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                nav.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.05)';
-            } else {
-                nav.style.boxShadow = 'none';
-            }
         });
     </script>
 </body>
