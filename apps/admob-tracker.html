@@ -175,6 +175,21 @@
             font-weight: 600;
         }
 
+        /* Screenshots */
+        .screenshots { padding: 0 0 60px; }
+        .screenshot-scroll {
+            display: flex; gap: 16px;
+            overflow-x: auto; scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch; padding-bottom: 8px;
+        }
+        .screenshot-scroll::-webkit-scrollbar { display: none; }
+        .screenshot-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+        .screenshot-scroll img {
+            height: 480px; border-radius: var(--radius);
+            scroll-snap-align: center; flex-shrink: 0;
+            border: 1px solid var(--border);
+        }
+
         /* Features */
         .features {
             padding: 0 0 80px;
@@ -329,6 +344,17 @@
                     직관적인 대시보드로 일간, 주간, 월간 수익을 비교하고, 앱별/도메인별 상세 분석과 월간 캘린더 차트로 수익 흐름을 파악하세요.
                     <span class="highlight">다중 통화 지원</span>으로 원하는 통화로 수익을 확인할 수 있습니다.
                 </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots -->
+    <section class="screenshots">
+        <div class="container">
+            <div class="screenshot-scroll">
+                <img data-screenshot="0_APP_IPHONE_65_0.jpg" src="../images/screenshots/admob-tracker/ko/0_APP_IPHONE_65_0.jpg" alt="Ad Revenue Tracker Screenshot 1">
+                <img data-screenshot="1_APP_IPHONE_65_1.jpg" src="../images/screenshots/admob-tracker/ko/1_APP_IPHONE_65_1.jpg" alt="Ad Revenue Tracker Screenshot 2">
+                <img data-screenshot="2_APP_IPHONE_65_2.jpg" src="../images/screenshots/admob-tracker/ko/2_APP_IPHONE_65_2.jpg" alt="Ad Revenue Tracker Screenshot 3">
             </div>
         </div>
     </section>
@@ -519,6 +545,11 @@
                         el.innerHTML = translations[lang][key];
                     }
                 }
+            });
+
+            document.querySelectorAll('[data-screenshot]').forEach(img => {
+                const filename = img.dataset.screenshot;
+                img.src = `../images/screenshots/admob-tracker/${lang}/${filename}`;
             });
 
             document.body.style.opacity = '1';
