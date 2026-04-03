@@ -406,12 +406,12 @@
     <section class="screenshots">
         <div class="container">
             <div class="screenshot-scroll">
-                <img src="../images/screenshots/bulkup/ko/0_screenshot.webp" alt="Workout Timy Screenshot 1">
-                <img src="../images/screenshots/bulkup/ko/1_screenshot.webp" alt="Workout Timy Screenshot 2">
-                <img src="../images/screenshots/bulkup/ko/2_screenshot.webp" alt="Workout Timy Screenshot 3">
-                <img src="../images/screenshots/bulkup/ko/3_screenshot.webp" alt="Workout Timy Screenshot 4">
-                <img src="../images/screenshots/bulkup/ko/4_screenshot.webp" alt="Workout Timy Screenshot 5">
-                <img src="../images/screenshots/bulkup/ko/5_screenshot.webp" alt="Workout Timy Screenshot 6">
+                <img data-screenshot="0_screenshot.webp" src="../images/screenshots/bulkup/ko/0_screenshot.webp" alt="Workout Timy Screenshot 1">
+                <img data-screenshot="1_screenshot.webp" src="../images/screenshots/bulkup/ko/1_screenshot.webp" alt="Workout Timy Screenshot 2">
+                <img data-screenshot="2_screenshot.webp" src="../images/screenshots/bulkup/ko/2_screenshot.webp" alt="Workout Timy Screenshot 3">
+                <img data-screenshot="3_screenshot.webp" src="../images/screenshots/bulkup/ko/3_screenshot.webp" alt="Workout Timy Screenshot 4">
+                <img data-screenshot="4_screenshot.webp" src="../images/screenshots/bulkup/ko/4_screenshot.webp" alt="Workout Timy Screenshot 5">
+                <img data-screenshot="5_screenshot.webp" src="../images/screenshots/bulkup/ko/5_screenshot.webp" alt="Workout Timy Screenshot 6">
             </div>
         </div>
     </section>
@@ -608,6 +608,11 @@
                 if (translations[lang] && translations[lang][key]) {
                     el.innerHTML = translations[lang][key];
                 }
+            });
+
+            document.querySelectorAll('[data-screenshot]').forEach(img => {
+                const filename = img.dataset.screenshot;
+                img.src = `../images/screenshots/bulkup/${lang}/${filename}`;
             });
 
             document.body.style.opacity = '1';

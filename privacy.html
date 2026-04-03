@@ -6,124 +6,76 @@
     <title>Privacy Policy - Pepper Factory</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="images/favicon.png">
     <style>
         :root {
-            --bg-cream: #FFFBF5;
-            --bg-warm: #FFF8F0;
-            --text-dark: #1a1a1a;
-            --text-muted: #666;
+            --bg: #0A0A0A;
+            --bg-card: #141414;
+            --bg-hover: #1A1A1A;
+            --text: #F5F5F5;
+            --text-secondary: #888;
+            --text-tertiary: #555;
+            --border: rgba(255,255,255,0.06);
             --accent: #FF6B4A;
-            --card-bg: rgba(255, 255, 255, 0.8);
-            --border-color: rgba(0, 0, 0, 0.06);
+            --radius: 16px;
+            --max-w: 1080px;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-cream);
-            color: var(--text-dark);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
             line-height: 1.7;
             min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Navigation */
+        /* Nav */
         nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            padding: 16px 24px;
-            background: rgba(255, 251, 245, 0.9);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-color);
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(10,10,10,0.8);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
         }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        .nav-inner {
+            max-width: var(--max-w); margin: 0 auto; padding: 0 24px;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 64px;
         }
-
         .nav-logo {
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--text-dark);
-            text-decoration: none;
+            display: flex; align-items: center; gap: 10px;
+            text-decoration: none; color: var(--text);
+            font-weight: 700; font-size: 1.05rem;
         }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 32px;
-        }
-
+        .nav-logo img { width: 32px; height: 32px; border-radius: 8px; }
+        .nav-right { display: flex; align-items: center; gap: 20px; }
+        .nav-links { display: flex; gap: 24px; }
         .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
+            text-decoration: none; color: var(--text-secondary);
+            font-size: 0.9rem; font-weight: 500;
             transition: color 0.2s;
         }
-
-        .nav-links a:hover {
-            color: var(--text-dark);
-        }
-
+        .nav-links a:hover { color: var(--text); }
         .lang-switcher {
-            display: flex;
-            gap: 8px;
+            display: flex; gap: 2px;
+            background: var(--bg-card); padding: 4px; border-radius: 8px;
         }
-
         .lang-btn {
-            padding: 6px 12px;
-            border: 1px solid var(--border-color);
-            background: transparent;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
+            background: none; border: none; padding: 4px 10px; border-radius: 6px;
+            cursor: pointer; font-weight: 500; font-size: 0.8rem;
+            color: var(--text-tertiary); transition: all 0.2s; font-family: inherit;
         }
-
-        .lang-btn:hover {
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-        .lang-btn.active {
-            background: var(--text-dark);
-            color: white;
-            border-color: var(--text-dark);
-        }
+        .lang-btn.active { background: var(--bg-hover); color: var(--text); }
+        .lang-btn:hover:not(.active) { color: var(--text-secondary); }
 
         /* Main Content */
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 120px 24px 80px;
-        }
-
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.95rem;
-            margin-bottom: 40px;
-            transition: color 0.2s;
-        }
-
-        .back-link:hover {
-            color: var(--text-dark);
         }
 
         .page-header {
@@ -134,49 +86,54 @@
         .page-header h1 {
             font-size: 2.5rem;
             font-weight: 700;
+            color: var(--text);
             margin-bottom: 12px;
         }
 
         .page-header .subtitle {
-            color: var(--text-muted);
+            color: var(--text-secondary);
             font-size: 1.1rem;
         }
 
         .updated {
             text-align: center;
-            color: var(--text-muted);
+            color: var(--text-tertiary);
             font-size: 0.9rem;
             font-style: italic;
             margin-bottom: 50px;
         }
 
         .intro {
-            color: var(--text-muted);
+            color: var(--text-secondary);
             margin-bottom: 40px;
             text-align: center;
         }
 
         /* Sections */
         .section {
-            margin-bottom: 40px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 40px;
+            margin-bottom: 24px;
         }
 
         .section h2 {
             font-size: 1.3rem;
             font-weight: 600;
             margin-bottom: 16px;
-            color: var(--text-dark);
+            color: var(--text);
             padding-bottom: 8px;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border);
         }
 
         .section p {
-            color: var(--text-muted);
+            color: var(--text-secondary);
             margin-bottom: 12px;
         }
 
         .section ul {
-            color: var(--text-muted);
+            color: var(--text-secondary);
             padding-left: 24px;
             margin-bottom: 16px;
         }
@@ -186,12 +143,13 @@
         }
 
         .section strong {
-            color: var(--text-dark);
+            color: var(--text);
         }
 
         /* App Cards */
         .app-card {
-            background: var(--bg-warm);
+            background: var(--bg-hover);
+            border: 1px solid var(--border);
             border-radius: 12px;
             padding: 20px;
             margin: 16px 0;
@@ -201,7 +159,7 @@
             font-size: 1rem;
             font-weight: 600;
             margin-bottom: 12px;
-            color: var(--text-dark);
+            color: var(--text);
         }
 
         .app-card ul {
@@ -219,44 +177,59 @@
         }
 
         /* Footer */
-        footer {
-            text-align: center;
-            padding: 40px 24px;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            border-top: 1px solid var(--border-color);
+        footer { padding: 48px 0 32px; border-top: 1px solid var(--border); }
+        .footer-container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+        .footer-inner {
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 16px;
         }
-
-        footer a {
-            color: var(--text-muted);
-            text-decoration: none;
-            margin: 0 12px;
+        .footer-logo {
+            display: flex; align-items: center; gap: 8px;
+            font-weight: 600; font-size: 0.95rem;
         }
-
-        footer a:hover {
-            color: var(--text-dark);
+        .footer-logo img { width: 28px; height: 28px; border-radius: 7px; }
+        .footer-links { display: flex; gap: 24px; }
+        .footer-links a {
+            color: var(--text-secondary); text-decoration: none;
+            font-size: 0.85rem; transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--text); }
+        .footer-copy {
+            width: 100%; text-align: center; padding-top: 32px; margin-top: 32px;
+            border-top: 1px solid var(--border);
+            color: var(--text-tertiary); font-size: 0.8rem;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .nav-links a:not(.lang-switcher *) {
-                display: none;
-            }
+            .nav-links { display: none; }
 
             .page-header h1 {
                 font-size: 2rem;
             }
+
+            .section {
+                padding: 28px;
+            }
+
+            .footer-inner { flex-direction: column; text-align: center; }
+            .footer-links { flex-wrap: wrap; justify-content: center; }
         }
     </style>
 </head>
 <body>
     <nav>
-        <div class="nav-container">
-            <a href="index.html" class="nav-logo">Pepper Factory</a>
-            <div class="nav-links">
-                <a href="index.html" data-i18n="nav_apps">Apps</a>
-                <a href="support.html" data-i18n="nav_support">Support</a>
-                <a href="privacy.html" data-i18n="nav_privacy">Privacy</a>
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">
+                <img src="images/logo.jpg" alt="Pepper Factory">
+                Pepper Factory
+            </a>
+            <div class="nav-right">
+                <div class="nav-links">
+                    <a href="index.html" data-i18n="nav_apps">Apps</a>
+                    <a href="support.html" data-i18n="nav_support">Support</a>
+                    <a href="privacy.html" data-i18n="nav_privacy">Privacy</a>
+                </div>
                 <div class="lang-switcher">
                     <button class="lang-btn" data-lang="ko">KO</button>
                     <button class="lang-btn" data-lang="en">EN</button>
@@ -267,8 +240,6 @@
     </nav>
 
     <div class="container">
-        <a href="index.html" class="back-link" data-i18n="back_to_home">&larr; Back to Home</a>
-
         <div class="page-header">
             <h1 data-i18n="page_title">Privacy Policy</h1>
             <p class="subtitle" data-i18n="page_subtitle">Pepper Factory Apps</p>
@@ -387,11 +358,22 @@
     </div>
 
     <footer>
-        <a href="support.html" data-i18n="footer_support">Support</a>
-        <span>|</span>
-        <a href="terms.html" data-i18n="footer_terms">Terms of Use</a>
-        <span>|</span>
-        <span>&copy; 2024 Pepper Factory</span>
+        <div class="footer-container">
+            <div class="footer-inner">
+                <div class="footer-logo">
+                    <img src="images/logo.jpg" alt="Pepper Factory">
+                    Pepper Factory
+                </div>
+                <div class="footer-links">
+                    <a href="support.html" data-i18n="footer_support">Support</a>
+                    <a href="privacy.html" data-i18n="footer_privacy">Privacy Policy</a>
+                    <a href="terms.html" data-i18n="footer_terms">Terms of Use</a>
+                </div>
+            </div>
+            <div class="footer-copy">
+                &copy; 2025 Pepper Factory. All rights reserved.
+            </div>
+        </div>
     </footer>
 
     <script>
@@ -400,7 +382,6 @@
                 nav_apps: 'Apps',
                 nav_support: 'Support',
                 nav_privacy: 'Privacy',
-                back_to_home: '&larr; 홈으로',
                 page_title: '개인정보 처리방침',
                 page_subtitle: 'Pepper Factory 앱',
                 last_updated: '최종 업데이트: 2024년 12월 28일',
@@ -463,13 +444,13 @@
                 section_8_title: '8. 문의하기',
                 section_8_text: '이 개인정보 처리방침에 대해 질문이 있으시면 아래로 연락해 주세요:',
                 footer_support: 'Support',
-                footer_terms: '이용약관'
+                footer_privacy: 'Privacy Policy',
+                footer_terms: 'Terms of Use'
             },
             en: {
                 nav_apps: 'Apps',
                 nav_support: 'Support',
                 nav_privacy: 'Privacy',
-                back_to_home: '&larr; Back to Home',
                 page_title: 'Privacy Policy',
                 page_subtitle: 'Pepper Factory Apps',
                 last_updated: 'Last updated: December 28, 2024',
@@ -532,13 +513,13 @@
                 section_8_title: '8. Contact Us',
                 section_8_text: 'If you have any questions about this Privacy Policy, please contact us at:',
                 footer_support: 'Support',
+                footer_privacy: 'Privacy Policy',
                 footer_terms: 'Terms of Use'
             },
             ja: {
                 nav_apps: 'Apps',
                 nav_support: 'Support',
                 nav_privacy: 'Privacy',
-                back_to_home: '&larr; ホームに戻る',
                 page_title: 'プライバシーポリシー',
                 page_subtitle: 'Pepper Factory アプリ',
                 last_updated: '最終更新日: 2024年12月28日',
@@ -601,7 +582,8 @@
                 section_8_title: '8. お問い合わせ',
                 section_8_text: 'このプライバシーポリシーについてご質問がございましたら、以下までご連絡ください：',
                 footer_support: 'Support',
-                footer_terms: '利用規約'
+                footer_privacy: 'Privacy Policy',
+                footer_terms: 'Terms of Use'
             }
         };
 
