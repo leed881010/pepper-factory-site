@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        (function() {
+            var supported = ['ko', 'en', 'ja'];
+            var lang = null;
+            var match = location.search.match(/[?&]lang=([^&]+)/);
+            if (match && supported.indexOf(match[1]) !== -1) {
+                lang = match[1];
+                localStorage.setItem('pf-lang', lang);
+                history.replaceState({}, '', location.pathname);
+            }
+            if (!lang) { var saved = localStorage.getItem('pf-lang'); if (saved && supported.indexOf(saved) !== -1) lang = saved; }
+            if (!lang) { var bl = (navigator.language || '').slice(0, 2); lang = supported.indexOf(bl) !== -1 ? bl : 'ko'; localStorage.setItem('pf-lang', lang); }
+            document.documentElement.lang = lang;
+            window.__pfLang = lang;
+        })();
+    </script>
+    <title>뽁뽁이 - Pepper Factory</title>
+    <meta name="description" content="손가락 하나로 즐기는 무한 뽁뽁이. 스트레스 해소와 힐링을 위한 가장 단순한 앱.">
+    <meta name="keywords" content="뽁뽁이, bubble wrap, プチプチ, stress relief, iOS app, 힐링">
+
+    <link rel="canonical" href="https://pepper-factory.com/apps/ppokppok.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pepper-factory.com/apps/ppokppok.html">
+    <meta property="og:title" content="뽁뽁이 - Pepper Factory">
+    <meta property="og:description" content="손가락 하나로 즐기는 무한 뽁뽁이. 스트레스 해소와 힐링.">
+    <meta property="og:image" content="https://pepper-factory.com/images/ppokppok-icon.jpg">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="뽁뽁이 - Pepper Factory">
+    <meta name="twitter:description" content="손가락 하나로 즐기는 무한 뽁뽁이.">
+    <meta name="twitter:image" content="https://pepper-factory.com/images/ppokppok-icon.jpg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../images/favicon.png">
+
+    <style>
+        :root {
+            --bg: #0A0A0A;
+            --bg-card: #141414;
+            --bg-hover: #1A1A1A;
+            --text: #F5F5F5;
+            --text-secondary: #888;
+            --text-tertiary: #555;
+            --border: rgba(255,255,255,0.06);
+            --accent: #4FA3E0;
+            --radius: 16px;
+            --max-w: 1080px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            opacity: 0;
+            transition: opacity 0.2s;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(10,10,10,0.8);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
+            max-width: var(--max-w); margin: 0 auto; padding: 0 24px;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 64px;
+        }
+        .nav-logo {
+            display: flex; align-items: center; gap: 10px;
+            text-decoration: none; color: var(--text);
+            font-weight: 700; font-size: 1.05rem;
+        }
+        .nav-logo img { width: 32px; height: 32px; border-radius: 8px; }
+        .nav-right { display: flex; align-items: center; gap: 20px; }
+        .nav-links { display: flex; gap: 24px; }
+        .nav-links a {
+            text-decoration: none; color: var(--text-secondary);
+            font-size: 0.9rem; font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--text); }
+        .lang-switcher {
+            display: flex; gap: 2px;
+            background: var(--bg-card); padding: 4px; border-radius: 8px;
+        }
+        .lang-btn {
+            background: none; border: none; padding: 4px 10px; border-radius: 6px;
+            cursor: pointer; font-weight: 500; font-size: 0.8rem;
+            color: var(--text-tertiary); transition: all 0.2s; font-family: inherit;
+        }
+        .lang-btn.active { background: var(--bg-hover); color: var(--text); }
+        .lang-btn:hover:not(.active) { color: var(--text-secondary); }
+
+        .mobile-menu-btn {
+            display: none; background: none; border: none; cursor: pointer;
+            color: var(--text); font-size: 1.4rem;
+            min-width: 44px; min-height: 44px;
+            align-items: center; justify-content: center;
+        }
+        .mobile-menu {
+            display: none; position: fixed; top: 64px; left: 0; right: 0;
+            background: rgba(10,10,10,0.95); backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 8px 24px 20px; z-index: 99;
+            transform: translateY(-10px); opacity: 0;
+            transition: transform 0.3s, opacity 0.3s; pointer-events: none;
+        }
+        .mobile-menu.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+        .mobile-menu a {
+            display: block; padding: 14px 0; text-decoration: none;
+            color: var(--text); font-weight: 500; font-size: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .mobile-menu a:last-child { border-bottom: none; }
+
+        .hero { padding: 140px 0 60px; text-align: center; }
+        .hero-icon {
+            width: 96px; height: 96px; border-radius: 22px;
+            margin: 0 auto 24px;
+            box-shadow: 0 20px 60px rgba(79,163,224,0.25);
+        }
+        .hero-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700; letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+        .hero-tagline {
+            font-size: 1.1rem; color: var(--text-secondary);
+            max-width: 480px; margin: 0 auto 32px;
+        }
+        .hero-status {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(79,163,224,0.12);
+            border: 1px solid rgba(79,163,224,0.3);
+            border-radius: 999px;
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .description { padding: 0 0 80px; }
+        .description-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 36px;
+        }
+        .description-text {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+        .description-text .highlight {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .features { padding: 0 0 80px; }
+        .features-title {
+            text-align: center;
+            font-size: clamp(1.4rem, 3vw, 1.8rem);
+            font-weight: 700;
+            margin-bottom: 40px;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+            transition: background 0.2s;
+        }
+        .feature-card:hover { background: var(--bg-hover); }
+        .feature-icon {
+            width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(79,163,224,0.12);
+            border-radius: 10px;
+            margin-bottom: 16px;
+        }
+        .feature-icon svg {
+            width: 22px; height: 22px;
+            stroke: var(--accent); fill: none;
+            stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+        }
+        .feature-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
+        .feature-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; }
+
+        .cta {
+            padding: 80px 0;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+        .cta-title {
+            font-size: clamp(1.5rem, 3.5vw, 2rem);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .cta-subtitle {
+            font-size: 1rem; color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+        .cta-mail {
+            display: inline-block;
+            padding: 14px 28px;
+            background: var(--accent);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: opacity 0.2s;
+        }
+        .cta-mail:hover { opacity: 0.85; }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 40px 0;
+        }
+        .footer-inner {
+            max-width: var(--max-w); margin: 0 auto; padding: 0 24px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .footer-left { display: flex; align-items: center; gap: 10px; }
+        .footer-left img { width: 24px; height: 24px; border-radius: 6px; }
+        .footer-left span { font-size: 0.85rem; color: var(--text-tertiary); }
+        .footer-links { display: flex; gap: 20px; }
+        .footer-links a {
+            font-size: 0.85rem; color: var(--text-tertiary);
+            text-decoration: none; transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--text-secondary); }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: flex; }
+            .mobile-menu { display: block; }
+            .features-grid { grid-template-columns: 1fr; }
+            .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+            .footer-links { flex-wrap: wrap; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-inner">
+            <a href="../" class="nav-logo">
+                <img src="../images/logo.jpg" alt="Pepper Factory">
+                <span>Pepper Factory</span>
+            </a>
+            <div class="nav-right">
+                <div class="nav-links">
+                    <a href="../" data-i18n="nav_apps">Apps</a>
+                    <a href="mailto:leedi@pepper-factory.com" data-i18n="nav_support">Support</a>
+                    <a href="../privacy" data-i18n="nav_privacy">Privacy</a>
+                </div>
+                <div class="lang-switcher">
+                    <button class="lang-btn" data-lang="ko">KO</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="ja">JA</button>
+                </div>
+                <button class="mobile-menu-btn" aria-label="Menu">&#9776;</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="mobile-menu">
+        <a href="../" data-i18n="nav_apps">Apps</a>
+        <a href="mailto:leedi@pepper-factory.com" data-i18n="nav_support">Support</a>
+        <a href="../privacy" data-i18n="nav_privacy">Privacy</a>
+    </div>
+
+    <section class="hero">
+        <div class="container">
+            <img src="../images/ppokppok-icon.jpg" alt="뽁뽁이" class="hero-icon">
+            <h1 class="hero-title" data-i18n="hero_title">뽁뽁이</h1>
+            <p class="hero-tagline" data-i18n="hero_tagline">손가락 하나로 즐기는 무한 뽁뽁이. 스트레스 해소와 힐링.</p>
+            <span class="hero-status" data-i18n="hero_status">출시 예정</span>
+        </div>
+    </section>
+
+    <section class="description">
+        <div class="container">
+            <div class="description-card">
+                <p class="description-text" data-i18n="description">
+                    심심할 때, 답답할 때, 잠들기 전에. <span class="highlight">뽁뽁이</span>는 손가락 하나로 즐기는 가장 단순한 힐링 앱입니다.
+                    터치할 때마다 들리는 <span class="highlight">진짜 같은 사운드</span>와 <span class="highlight">햅틱 피드백</span>으로
+                    실제로 뽁뽁이를 터뜨리는 듯한 만족감을 느껴보세요.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2 class="features-title" data-i18n="features_title">주요 기능</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg>
+                    </div>
+                    <h3 data-i18n="feature_1_title">무한 뽁뽁이</h3>
+                    <p data-i18n="feature_1_desc">끝없이 이어지는 뽁뽁이 시트로 마음껏 터뜨리세요</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
+                    </div>
+                    <h3 data-i18n="feature_2_title">진짜 같은 사운드</h3>
+                    <p data-i18n="feature_2_desc">실제 뽁뽁이를 터뜨리는 듯한 생생한 효과음</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </div>
+                    <h3 data-i18n="feature_3_title">햅틱 피드백</h3>
+                    <p data-i18n="feature_3_desc">손끝으로 느끼는 만족스러운 진동</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                    </div>
+                    <h3 data-i18n="feature_4_title">스트레스 해소</h3>
+                    <p data-i18n="feature_4_desc">언제 어디서나 즉각적인 힐링과 집중력 회복</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2 class="cta-title" data-i18n="cta_title">곧 만나요</h2>
+            <p class="cta-subtitle" data-i18n="cta_subtitle">출시 소식을 가장 먼저 받고 싶다면 알려주세요</p>
+            <a href="mailto:leedi@pepper-factory.com" class="cta-mail" data-i18n="cta_button">문의하기</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-left">
+                <img src="../images/logo.jpg" alt="Pepper Factory">
+                <span>&copy; 2025 Pepper Factory</span>
+            </div>
+            <div class="footer-links">
+                <a href="../" data-i18n="nav_apps">Apps</a>
+                <a href="../privacy" data-i18n="nav_privacy">Privacy</a>
+                <a href="../terms" data-i18n="footer_terms">Terms</a>
+                <a href="mailto:leedi@pepper-factory.com" data-i18n="nav_support">Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const translations = {
+            ko: {
+                nav_apps: "Apps",
+                nav_support: "Support",
+                nav_privacy: "Privacy",
+                hero_title: "뽁뽁이",
+                hero_tagline: "손가락 하나로 즐기는 무한 뽁뽁이. 스트레스 해소와 힐링.",
+                hero_status: "출시 예정",
+                description: "심심할 때, 답답할 때, 잠들기 전에. <span class=\"highlight\">뽁뽁이</span>는 손가락 하나로 즐기는 가장 단순한 힐링 앱입니다. 터치할 때마다 들리는 <span class=\"highlight\">진짜 같은 사운드</span>와 <span class=\"highlight\">햅틱 피드백</span>으로 실제로 뽁뽁이를 터뜨리는 듯한 만족감을 느껴보세요.",
+                features_title: "주요 기능",
+                feature_1_title: "무한 뽁뽁이",
+                feature_1_desc: "끝없이 이어지는 뽁뽁이 시트로 마음껏 터뜨리세요",
+                feature_2_title: "진짜 같은 사운드",
+                feature_2_desc: "실제 뽁뽁이를 터뜨리는 듯한 생생한 효과음",
+                feature_3_title: "햅틱 피드백",
+                feature_3_desc: "손끝으로 느끼는 만족스러운 진동",
+                feature_4_title: "스트레스 해소",
+                feature_4_desc: "언제 어디서나 즉각적인 힐링과 집중력 회복",
+                cta_title: "곧 만나요",
+                cta_subtitle: "출시 소식을 가장 먼저 받고 싶다면 알려주세요",
+                cta_button: "문의하기",
+                footer_terms: "이용약관"
+            },
+            en: {
+                nav_apps: "Apps",
+                nav_support: "Support",
+                nav_privacy: "Privacy",
+                hero_title: "Bubble Wrap",
+                hero_tagline: "Endless bubble wrap at your fingertip. Stress relief and healing.",
+                hero_status: "Coming Soon",
+                description: "Whenever you're bored, stressed, or winding down. <span class=\"highlight\">Bubble Wrap</span> is the simplest healing app you can enjoy with one finger. Feel the satisfaction of real bubble wrap with <span class=\"highlight\">realistic sounds</span> and <span class=\"highlight\">haptic feedback</span> on every tap.",
+                features_title: "Features",
+                feature_1_title: "Infinite Bubbles",
+                feature_1_desc: "Pop endless sheets of bubble wrap to your heart's content",
+                feature_2_title: "Realistic Sound",
+                feature_2_desc: "Vivid pop sounds that feel just like the real thing",
+                feature_3_title: "Haptic Feedback",
+                feature_3_desc: "Satisfying vibrations you can feel at your fingertip",
+                feature_4_title: "Stress Relief",
+                feature_4_desc: "Instant healing and focus reset, anytime, anywhere",
+                cta_title: "See You Soon",
+                cta_subtitle: "Want to be the first to hear about launch? Let us know",
+                cta_button: "Contact Us",
+                footer_terms: "Terms of Use"
+            },
+            ja: {
+                nav_apps: "Apps",
+                nav_support: "Support",
+                nav_privacy: "Privacy",
+                hero_title: "プチプチ",
+                hero_tagline: "指先ひとつで楽しむ無限プチプチ。ストレス解消と癒し。",
+                hero_status: "近日公開",
+                description: "退屈なとき、イライラしたとき、寝る前に。<span class=\"highlight\">プチプチ</span>は指先ひとつで楽しめる、いちばんシンプルな癒しアプリです。タップするたびに聞こえる<span class=\"highlight\">本物そっくりのサウンド</span>と<span class=\"highlight\">ハプティックフィードバック</span>で、実際にプチプチを潰しているような満足感を体感してください。",
+                features_title: "主な機能",
+                feature_1_title: "無限プチプチ",
+                feature_1_desc: "終わりのないプチプチシートで思う存分プチプチ",
+                feature_2_title: "リアルなサウンド",
+                feature_2_desc: "本物のプチプチを潰すような生き生きとした効果音",
+                feature_3_title: "ハプティックフィードバック",
+                feature_3_desc: "指先で感じる満足感のある振動",
+                feature_4_title: "ストレス解消",
+                feature_4_desc: "いつでもどこでも即時の癒しと集中力リセット",
+                cta_title: "もうすぐ会えます",
+                cta_subtitle: "リリースのお知らせをいち早く受け取りたい方はご連絡ください",
+                cta_button: "お問い合わせ",
+                footer_terms: "利用規約"
+            }
+        };
+
+        function setLanguage(lang) {
+            localStorage.setItem('pf-lang', lang);
+            document.documentElement.lang = lang;
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (translations[lang][key]) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        el.placeholder = translations[lang][key];
+                    } else {
+                        el.innerHTML = translations[lang][key];
+                    }
+                }
+            });
+
+            document.body.style.opacity = '1';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setLanguage(window.__pfLang || 'ko');
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+            });
+
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            if (menuBtn && mobileMenu) {
+                menuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('open');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
