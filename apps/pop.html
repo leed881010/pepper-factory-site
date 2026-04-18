@@ -173,6 +173,31 @@
             font-weight: 600;
         }
 
+        .screenshots { padding: 0 0 80px; }
+        .screenshots-title {
+            text-align: center;
+            font-size: clamp(1.4rem, 3vw, 1.8rem);
+            font-weight: 700;
+            margin-bottom: 40px;
+        }
+        .screenshots-scroll {
+            display: flex; gap: 16px;
+            overflow-x: auto; padding-bottom: 8px;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .screenshots-scroll::-webkit-scrollbar { display: none; }
+        .screenshots-scroll img {
+            height: 560px; width: auto; flex-shrink: 0;
+            border-radius: 20px;
+            scroll-snap-align: start;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+        }
+        @media (max-width: 768px) {
+            .screenshots-scroll img { height: 420px; }
+        }
+
         .features { padding: 0 0 80px; }
         .features-title {
             text-align: center;
@@ -333,6 +358,18 @@
         </div>
     </section>
 
+    <section class="screenshots">
+        <div class="container">
+            <h2 class="screenshots-title" data-i18n="screenshots_title">스크린샷</h2>
+            <div class="screenshots-scroll" id="screenshotsScroll">
+                <img src="../images/pop/kr_1.jpg" alt="screenshot 1">
+                <img src="../images/pop/kr_2.jpg" alt="screenshot 2">
+                <img src="../images/pop/kr_3.jpg" alt="screenshot 3">
+                <img src="../images/pop/kr_4.jpg" alt="screenshot 4">
+            </div>
+        </div>
+    </section>
+
     <section class="features">
         <div class="container">
             <h2 class="features-title" data-i18n="features_title">주요 기능</h2>
@@ -407,6 +444,7 @@
                 hero_title: "뽁",
                 hero_tagline: "손가락 하나로 즐기는 무한 뽁뽁이. 스트레스 해소와 힐링.",
                 appstore_label: "다운로드",
+                screenshots_title: "스크린샷",
                 description: "심심할 때, 답답할 때, 잠들기 전에. <span class=\"highlight\">뽁</span>은 손가락 하나로 즐기는 가장 단순한 힐링 앱입니다. 터치할 때마다 들리는 <span class=\"highlight\">진짜 같은 사운드</span>와 <span class=\"highlight\">햅틱 피드백</span>으로 실제로 뽁뽁이를 터뜨리는 듯한 만족감을 느껴보세요.",
                 features_title: "주요 기능",
                 feature_1_title: "무한 뽁뽁이",
@@ -429,6 +467,7 @@
                 hero_title: "Pop",
                 hero_tagline: "Endless popping at your fingertip. Stress relief and healing.",
                 appstore_label: "Download on the",
+                screenshots_title: "Screenshots",
                 description: "Whenever you're bored, stressed, or winding down. <span class=\"highlight\">Pop</span> is the simplest healing app you can enjoy with one finger. Feel the satisfaction of popping real bubble wrap with <span class=\"highlight\">realistic sounds</span> and <span class=\"highlight\">haptic feedback</span> on every tap.",
                 features_title: "Features",
                 feature_1_title: "Infinite Bubbles",
@@ -451,6 +490,7 @@
                 hero_title: "プチプチ",
                 hero_tagline: "指先ひとつで楽しむ無限プチプチ。ストレス解消と癒し。",
                 appstore_label: "ダウンロード",
+                screenshots_title: "スクリーンショット",
                 description: "退屈なとき、イライラしたとき、寝る前に。<span class=\"highlight\">プチプチ</span>は指先ひとつで楽しめる、いちばんシンプルな癒しアプリです。タップするたびに聞こえる<span class=\"highlight\">本物そっくりのサウンド</span>と<span class=\"highlight\">ハプティックフィードバック</span>で、実際にプチプチを潰しているような満足感を体感してください。",
                 features_title: "主な機能",
                 feature_1_title: "無限プチプチ",
@@ -486,6 +526,16 @@
                     }
                 }
             });
+
+            const prefixMap = { ko: 'kr', en: 'en', ja: 'jp' };
+            const prefix = prefixMap[lang] || 'kr';
+            const scroll = document.getElementById('screenshotsScroll');
+            if (scroll) {
+                scroll.querySelectorAll('img').forEach((img, i) => {
+                    img.src = `../images/pop/${prefix}_${i + 1}.jpg`;
+                });
+                scroll.scrollLeft = 0;
+            }
 
             document.body.style.opacity = '1';
         }
