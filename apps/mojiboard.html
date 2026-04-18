@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        (function() {
+            var supported = ['ko', 'en', 'ja'];
+            var lang = null;
+            var match = location.search.match(/[?&]lang=([^&]+)/);
+            if (match && supported.indexOf(match[1]) !== -1) {
+                lang = match[1];
+                localStorage.setItem('pf-lang', lang);
+                history.replaceState({}, '', location.pathname);
+            }
+            if (!lang) { var saved = localStorage.getItem('pf-lang'); if (saved && supported.indexOf(saved) !== -1) lang = saved; }
+            if (!lang) { var bl = (navigator.language || '').slice(0, 2); lang = supported.indexOf(bl) !== -1 ? bl : 'ko'; localStorage.setItem('pf-lang', lang); }
+            document.documentElement.lang = lang;
+            window.__pfLang = lang;
+        })();
+    </script>
+    <title>MojiBoard - Pepper Factory</title>
+    <meta name="description" content="8,000개+ 카오모지 & 텍스트 이모티콘. 카테고리 탐색, 다국어 검색, 탭 한 번으로 복사.">
+    <meta name="keywords" content="MojiBoard, 카오모지, 顔文字, kaomoji, text emoji, 텍스트 이모티콘, iOS app">
+
+    <link rel="canonical" href="https://pepper-factory.com/apps/mojiboard.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pepper-factory.com/apps/mojiboard.html">
+    <meta property="og:title" content="MojiBoard - Pepper Factory">
+    <meta property="og:description" content="8,000개+ 카오모지 & 텍스트 이모티콘. 탭 한 번으로 복사.">
+    <meta property="og:image" content="https://pepper-factory.com/images/mojiboard-icon.png">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="MojiBoard - Pepper Factory">
+    <meta name="twitter:description" content="8,000개+ 카오모지 & 텍스트 이모티콘.">
+    <meta name="twitter:image" content="https://pepper-factory.com/images/mojiboard-icon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../images/favicon.png">
+
+    <style>
+        :root {
+            --bg: #0A0A0A;
+            --bg-card: #141414;
+            --bg-hover: #1A1A1A;
+            --text: #F5F5F5;
+            --text-secondary: #888;
+            --text-tertiary: #555;
+            --border: rgba(255,255,255,0.06);
+            --accent: #C97AE0;
+            --radius: 16px;
+            --max-w: 1080px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            opacity: 0;
+            transition: opacity 0.2s;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(10,10,10,0.8);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
+            max-width: var(--max-w); margin: 0 auto; padding: 0 24px;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 64px;
+        }
+        .nav-logo {
+            display: flex; align-items: center; gap: 10px;
+            text-decoration: none; color: var(--text);
+            font-weight: 700; font-size: 1.05rem;
+        }
+        .nav-logo img { width: 32px; height: 32px; border-radius: 8px; }
+        .nav-right { display: flex; align-items: center; gap: 20px; }
+        .nav-links { display: flex; gap: 24px; }
+        .nav-links a {
+            text-decoration: none; color: var(--text-secondary);
+            font-size: 0.9rem; font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--text); }
+        .lang-switcher {
+            display: flex; gap: 2px;
+            background: var(--bg-card); padding: 4px; border-radius: 8px;
+        }
+        .lang-btn {
+            background: none; border: none; padding: 4px 10px; border-radius: 6px;
+            cursor: pointer; font-weight: 500; font-size: 0.8rem;
+            color: var(--text-tertiary); transition: all 0.2s; font-family: inherit;
+        }
+        .lang-btn.active { background: var(--bg-hover); color: var(--text); }
+        .lang-btn:hover:not(.active) { color: var(--text-secondary); }
+
+        .mobile-menu-btn {
+            display: none; background: none; border: none; cursor: pointer;
+            color: var(--text); font-size: 1.4rem;
+            min-width: 44px; min-height: 44px;
+            align-items: center; justify-content: center;
+        }
+        .mobile-menu {
+            display: none; position: fixed; top: 64px; left: 0; right: 0;
+            background: rgba(10,10,10,0.95); backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 8px 24px 20px; z-index: 99;
+            transform: translateY(-10px); opacity: 0;
+            transition: transform 0.3s, opacity 0.3s; pointer-events: none;
+        }
+        .mobile-menu.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+        .mobile-menu a {
+            display: block; padding: 14px 0; text-decoration: none;
+            color: var(--text); font-weight: 500; font-size: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .mobile-menu a:last-child { border-bottom: none; }
+
+        .hero { padding: 140px 0 60px; text-align: center; }
+        .hero-icon {
+            width: 96px; height: 96px; border-radius: 22px;
+            margin: 0 auto 24px;
+            box-shadow: 0 20px 60px rgba(201,122,224,0.25);
+        }
+        .hero-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700; letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+        .hero-tagline {
+            font-size: 1.1rem; color: var(--text-secondary);
+            max-width: 480px; margin: 0 auto 32px;
+        }
+        .hero-status {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(201,122,224,0.12);
+            border: 1px solid rgba(201,122,224,0.3);
+            border-radius: 999px;
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .description { padding: 0 0 80px; }
+        .description-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 36px;
+        }
+        .description-text {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+        .description-text .highlight {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .features { padding: 0 0 80px; }
+        .features-title {
+            text-align: center;
+            font-size: clamp(1.4rem, 3vw, 1.8rem);
+            font-weight: 700;
+            margin-bottom: 40px;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+            transition: background 0.2s;
+        }
+        .feature-card:hover { background: var(--bg-hover); }
+        .feature-icon {
+            width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(201,122,224,0.12);
+            border-radius: 10px;
+            margin-bottom: 16px;
+        }
+        .feature-icon svg {
+            width: 22px; height: 22px;
+            stroke: var(--accent); fill: none;
+            stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+        }
+        .feature-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
+        .feature-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; }
+
+        .cta {
+            padding: 80px 0;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+        .cta-title {
+            font-size: clamp(1.5rem, 3.5vw, 2rem);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .cta-subtitle {
+            font-size: 1rem; color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+
+        .appstore-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: #fff; color: #000;
+            text-decoration: none; border-radius: 14px;
+            padding: 12px 22px; font-weight: 600; font-size: 0.95rem;
+            transition: opacity 0.2s; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .appstore-btn:hover { opacity: 0.85; }
+        .appstore-btn svg { width: 22px; height: 22px; flex-shrink: 0; }
+        .appstore-btn-text { display: flex; flex-direction: column; text-align: left; }
+        .appstore-btn-text small { font-size: 0.7rem; font-weight: 400; color: #555; line-height: 1; }
+        .appstore-btn-text span { font-size: 1rem; font-weight: 700; line-height: 1.3; }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 40px 0;
+        }
+        .footer-inner {
+            max-width: var(--max-w); margin: 0 auto; padding: 0 24px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .footer-left { display: flex; align-items: center; gap: 10px; }
+        .footer-left img { width: 24px; height: 24px; border-radius: 6px; }
+        .footer-left span { font-size: 0.85rem; color: var(--text-tertiary); }
+        .footer-links { display: flex; gap: 20px; }
+        .footer-links a {
+            font-size: 0.85rem; color: var(--text-tertiary);
+            text-decoration: none; transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--text-secondary); }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: flex; }
+            .mobile-menu { display: block; }
+            .features-grid { grid-template-columns: 1fr; }
+            .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+            .footer-links { flex-wrap: wrap; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-inner">
+            <a href="../" class="nav-logo">
+                <img src="../images/logo.jpg" alt="Pepper Factory">
+                <span>Pepper Factory</span>
+            </a>
+            <div class="nav-right">
+                <div class="nav-links">
+                    <a href="../" data-i18n="nav_apps">Apps</a>
+                    <a href="mailto:leedi@pepper-factory.com" data-i18n="nav_support">Support</a>
+                    <a href="../privacy" data-i18n="nav_privacy">Privacy</a>
+                </div>
+                <div class="lang-switcher">
+                    <button class="lang-btn" data-lang="ko">KO</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="ja">JA</button>
+                </div>
+                <button class="mobile-menu-btn" aria-label="Menu">&#9776;</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="mobile-menu">
+        <a href="../" data-i18n="nav_apps">Apps</a>
+        <a href="mailto:leedi@pepper-factory.com" data-i18n="nav_support">Support</a>
+        <a href="../privacy" data-i18n="nav_privacy">Privacy</a>
+    </div>
+
+    <section class="hero">
+        <div class="container">
+            <img src="../images/mojiboard-icon.png" alt="MojiBoard" class="hero-icon">
+            <h1 class="hero-title">MojiBoard</h1>
+            <p class="hero-tagline" data-i18n="hero_tagline">카오모지 & 텍스트 이모티콘 키보드</p>
+            <span class="hero-status" data-i18n="hero_status">출시 예정</span>
+        </div>
+    </section>
+
+    <section class="description">
+        <div class="container">
+            <div class="description-card">
+                <p class="description-text" data-i18n="description">
+                    카카오톡, 인스타그램, 어디서든. <span class="highlight">MojiBoard</span>는 8,000개 이상의 카오모지와 텍스트 이모티콘을 손끝에서 바로 꺼내 쓸 수 있는 앱입니다.
+                    44개 카테고리 탐색과 <span class="highlight">한/영/일 통합 검색</span>으로 원하는 이모티콘을 즉시 찾고, <span class="highlight">탭 한 번</span>으로 클립보드에 복사하세요.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2 class="features-title" data-i18n="features_title">주요 기능</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/></svg>
+                    </div>
+                    <h3 data-i18n="feature_1_title">8,000개+ 이모티콘</h3>
+                    <p data-i18n="feature_1_desc">카오모지부터 텍스트 아트까지, 방대한 컬렉션</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    </div>
+                    <h3 data-i18n="feature_2_title">다국어 통합 검색</h3>
+                    <p data-i18n="feature_2_desc">한국어, 영어, 일본어로 원하는 이모티콘 즉시 검색</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    </div>
+                    <h3 data-i18n="feature_3_title">탭 한 번으로 복사</h3>
+                    <p data-i18n="feature_3_desc">탭하는 순간 클립보드에 복사, 바로 붙여넣기</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                    </div>
+                    <h3 data-i18n="feature_4_title">즐겨찾기 & 최근 기록</h3>
+                    <p data-i18n="feature_4_desc">자주 쓰는 이모티콘 저장, 최근 복사 30개 보관</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2 class="cta-title" data-i18n="cta_title">곧 만나요</h2>
+            <p class="cta-subtitle" data-i18n="cta_subtitle">출시 소식을 가장 먼저 받고 싶다면 알려주세요</p>
+            <a href="mailto:leedi@pepper-factory.com" class="appstore-btn" style="background: var(--accent); color: #fff; box-shadow: 0 4px 20px rgba(201,122,224,0.3);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <div class="appstore-btn-text">
+                    <span data-i18n="cta_button">문의하기</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-left">
+                <img src="../images/logo.jpg" alt="Pepper Factory">
+                <span>&copy; 2025 Pepper Factory</span>
+            </div>
+            <div class="footer-links">
+                <a href="../" data-i18n="nav_apps">Apps</a>
+                <a href="../privacy" data-i18n="nav_privacy">Privacy</a>
+                <a href="../terms" data-i18n="footer_terms">Terms</a>
+                <a href="mailto:leedi@pepper-factory.com" data-i18n="nav_support">Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const translations = {
+            ko: {
+                nav_apps: "Apps",
+                nav_support: "Support",
+                nav_privacy: "Privacy",
+                hero_tagline: "카오모지 & 텍스트 이모티콘 키보드",
+                hero_status: "출시 예정",
+                description: "카카오톡, 인스타그램, 어디서든. <span class=\"highlight\">MojiBoard</span>는 8,000개 이상의 카오모지와 텍스트 이모티콘을 손끝에서 바로 꺼내 쓸 수 있는 앱입니다. 44개 카테고리 탐색과 <span class=\"highlight\">한/영/일 통합 검색</span>으로 원하는 이모티콘을 즉시 찾고, <span class=\"highlight\">탭 한 번</span>으로 클립보드에 복사하세요.",
+                features_title: "주요 기능",
+                feature_1_title: "8,000개+ 이모티콘",
+                feature_1_desc: "카오모지부터 텍스트 아트까지, 방대한 컬렉션",
+                feature_2_title: "다국어 통합 검색",
+                feature_2_desc: "한국어, 영어, 일본어로 원하는 이모티콘 즉시 검색",
+                feature_3_title: "탭 한 번으로 복사",
+                feature_3_desc: "탭하는 순간 클립보드에 복사, 바로 붙여넣기",
+                feature_4_title: "즐겨찾기 & 최근 기록",
+                feature_4_desc: "자주 쓰는 이모티콘 저장, 최근 복사 30개 보관",
+                cta_title: "곧 만나요",
+                cta_subtitle: "출시 소식을 가장 먼저 받고 싶다면 알려주세요",
+                cta_button: "문의하기",
+                footer_terms: "이용약관"
+            },
+            en: {
+                nav_apps: "Apps",
+                nav_support: "Support",
+                nav_privacy: "Privacy",
+                hero_tagline: "Kaomoji & Text Emoji Keyboard",
+                hero_status: "Coming Soon",
+                description: "For messages, social media, or anywhere. <span class=\"highlight\">MojiBoard</span> puts 8,000+ kaomoji and text emoticons at your fingertips. Browse 44 categories or search in <span class=\"highlight\">English, Korean, or Japanese</span> to find exactly what you need — then copy it with <span class=\"highlight\">a single tap</span>.",
+                features_title: "Features",
+                feature_1_title: "8,000+ Emoticons",
+                feature_1_desc: "From classic kaomoji to text art — a massive collection",
+                feature_2_title: "Multilingual Search",
+                feature_2_desc: "Search in English, Korean, or Japanese instantly",
+                feature_3_title: "One-Tap Copy",
+                feature_3_desc: "Tap to copy to clipboard, then paste anywhere",
+                feature_4_title: "Favorites & History",
+                feature_4_desc: "Save your go-tos and keep the last 30 copies",
+                cta_title: "See You Soon",
+                cta_subtitle: "Want to be the first to hear about launch? Let us know",
+                cta_button: "Contact Us",
+                footer_terms: "Terms of Use"
+            },
+            ja: {
+                nav_apps: "Apps",
+                nav_support: "Support",
+                nav_privacy: "Privacy",
+                hero_tagline: "顔文字 & テキスト絵文字キーボード",
+                hero_status: "近日公開",
+                description: "LINEやインスタグラムなど、どこでも。<span class=\"highlight\">MojiBoard</span>は8,000以上の顔文字とテキスト絵文字をすぐに使えるアプリです。44カテゴリの探索と<span class=\"highlight\">日本語/英語/韓国語の統合検索</span>でほしい顔文字をすぐ見つけて、<span class=\"highlight\">ワンタップ</span>でコピー。",
+                features_title: "主な機能",
+                feature_1_title: "8,000以上の顔文字",
+                feature_1_desc: "顔文字からテキストアートまで、豊富なコレクション",
+                feature_2_title: "多言語統合検索",
+                feature_2_desc: "日本語・英語・韓国語でほしい顔文字を即検索",
+                feature_3_title: "ワンタップでコピー",
+                feature_3_desc: "タップした瞬間クリップボードにコピー、すぐ貼り付け",
+                feature_4_title: "お気に入り & 履歴",
+                feature_4_desc: "よく使う顔文字を保存、最近のコピー30件を保管",
+                cta_title: "もうすぐ会えます",
+                cta_subtitle: "リリースのお知らせをいち早く受け取りたい方はご連絡ください",
+                cta_button: "お問い合わせ",
+                footer_terms: "利用規約"
+            }
+        };
+
+        function setLanguage(lang) {
+            localStorage.setItem('pf-lang', lang);
+            document.documentElement.lang = lang;
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (translations[lang][key]) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        el.placeholder = translations[lang][key];
+                    } else {
+                        el.innerHTML = translations[lang][key];
+                    }
+                }
+            });
+
+            document.body.style.opacity = '1';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setLanguage(window.__pfLang || 'ko');
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+            });
+
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            if (menuBtn && mobileMenu) {
+                menuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('open');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
