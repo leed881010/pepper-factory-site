@@ -19,21 +19,31 @@
             window.__pfLang = lang;
         })();
     </script>
-    <title>MojiBoard - Pepper Factory</title>
-    <meta name="description" content="8,000개+ 카오모지 & 텍스트 이모티콘. 카테고리 탐색, 다국어 검색, 탭 한 번으로 복사.">
-    <meta name="keywords" content="MojiBoard, 카오모지, 顔文字, kaomoji, text emoji, 텍스트 이모티콘, iOS app">
+    <title>모찌보드 - 카오모지 & 텍스트 이모티콘 | Pepper Factory</title>
+    <meta name="description" content="10,000개+ 카오모지 & 텍스트 이모티콘. 53개 카테고리 탐색, 한/영/일 통합 검색, 탭 한 번으로 복사.">
+    <meta name="keywords" content="MojiBoard, 모찌보드, 카오모지, 顔文字, kaomoji, text emoji, 텍스트 이모티콘, iOS app">
+
+    <!-- App Store Smart Banner -->
+    <meta name="apple-itunes-app" content="app-id=6762520115">
 
     <link rel="canonical" href="https://pepper-factory.com/apps/mojiboard.html">
+    <link rel="alternate" hreflang="ko" href="https://pepper-factory.com/apps/mojiboard.html?lang=ko">
+    <link rel="alternate" hreflang="en" href="https://pepper-factory.com/apps/mojiboard.html?lang=en">
+    <link rel="alternate" hreflang="ja" href="https://pepper-factory.com/apps/mojiboard.html?lang=ja">
+    <link rel="alternate" hreflang="x-default" href="https://pepper-factory.com/apps/mojiboard.html">
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://pepper-factory.com/apps/mojiboard.html">
-    <meta property="og:title" content="MojiBoard - Pepper Factory">
-    <meta property="og:description" content="8,000개+ 카오모지 & 텍스트 이모티콘. 탭 한 번으로 복사.">
+    <meta property="og:title" content="모찌보드 - 카오모지 & 텍스트 이모티콘">
+    <meta property="og:description" content="10,000개+ 카오모지 & 텍스트 이모티콘. 53개 카테고리, 한/영/일 통합 검색, 탭 한 번으로 복사.">
     <meta property="og:image" content="https://pepper-factory.com/images/mojiboard-icon.png">
+    <meta property="og:locale" content="ko_KR">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:locale:alternate" content="ja_JP">
 
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="MojiBoard - Pepper Factory">
-    <meta name="twitter:description" content="8,000개+ 카오모지 & 텍스트 이모티콘.">
+    <meta name="twitter:title" content="모찌보드 - 카오모지 & 텍스트 이모티콘">
+    <meta name="twitter:description" content="10,000개+ 카오모지 & 텍스트 이모티콘. 탭 한 번으로 복사.">
     <meta name="twitter:image" content="https://pepper-factory.com/images/mojiboard-icon.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -145,16 +155,11 @@
             font-size: 1.1rem; color: var(--text-secondary);
             max-width: 480px; margin: 0 auto 32px;
         }
-        .hero-status {
-            display: inline-block;
-            padding: 8px 16px;
-            background: rgba(201,122,224,0.12);
-            border: 1px solid rgba(201,122,224,0.3);
-            border-radius: 999px;
-            color: var(--accent);
-            font-size: 0.85rem;
-            font-weight: 600;
+        .hero-badge img {
+            height: 44px;
+            display: block;
         }
+        .hero-badge:hover { opacity: 0.85; }
 
         .description { padding: 0 0 80px; }
         .description-card {
@@ -172,6 +177,28 @@
             color: var(--accent);
             font-weight: 600;
         }
+
+        /* Screenshots */
+        .screenshots { padding: 0 0 80px; }
+        .screenshots-wrapper {
+            display: flex;
+            gap: 14px;
+            overflow-x: auto;
+            padding: 4px 0 12px;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .screenshots-wrapper::-webkit-scrollbar { display: none; }
+        .screenshot-item {
+            flex-shrink: 0;
+            width: 200px;
+            scroll-snap-align: start;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+        }
+        .screenshot-item img { width: 100%; height: auto; display: block; }
 
         .features { padding: 0 0 80px; }
         .features-title {
@@ -223,18 +250,11 @@
             margin-bottom: 32px;
         }
 
-        .appstore-btn {
-            display: inline-flex; align-items: center; gap: 10px;
-            background: #fff; color: #000;
-            text-decoration: none; border-radius: 14px;
-            padding: 12px 22px; font-weight: 600; font-size: 0.95rem;
-            transition: opacity 0.2s; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        .cta-badge img {
+            height: 50px;
+            display: block;
         }
-        .appstore-btn:hover { opacity: 0.85; }
-        .appstore-btn svg { width: 22px; height: 22px; flex-shrink: 0; }
-        .appstore-btn-text { display: flex; flex-direction: column; text-align: left; }
-        .appstore-btn-text small { font-size: 0.7rem; font-weight: 400; color: #555; line-height: 1; }
-        .appstore-btn-text span { font-size: 1rem; font-weight: 700; line-height: 1.3; }
+        .cta-badge:hover { opacity: 0.85; }
 
         footer {
             border-top: 1px solid var(--border);
@@ -298,8 +318,10 @@
         <div class="container">
             <img src="../images/mojiboard-icon.png" alt="MojiBoard" class="hero-icon">
             <h1 class="hero-title" data-i18n="hero_title">모찌보드</h1>
-            <p class="hero-tagline" data-i18n="hero_tagline">카오모지 & 텍스트 이모티콘 키보드</p>
-            <span class="hero-status" data-i18n="hero_status">출시 예정</span>
+            <p class="hero-tagline" data-i18n="hero_tagline">카오모지 & 텍스트 이모티콘</p>
+            <a href="https://apps.apple.com/app/id6762520115" target="_blank" rel="noopener" class="hero-badge">
+                <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/white/en-us?size=250x83" alt="Download on the App Store">
+            </a>
         </div>
     </section>
 
@@ -307,9 +329,20 @@
         <div class="container">
             <div class="description-card">
                 <p class="description-text" data-i18n="description">
-                    카카오톡, 인스타그램, 어디서든. <span class="highlight">MojiBoard</span>는 8,000개 이상의 카오모지와 텍스트 이모티콘을 손끝에서 바로 꺼내 쓸 수 있는 앱입니다.
-                    44개 카테고리 탐색과 <span class="highlight">한/영/일 통합 검색</span>으로 원하는 이모티콘을 즉시 찾고, <span class="highlight">탭 한 번</span>으로 클립보드에 복사하세요.
+                    카카오톡, 인스타그램, 어디서든. <span class="highlight">모찌보드</span>는 10,000개 이상의 카오모지와 텍스트 이모티콘을 손끝에서 바로 꺼내 쓸 수 있는 앱입니다.
+                    53개 카테고리 탐색과 <span class="highlight">한/영/일 통합 검색</span>으로 원하는 이모티콘을 즉시 찾고, <span class="highlight">탭 한 번</span>으로 클립보드에 복사하세요.
                 </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="screenshots">
+        <div class="container">
+            <div class="screenshots-wrapper" id="screenshots-wrapper">
+                <div class="screenshot-item"><img class="screenshot-img" data-ko="../images/screenshots/mojiboard/ko/0_APP_IPHONE_65.jpg" data-en="../images/screenshots/mojiboard/en/0_APP_IPHONE_65.jpg" data-ja="../images/screenshots/mojiboard/ja/0_APP_IPHONE_65.jpg" src="../images/screenshots/mojiboard/ko/0_APP_IPHONE_65.jpg" alt="MojiBoard Screenshot 1"></div>
+                <div class="screenshot-item"><img class="screenshot-img" data-ko="../images/screenshots/mojiboard/ko/1_APP_IPHONE_65.jpg" data-en="../images/screenshots/mojiboard/en/1_APP_IPHONE_65.jpg" data-ja="../images/screenshots/mojiboard/ja/1_APP_IPHONE_65.jpg" src="../images/screenshots/mojiboard/ko/1_APP_IPHONE_65.jpg" alt="MojiBoard Screenshot 2"></div>
+                <div class="screenshot-item"><img class="screenshot-img" data-ko="../images/screenshots/mojiboard/ko/2_APP_IPHONE_65.jpg" data-en="../images/screenshots/mojiboard/en/2_APP_IPHONE_65.jpg" data-ja="../images/screenshots/mojiboard/ja/2_APP_IPHONE_65.jpg" src="../images/screenshots/mojiboard/ko/2_APP_IPHONE_65.jpg" alt="MojiBoard Screenshot 3"></div>
+                <div class="screenshot-item"><img class="screenshot-img" data-ko="../images/screenshots/mojiboard/ko/3_APP_IPHONE_65.jpg" data-en="../images/screenshots/mojiboard/en/3_APP_IPHONE_65.jpg" data-ja="../images/screenshots/mojiboard/ja/3_APP_IPHONE_65.jpg" src="../images/screenshots/mojiboard/ko/3_APP_IPHONE_65.jpg" alt="MojiBoard Screenshot 4"></div>
             </div>
         </div>
     </section>
@@ -322,7 +355,7 @@
                     <div class="feature-icon">
                         <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/></svg>
                     </div>
-                    <h3 data-i18n="feature_1_title">8,000개+ 이모티콘</h3>
+                    <h3 data-i18n="feature_1_title">10,000개+ 이모티콘</h3>
                     <p data-i18n="feature_1_desc">카오모지부터 텍스트 아트까지, 방대한 컬렉션</p>
                 </div>
                 <div class="feature-card">
@@ -352,13 +385,10 @@
 
     <section class="cta">
         <div class="container">
-            <h2 class="cta-title" data-i18n="cta_title">곧 만나요</h2>
-            <p class="cta-subtitle" data-i18n="cta_subtitle">출시 소식을 가장 먼저 받고 싶다면 알려주세요</p>
-            <a href="mailto:leedi@pepper-factory.com" class="appstore-btn" style="background: var(--accent); color: #fff; box-shadow: 0 4px 20px rgba(201,122,224,0.3);">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                <div class="appstore-btn-text">
-                    <span data-i18n="cta_button">문의하기</span>
-                </div>
+            <h2 class="cta-title" data-i18n="cta_title">지금 바로 시작하세요</h2>
+            <p class="cta-subtitle" data-i18n="cta_subtitle">App Store에서 무료로 다운로드할 수 있습니다.</p>
+            <a href="https://apps.apple.com/app/id6762520115" target="_blank" rel="noopener" class="cta-badge">
+                <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/white/en-us?size=250x83" alt="Download on the App Store">
             </a>
         </div>
     </section>
@@ -385,11 +415,10 @@
                 nav_support: "Support",
                 nav_privacy: "Privacy",
                 hero_title: "모찌보드",
-                hero_tagline: "카오모지 & 텍스트 이모티콘 키보드",
-                hero_status: "출시 예정",
-                description: "카카오톡, 인스타그램, 어디서든. <span class=\"highlight\">MojiBoard</span>는 8,000개 이상의 카오모지와 텍스트 이모티콘을 손끝에서 바로 꺼내 쓸 수 있는 앱입니다. 44개 카테고리 탐색과 <span class=\"highlight\">한/영/일 통합 검색</span>으로 원하는 이모티콘을 즉시 찾고, <span class=\"highlight\">탭 한 번</span>으로 클립보드에 복사하세요.",
+                hero_tagline: "카오모지 & 텍스트 이모티콘",
+                description: "카카오톡, 인스타그램, 어디서든. <span class=\"highlight\">모찌보드</span>는 10,000개 이상의 카오모지와 텍스트 이모티콘을 손끝에서 바로 꺼내 쓸 수 있는 앱입니다. 53개 카테고리 탐색과 <span class=\"highlight\">한/영/일 통합 검색</span>으로 원하는 이모티콘을 즉시 찾고, <span class=\"highlight\">탭 한 번</span>으로 클립보드에 복사하세요.",
                 features_title: "주요 기능",
-                feature_1_title: "8,000개+ 이모티콘",
+                feature_1_title: "10,000개+ 이모티콘",
                 feature_1_desc: "카오모지부터 텍스트 아트까지, 방대한 컬렉션",
                 feature_2_title: "다국어 통합 검색",
                 feature_2_desc: "한국어, 영어, 일본어로 원하는 이모티콘 즉시 검색",
@@ -397,9 +426,8 @@
                 feature_3_desc: "탭하는 순간 클립보드에 복사, 바로 붙여넣기",
                 feature_4_title: "즐겨찾기 & 최근 기록",
                 feature_4_desc: "자주 쓰는 이모티콘 저장, 최근 복사 30개 보관",
-                cta_title: "곧 만나요",
-                cta_subtitle: "출시 소식을 가장 먼저 받고 싶다면 알려주세요",
-                cta_button: "문의하기",
+                cta_title: "지금 바로 시작하세요",
+                cta_subtitle: "App Store에서 무료로 다운로드할 수 있습니다.",
                 footer_terms: "이용약관"
             },
             en: {
@@ -407,11 +435,10 @@
                 nav_support: "Support",
                 nav_privacy: "Privacy",
                 hero_title: "Moji Board",
-                hero_tagline: "Kaomoji & Text Emoji Keyboard",
-                hero_status: "Coming Soon",
-                description: "For messages, social media, or anywhere. <span class=\"highlight\">MojiBoard</span> puts 8,000+ kaomoji and text emoticons at your fingertips. Browse 44 categories or search in <span class=\"highlight\">English, Korean, or Japanese</span> to find exactly what you need — then copy it with <span class=\"highlight\">a single tap</span>.",
+                hero_tagline: "Kaomoji & Text Emoticons",
+                description: "For messages, social media, or anywhere. <span class=\"highlight\">Moji Board</span> puts 10,000+ kaomoji and text emoticons at your fingertips. Browse 53 categories or search in <span class=\"highlight\">English, Korean, or Japanese</span> to find exactly what you need — then copy it with <span class=\"highlight\">a single tap</span>.",
                 features_title: "Features",
-                feature_1_title: "8,000+ Emoticons",
+                feature_1_title: "10,000+ Emoticons",
                 feature_1_desc: "From classic kaomoji to text art — a massive collection",
                 feature_2_title: "Multilingual Search",
                 feature_2_desc: "Search in English, Korean, or Japanese instantly",
@@ -419,9 +446,8 @@
                 feature_3_desc: "Tap to copy to clipboard, then paste anywhere",
                 feature_4_title: "Favorites & History",
                 feature_4_desc: "Save your go-tos and keep the last 30 copies",
-                cta_title: "See You Soon",
-                cta_subtitle: "Want to be the first to hear about launch? Let us know",
-                cta_button: "Contact Us",
+                cta_title: "Get Started Now",
+                cta_subtitle: "Download for free from the App Store.",
                 footer_terms: "Terms of Use"
             },
             ja: {
@@ -429,11 +455,10 @@
                 nav_support: "Support",
                 nav_privacy: "Privacy",
                 hero_title: "モジボード",
-                hero_tagline: "顔文字 & テキスト絵文字キーボード",
-                hero_status: "近日公開",
-                description: "LINEやインスタグラムなど、どこでも。<span class=\"highlight\">MojiBoard</span>は8,000以上の顔文字とテキスト絵文字をすぐに使えるアプリです。44カテゴリの探索と<span class=\"highlight\">日本語/英語/韓国語の統合検索</span>でほしい顔文字をすぐ見つけて、<span class=\"highlight\">ワンタップ</span>でコピー。",
+                hero_tagline: "顔文字 & テキスト絵文字",
+                description: "LINEやインスタグラムなど、どこでも。<span class=\"highlight\">モジボード</span>は10,000以上の顔文字とテキスト絵文字をすぐに使えるアプリです。53カテゴリの探索と<span class=\"highlight\">日本語/英語/韓国語の統合検索</span>でほしい顔文字をすぐ見つけて、<span class=\"highlight\">ワンタップ</span>でコピー。",
                 features_title: "主な機能",
-                feature_1_title: "8,000以上の顔文字",
+                feature_1_title: "10,000以上の顔文字",
                 feature_1_desc: "顔文字からテキストアートまで、豊富なコレクション",
                 feature_2_title: "多言語統合検索",
                 feature_2_desc: "日本語・英語・韓国語でほしい顔文字を即検索",
@@ -441,9 +466,8 @@
                 feature_3_desc: "タップした瞬間クリップボードにコピー、すぐ貼り付け",
                 feature_4_title: "お気に入り & 履歴",
                 feature_4_desc: "よく使う顔文字を保存、最近のコピー30件を保管",
-                cta_title: "もうすぐ会えます",
-                cta_subtitle: "リリースのお知らせをいち早く受け取りたい方はご連絡ください",
-                cta_button: "お問い合わせ",
+                cta_title: "今すぐ始めよう",
+                cta_subtitle: "App Storeから無料でダウンロードできます。",
                 footer_terms: "利用規約"
             }
         };
@@ -465,6 +489,12 @@
                         el.innerHTML = translations[lang][key];
                     }
                 }
+            });
+
+            // 언어별 스크린샷 교체
+            const ssLang = lang === 'ko' ? 'ko' : lang === 'ja' ? 'ja' : 'en';
+            document.querySelectorAll('.screenshot-img').forEach(img => {
+                if (img.dataset[ssLang]) img.src = img.dataset[ssLang];
             });
 
             document.body.style.opacity = '1';
