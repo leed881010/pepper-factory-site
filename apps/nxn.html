@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        (function() {
+            var supported = ['ko', 'en', 'ja'];
+            var lang = null;
+            var match = location.search.match(/[?&]lang=([^&]+)/);
+            if (match && supported.indexOf(match[1]) !== -1) {
+                lang = match[1];
+                localStorage.setItem('pf-lang', lang);
+                history.replaceState({}, '', location.pathname);
+            }
+            if (!lang) { var saved = localStorage.getItem('pf-lang'); if (saved && supported.indexOf(saved) !== -1) lang = saved; }
+            if (!lang) { var bl = (navigator.language || '').slice(0, 2); lang = supported.indexOf(bl) !== -1 ? bl : 'ko'; localStorage.setItem('pf-lang', lang); }
+            document.documentElement.lang = lang;
+            window.__pfLang = lang;
+        })();
+    </script>
+    <title>N x N - 그리드 미디어 콜라주 | Pepper Factory</title>
+    <meta name="description" content="사진과 영상을 N x N 그리드로 콜라주하고 한 편의 영상으로 내보내세요. 1x1, 2x2, 3x3 레이아웃, 이모지 타이틀, 1080x1350 H.264 출력.">
+    <meta name="keywords" content="NxN, N x N, Flick, grid collage, video collage, 그리드 콜라주, 미디어 콜라주, 영상 내보내기, iOS app">
+
+    <link rel="canonical" href="https://pepper-factory.com/apps/nxn.html">
+    <link rel="alternate" hreflang="ko" href="https://pepper-factory.com/apps/nxn.html?lang=ko">
+    <link rel="alternate" hreflang="en" href="https://pepper-factory.com/apps/nxn.html?lang=en">
+    <link rel="alternate" hreflang="ja" href="https://pepper-factory.com/apps/nxn.html?lang=ja">
+    <link rel="alternate" hreflang="x-default" href="https://pepper-factory.com/apps/nxn.html">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pepper-factory.com/apps/nxn.html">
+    <meta property="og:title" content="N x N - 그리드 미디어 콜라주">
+    <meta property="og:description" content="사진과 영상을 N x N 그리드로 콜라주하고 한 편의 영상으로 내보내세요.">
+    <meta property="og:image" content="https://pepper-factory.com/images/nxn-icon.png">
+    <meta property="og:locale" content="ko_KR">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:locale:alternate" content="ja_JP">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="N x N - 그리드 미디어 콜라주">
+    <meta name="twitter:description" content="사진과 영상을 그리드로 콜라주하고 영상으로 내보내세요.">
+    <meta name="twitter:image" content="https://pepper-factory.com/images/nxn-icon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../images/favicon.png">
+
+    <style>
+        :root {
+            --bg: #0A0A0A;
+            --bg-card: #141414;
+            --bg-hover: #1A1A1A;
+            --text: #F5F5F5;
+            --text-secondary: #888;
+            --text-tertiary: #555;
+            --border: rgba(255,255,255,0.06);
+            --accent: #E85D5D;
+            --radius: 16px;
+            --max-w: 1080px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            opacity: 0;
+            transition: opacity 0.2s;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(10,10,10,0.8);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
+            max-width: var(--max-w); margin: 0 auto; padding: 0 24px;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 64px;
+        }
+        .nav-logo {
+            display: flex; align-items: center; gap: 10px;
+            text-decoration: none; color: var(--text);
+            font-weight: 700; font-size: 1.05rem;
+        }
+        .nav-logo img { width: 32px; height: 32px; border-radius: 8px; }
+        .nav-right { display: flex; align-items: center; gap: 20px; }
+        .nav-links { display: flex; gap: 24px; }
+        .nav-links a {
+            text-decoration: none; color: var(--text-secondary);
+            font-size: 0.9rem; font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--text); }
+        .lang-switcher {
+            display: flex; gap: 2px;
+            background: var(--bg-card); padding: 4px; border-radius: 8px;
+        }
+        .lang-btn {
+            background: none; border: none; padding: 4px 10px; border-radius: 6px;
+            cursor: pointer; font-weight: 500; font-size: 0.8rem;
+            color: var(--text-tertiary); transition: all 0.2s; font-family: inherit;
+        }
+        .lang-btn.active { background: var(--bg-hover); color: var(--text); }
+        .lang-btn:hover:not(.active) { color: var(--text-secondary); }
+
+        .mobile-menu-btn {
+            display: none; background: none; border: none; cursor: pointer;
+            color: var(--text); font-size: 1.4rem;
+            min-width: 44px; min-height: 44px;
+            align-items: center; justify-content: center;
+        }
+        .mobile-menu {
+            display: none; position: fixed; top: 64px; left: 0; right: 0;
+            background: rgba(10,10,10,0.95); backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 8px 24px 20px; z-index: 99;
+            transform: translateY(-10px); opacity: 0;
+            transition: transform 0.3s, opacity 0.3s; pointer-events: none;
+        }
+        .mobile-menu.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+        .mobile-menu a {
+            display: block; padding: 14px 0; text-decoration: none;
+            color: var(--text); font-weight: 500; font-size: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .mobile-menu a:last-child { border-bottom: none; }
+
+        .hero { padding: 140px 0 60px; text-align: center; }
+        .hero-icon {
+            width: 96px; height: 96px; border-radius: 22px;
+            margin: 0 auto 24px;
+            box-shadow: 0 20px 60px rgba(232,93,93,0.25);
+        }
+        .hero-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700; letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+        .hero-tagline {
+            font-size: 1.1rem; color: var(--text-secondary);
+            max-width: 480px; margin: 0 auto 32px;
+        }
+        .review-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 20px; border-radius: 999px;
+            background: rgba(232,93,93,0.12);
+            border: 1px solid rgba(232,93,93,0.3);
+            color: var(--accent);
+            font-size: 0.95rem; font-weight: 600;
+        }
+        .review-badge::before {
+            content: "";
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--accent);
+            animation: pulse 1.6s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.3); }
+        }
+
+        .description { padding: 0 0 80px; }
+        .description-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 36px;
+        }
+        .description-text {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+        .description-text .highlight {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .features { padding: 0 0 80px; }
+        .features-title {
+            text-align: center;
+            font-size: clamp(1.4rem, 3vw, 1.8rem);
+            font-weight: 700;
+            margin-bottom: 40px;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+            transition: background 0.2s;
+        }
+        .feature-card:hover { background: var(--bg-hover); }
+        .feature-icon {
+            width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(232,93,93,0.12);
+            border-radius: 10px;
+            margin-bottom: 16px;
+        }
+        .feature-icon svg {
+            width: 22px; height: 22px;
+            stroke: var(--accent); fill: none;
+            stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+        }
+        .feature-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
+        .feature-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; }
+
+        .cta {
+            padding: 80px 0;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+        .cta-title {
+            font-size: clamp(1.5rem, 3.5vw, 2rem);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .cta-subtitle {
+            font-size: 1rem; color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 40px 0;
+        }
+        .footer-inner {
+            max-width: var(--max-w); margin: 0 auto; padding: 0 24px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .footer-left { display: flex; align-items: center; gap: 10px; }
+        .footer-left img { width: 24px; height: 24px; border-radius: 6px; }
+        .footer-left span { font-size: 0.85rem; color: var(--text-tertiary); }
+        .footer-links { display: flex; gap: 20px; }
+        .footer-links a {
+            font-size: 0.85rem; color: var(--text-tertiary);
+            text-decoration: none; transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--text-secondary); }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: flex; }
+            .mobile-menu { display: block; }
+            .features-grid { grid-template-columns: 1fr; }
+            .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+            .footer-links { flex-wrap: wrap; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-inner">
+            <a href="../" class="nav-logo">
+                <img src="../images/logo.jpg" alt="Pepper Factory">
+                <span>Pepper Factory</span>
+            </a>
+            <div class="nav-right">
+                <div class="nav-links">
+                    <a href="../" data-i18n="nav_apps">Apps</a>
+                    <a href="mailto:leedi@pepper-factory.com" data-i18n="nav_support">Support</a>
+                    <a href="../privacy" data-i18n="nav_privacy">Privacy</a>
+                </div>
+                <div class="lang-switcher">
+                    <button class="lang-btn" data-lang="ko">KO</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="ja">JA</button>
+                </div>
+                <button class="mobile-menu-btn" aria-label="Menu">&#9776;</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="mobile-menu">
+        <a href="../" data-i18n="nav_apps">Apps</a>
+        <a href="mailto:leedi@pepper-factory.com" data-i18n="nav_support">Support</a>
+        <a href="../privacy" data-i18n="nav_privacy">Privacy</a>
+    </div>
+
+    <section class="hero">
+        <div class="container">
+            <img src="../images/nxn-icon.png" alt="N x N" class="hero-icon">
+            <h1 class="hero-title">N x N</h1>
+            <p class="hero-tagline" data-i18n="hero_tagline">그리드 미디어 콜라주 → 영상</p>
+            <span class="review-badge" data-i18n="review_badge">App Store 심사 대기중</span>
+        </div>
+    </section>
+
+    <section class="description">
+        <div class="container">
+            <div class="description-card">
+                <p class="description-text" data-i18n="description">
+                    <span class="highlight">N x N</span>은 사진과 영상을 그리드로 배치하고 한 편의 영상으로 내보내는 앱입니다. <span class="highlight">1x1, 2x2, 3x3</span> 레이아웃 중 선택해 셀마다 미디어와 이모지 타이틀을 채우면, <span class="highlight">1080×1350 H.264</span> 영상으로 변환됩니다. 모든 작업은 기기에서 로컬로 처리됩니다.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2 class="features-title" data-i18n="features_title">주요 기능</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                    </div>
+                    <h3 data-i18n="feature_1_title">유연한 그리드 레이아웃</h3>
+                    <p data-i18n="feature_1_desc">1x1, 2x2, 3x3 중 선택. 레이아웃을 바꿔도 미디어는 보존됩니다.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    </div>
+                    <h3 data-i18n="feature_2_title">사진 + 영상 + 이모지</h3>
+                    <p data-i18n="feature_2_desc">셀마다 사진/영상을 채우고 이모지로 타이틀을 더하세요.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                    </div>
+                    <h3 data-i18n="feature_3_title">1080×1350 영상 출력</h3>
+                    <p data-i18n="feature_3_desc">H.264, 30fps, 4:5 비율로 어디서든 공유하기 좋은 영상.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                    </div>
+                    <h3 data-i18n="feature_4_title">로컬 처리, 프라이버시 우선</h3>
+                    <p data-i18n="feature_4_desc">모든 미디어는 기기에서 처리되며, 서버에 저장되지 않습니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2 class="cta-title" data-i18n="cta_title">곧 만나요</h2>
+            <p class="cta-subtitle" data-i18n="cta_subtitle">App Store 심사가 완료되는 대로 다운로드 링크가 공개됩니다.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-left">
+                <img src="../images/logo.jpg" alt="Pepper Factory">
+                <span>&copy; 2025 Pepper Factory</span>
+            </div>
+            <div class="footer-links">
+                <a href="../" data-i18n="nav_apps">Apps</a>
+                <a href="../privacy" data-i18n="nav_privacy">Privacy</a>
+                <a href="../terms" data-i18n="footer_terms">Terms</a>
+                <a href="mailto:leedi@pepper-factory.com" data-i18n="nav_support">Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const translations = {
+            ko: {
+                nav_apps: "Apps",
+                nav_support: "Support",
+                nav_privacy: "Privacy",
+                hero_tagline: "그리드 미디어 콜라주 → 영상",
+                review_badge: "App Store 심사 대기중",
+                description: "<span class=\"highlight\">N x N</span>은 사진과 영상을 그리드로 배치하고 한 편의 영상으로 내보내는 앱입니다. <span class=\"highlight\">1x1, 2x2, 3x3</span> 레이아웃 중 선택해 셀마다 미디어와 이모지 타이틀을 채우면, <span class=\"highlight\">1080×1350 H.264</span> 영상으로 변환됩니다. 모든 작업은 기기에서 로컬로 처리됩니다.",
+                features_title: "주요 기능",
+                feature_1_title: "유연한 그리드 레이아웃",
+                feature_1_desc: "1x1, 2x2, 3x3 중 선택. 레이아웃을 바꿔도 미디어는 보존됩니다.",
+                feature_2_title: "사진 + 영상 + 이모지",
+                feature_2_desc: "셀마다 사진/영상을 채우고 이모지로 타이틀을 더하세요.",
+                feature_3_title: "1080×1350 영상 출력",
+                feature_3_desc: "H.264, 30fps, 4:5 비율로 어디서든 공유하기 좋은 영상.",
+                feature_4_title: "로컬 처리, 프라이버시 우선",
+                feature_4_desc: "모든 미디어는 기기에서 처리되며, 서버에 저장되지 않습니다.",
+                cta_title: "곧 만나요",
+                cta_subtitle: "App Store 심사가 완료되는 대로 다운로드 링크가 공개됩니다.",
+                footer_terms: "이용약관"
+            },
+            en: {
+                nav_apps: "Apps",
+                nav_support: "Support",
+                nav_privacy: "Privacy",
+                hero_tagline: "Grid Media Collage → Video",
+                review_badge: "In review on the App Store",
+                description: "<span class=\"highlight\">N x N</span> arranges your photos and videos into a grid and exports the whole thing as a single video. Pick a <span class=\"highlight\">1x1, 2x2, or 3x3</span> layout, fill each cell with media and an emoji title, and N x N renders it as a <span class=\"highlight\">1080×1350 H.264</span> clip. Everything is processed on-device.",
+                features_title: "Features",
+                feature_1_title: "Flexible Grid Layouts",
+                feature_1_desc: "Choose 1x1, 2x2, or 3x3. Switch layouts without losing your media.",
+                feature_2_title: "Photos + Videos + Emoji",
+                feature_2_desc: "Drop in photos or videos per cell and add an emoji title to each.",
+                feature_3_title: "1080×1350 Video Export",
+                feature_3_desc: "H.264 at 30fps in a 4:5 ratio — ready to share anywhere.",
+                feature_4_title: "On-Device, Privacy First",
+                feature_4_desc: "Every media operation runs on your device. Nothing is uploaded.",
+                cta_title: "Coming Soon",
+                cta_subtitle: "We'll publish the download link the moment App Store review wraps up.",
+                footer_terms: "Terms of Use"
+            },
+            ja: {
+                nav_apps: "Apps",
+                nav_support: "Support",
+                nav_privacy: "Privacy",
+                hero_tagline: "グリッドメディアコラージュ → 動画",
+                review_badge: "App Store審査中",
+                description: "<span class=\"highlight\">N x N</span>は、写真や動画をグリッドに配置して1本の動画として書き出すアプリです。<span class=\"highlight\">1x1、2x2、3x3</span>のレイアウトから選び、各セルにメディアと絵文字のタイトルを入れると、<span class=\"highlight\">1080×1350 H.264</span>の動画に変換されます。すべて端末上で処理されます。",
+                features_title: "主な機能",
+                feature_1_title: "柔軟なグリッドレイアウト",
+                feature_1_desc: "1x1、2x2、3x3から選択。レイアウトを変えてもメディアは保持されます。",
+                feature_2_title: "写真 + 動画 + 絵文字",
+                feature_2_desc: "各セルに写真や動画を入れ、絵文字でタイトルを添えましょう。",
+                feature_3_title: "1080×1350の動画書き出し",
+                feature_3_desc: "H.264、30fps、4:5比率。どこでも共有しやすい動画に。",
+                feature_4_title: "端末内処理、プライバシー優先",
+                feature_4_desc: "すべてのメディア処理は端末上で行われ、サーバーに保存されません。",
+                cta_title: "もうすぐ公開",
+                cta_subtitle: "App Storeの審査が完了次第、ダウンロードリンクを公開します。",
+                footer_terms: "利用規約"
+            }
+        };
+
+        function setLanguage(lang) {
+            localStorage.setItem('pf-lang', lang);
+            document.documentElement.lang = lang;
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (translations[lang][key]) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        el.placeholder = translations[lang][key];
+                    } else {
+                        el.innerHTML = translations[lang][key];
+                    }
+                }
+            });
+
+            document.body.style.opacity = '1';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setLanguage(window.__pfLang || 'ko');
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+            });
+
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            if (menuBtn && mobileMenu) {
+                menuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('open');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
