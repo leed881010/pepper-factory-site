@@ -19,9 +19,11 @@
             window.__pfLang = lang;
         })();
     </script>
-    <title>N x N - 그리드 미디어 콜라주 | Pepper Factory</title>
-    <meta name="description" content="사진과 영상을 N x N 그리드로 콜라주하고 한 편의 영상으로 내보내세요. 1x1, 2x2, 3x3 레이아웃, 이모지 타이틀, 1080x1350 H.264 출력.">
-    <meta name="keywords" content="NxN, N x N, Flick, grid collage, video collage, 그리드 콜라주, 미디어 콜라주, 영상 내보내기, iOS app">
+    <title>N x N: 당신이 사랑한 순간들 | Pepper Factory</title>
+    <meta name="description" content="영상 편집자가 아닌 사람들을 위한 영상 만들기 도구. 보드에 사진과 영상을 채우면 Reels와 Stories 용 폴라로이드 영상이 완성됩니다. 타임라인 없음, 트랙 없음, 튜토리얼 없음.">
+    <meta name="keywords" content="NxN, N x N, video composer, polaroid video, grid collage, reels maker, instagram layout, 그리드 콜라주, 영상 콜라주, 폴라로이드 영상, iOS app">
+
+    <meta name="apple-itunes-app" content="app-id=6765649669">
 
     <link rel="canonical" href="https://pepper-factory.com/apps/nxn.html">
     <link rel="alternate" hreflang="ko" href="https://pepper-factory.com/apps/nxn.html?lang=ko">
@@ -31,17 +33,43 @@
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://pepper-factory.com/apps/nxn.html">
-    <meta property="og:title" content="N x N - 그리드 미디어 콜라주">
-    <meta property="og:description" content="사진과 영상을 N x N 그리드로 콜라주하고 한 편의 영상으로 내보내세요.">
+    <meta property="og:title" content="N x N: 당신이 사랑한 순간들">
+    <meta property="og:description" content="영상 편집자가 아닌 사람들을 위한 영상 만들기 도구. 보드를 채우면 영상이 완성됩니다.">
     <meta property="og:image" content="https://pepper-factory.com/images/nxn-icon.png">
     <meta property="og:locale" content="ko_KR">
     <meta property="og:locale:alternate" content="en_US">
     <meta property="og:locale:alternate" content="ja_JP">
 
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="N x N - 그리드 미디어 콜라주">
-    <meta name="twitter:description" content="사진과 영상을 그리드로 콜라주하고 영상으로 내보내세요.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="N x N: 당신이 사랑한 순간들">
+    <meta name="twitter:description" content="영상 편집자가 아닌 사람들을 위한 영상 만들기 도구.">
     <meta name="twitter:image" content="https://pepper-factory.com/images/nxn-icon.png">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "N x N: Moments You Loved",
+        "alternateName": ["N x N", "N x N: 당신이 사랑한 순간들", "N x N: 愛した瞬間たち"],
+        "description": "The video composer for people who don't think of themselves as video editors. Fill a board with photos and videos, get a polaroid-style recap video ready for Reels and Stories.",
+        "operatingSystem": "iOS 18.0+",
+        "applicationCategory": "PhotoApplication",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "author": {
+            "@type": "Organization",
+            "name": "Pepper Factory",
+            "url": "https://pepper-factory.com"
+        },
+        "downloadUrl": "https://apps.apple.com/app/id6765649669",
+        "installUrl": "https://apps.apple.com/app/id6765649669",
+        "softwareVersion": "1.8.0",
+        "screenshot": "https://pepper-factory.com/images/nxn-icon.png"
+    }
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -56,8 +84,9 @@
             --text: #F5F5F5;
             --text-secondary: #888;
             --text-tertiary: #555;
-            --border: rgba(255,255,255,0.06);
-            --accent: #E85D5D;
+            --border: rgba(255,255,255,0.08);
+            --accent: #FFFFFF;
+            --accent-muted: rgba(255,255,255,0.12);
             --radius: 16px;
             --max-w: 1080px;
         }
@@ -141,7 +170,7 @@
         .hero-icon {
             width: 96px; height: 96px; border-radius: 22px;
             margin: 0 auto 24px;
-            box-shadow: 0 20px 60px rgba(232,93,93,0.25);
+            box-shadow: 0 20px 60px rgba(255,255,255,0.06);
         }
         .hero-title {
             font-size: clamp(2rem, 5vw, 3rem);
@@ -149,42 +178,28 @@
             margin-bottom: 12px;
         }
         .hero-tagline {
-            font-size: 1.1rem; color: var(--text-secondary);
-            max-width: 480px; margin: 0 auto 32px;
+            font-size: 1.15rem; color: var(--text-secondary);
+            max-width: 560px; margin: 0 auto 32px;
+            line-height: 1.5;
         }
-        .review-badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 12px 20px; border-radius: 999px;
-            background: rgba(232,93,93,0.12);
-            border: 1px solid rgba(232,93,93,0.3);
-            color: var(--accent);
-            font-size: 0.95rem; font-weight: 600;
-        }
-        .review-badge::before {
-            content: "";
-            width: 8px; height: 8px; border-radius: 50%;
-            background: var(--accent);
-            animation: pulse 1.6s ease-in-out infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.3); }
-        }
+        .hero-cta { display: inline-block; }
+        .appstore-badge { height: 56px; width: auto; }
 
-        .description { padding: 0 0 80px; }
-        .description-card {
+        .narrative { padding: 0 0 80px; }
+        .narrative-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 36px;
+            padding: 40px;
         }
-        .description-text {
+        .narrative-text {
             font-size: 1.05rem;
-            line-height: 1.8;
+            line-height: 1.85;
             color: var(--text-secondary);
         }
-        .description-text .highlight {
-            color: var(--accent);
+        .narrative-text + .narrative-text { margin-top: 16px; }
+        .narrative-text .highlight {
+            color: var(--text);
             font-weight: 600;
         }
 
@@ -211,7 +226,7 @@
         .feature-icon {
             width: 40px; height: 40px;
             display: flex; align-items: center; justify-content: center;
-            background: rgba(232,93,93,0.12);
+            background: var(--accent-muted);
             border-radius: 10px;
             margin-bottom: 16px;
         }
@@ -222,6 +237,45 @@
         }
         .feature-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
         .feature-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; }
+
+        .gallery { padding: 0 0 80px; }
+        .gallery-title {
+            text-align: center;
+            font-size: clamp(1.4rem, 3vw, 1.8rem);
+            font-weight: 700;
+            margin-bottom: 40px;
+        }
+        .gallery-scroll {
+            display: flex; gap: 16px;
+            overflow-x: auto; overflow-y: hidden;
+            padding-bottom: 16px;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+        .gallery-scroll::-webkit-scrollbar { height: 6px; }
+        .gallery-scroll::-webkit-scrollbar-thumb {
+            background: var(--border); border-radius: 3px;
+        }
+        .gallery-item {
+            flex: 0 0 auto;
+            width: 220px;
+            aspect-ratio: 9 / 19.5;
+            border-radius: 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            scroll-snap-align: start;
+            position: relative;
+        }
+        .gallery-item img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+        }
+        .gallery-item .placeholder {
+            position: absolute; inset: 0;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-tertiary); font-size: 0.8rem;
+            text-align: center; padding: 16px;
+        }
 
         .cta {
             padding: 80px 0;
@@ -235,7 +289,7 @@
         }
         .cta-subtitle {
             font-size: 1rem; color: var(--text-secondary);
-            margin-bottom: 0;
+            margin-bottom: 28px;
         }
 
         footer {
@@ -261,6 +315,8 @@
             .mobile-menu-btn { display: flex; }
             .mobile-menu { display: block; }
             .features-grid { grid-template-columns: 1fr; }
+            .narrative-card { padding: 28px; }
+            .gallery-item { width: 180px; }
             .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
             .footer-links { flex-wrap: wrap; justify-content: center; }
         }
@@ -299,17 +355,22 @@
     <section class="hero">
         <div class="container">
             <img src="../images/nxn-icon.png" alt="N x N" class="hero-icon">
-            <h1 class="hero-title">N x N</h1>
-            <p class="hero-tagline" data-i18n="hero_tagline">그리드 미디어 콜라주 → 영상</p>
-            <span class="review-badge" data-i18n="review_badge">App Store 심사 대기중</span>
+            <h1 class="hero-title" data-i18n="hero_title">N x N</h1>
+            <p class="hero-tagline" data-i18n="hero_tagline">영상 편집자가 아닌 사람들을 위한 영상 만들기 도구.</p>
+            <a href="https://apps.apple.com/app/id6765649669" target="_blank" rel="noopener" class="hero-cta">
+                <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/white/en-us?size=250x83" alt="Download on the App Store" class="appstore-badge">
+            </a>
         </div>
     </section>
 
-    <section class="description">
+    <section class="narrative">
         <div class="container">
-            <div class="description-card">
-                <p class="description-text" data-i18n="description">
-                    <span class="highlight">N x N</span>은 사진과 영상을 그리드로 배치하고 한 편의 영상으로 내보내는 앱입니다. <span class="highlight">1x1, 2x2, 3x3</span> 레이아웃 중 선택해 셀마다 미디어와 이모지 타이틀을 채우면, <span class="highlight">1080×1350 H.264</span> 영상으로 변환됩니다. 모든 작업은 기기에서 로컬로 처리됩니다.
+            <div class="narrative-card">
+                <p class="narrative-text" data-i18n="narrative_1">
+                    Reels 와 Stories 가 세상을 지배하지만, CapCut 이나 iMovie 같은 도구들은 여전히 평범한 사람들에게 <span class="highlight">트랙과 키프레임</span>으로 사고하라고 요구합니다. 대부분은 한 번 열어보고, 길을 잃고, 조용히 포기합니다. 회고 영상은 끝내 만들어지지 않습니다.
+                </p>
+                <p class="narrative-text" data-i18n="narrative_2">
+                    <span class="highlight">N x N 은 "영상을 편집한다"를 "보드를 채운다"로 바꿉니다.</span> 레이아웃을 고르고, 셀마다 사진이나 영상을 넣고, 폴라로이드처럼 이모지 캡션을 답니다. 추출 버튼 한 번. Reels 와 Stories 용 깔끔한 영상이 나옵니다 — 타임라인, 트랙, 튜토리얼, 결제 장벽 없음.
                 </p>
             </div>
         </div>
@@ -317,44 +378,70 @@
 
     <section class="features">
         <div class="container">
-            <h2 class="features-title" data-i18n="features_title">주요 기능</h2>
+            <h2 class="features-title" data-i18n="features_title">보드 위에서 할 수 있는 것</h2>
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">
                         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
                     </div>
-                    <h3 data-i18n="feature_1_title">유연한 그리드 레이아웃</h3>
-                    <p data-i18n="feature_1_desc">1x1, 2x2, 3x3 중 선택. 레이아웃을 바꿔도 미디어는 보존됩니다.</p>
+                    <h3 data-i18n="feature_1_title">6가지 보드 레이아웃</h3>
+                    <p data-i18n="feature_1_desc">1×1, 1×2, 1×3, 2×2, 3×3, 9:16 풀스크린. 레이아웃을 바꿔도 미디어는 보존됩니다.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                     </div>
-                    <h3 data-i18n="feature_2_title">사진 + 영상 + 이모지</h3>
-                    <p data-i18n="feature_2_desc">셀마다 사진/영상을 채우고 이모지로 타이틀을 더하세요.</p>
+                    <h3 data-i18n="feature_2_title">폴라로이드 캡션</h3>
+                    <p data-i18n="feature_2_desc">각 셀 위에 이모지 타이틀. 폴라로이드 다이어리처럼 보드 자체가 구도를 잡아줍니다.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>
                     </div>
-                    <h3 data-i18n="feature_3_title">1080×1350 영상 출력</h3>
-                    <p data-i18n="feature_3_desc">H.264, 30fps, 4:5 비율로 어디서든 공유하기 좋은 영상.</p>
+                    <h3 data-i18n="feature_3_title">자유 배치 텍스트</h3>
+                    <p data-i18n="feature_3_desc">커스텀 폰트, 외곽선, 색상 팔레트. 인스타 수준의 텍스트 렌더링.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                    </div>
+                    <h3 data-i18n="feature_4_title">원터치 스티커</h3>
+                    <p data-i18n="feature_4_desc">온디바이스 Vision Subject Lifting 으로 사진의 피사체를 잘라 스티커로. 여러 피사체면 선택 시트.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="2"/><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/></svg>
+                    </div>
+                    <h3 data-i18n="feature_5_title">클립보드 → 스티커</h3>
+                    <p data-i18n="feature_5_desc">어떤 이미지든 복사해서 붙여넣으면 즉시 스티커로 변환. 외부 소스도 자유롭게.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
                         <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
                     </div>
-                    <h3 data-i18n="feature_4_title">로컬 처리, 프라이버시 우선</h3>
-                    <p data-i18n="feature_4_desc">모든 미디어는 기기에서 처리되며, 서버에 저장되지 않습니다.</p>
+                    <h3 data-i18n="feature_6_title">로컬 처리, 프라이버시 우선</h3>
+                    <p data-i18n="feature_6_desc">모든 미디어는 기기에서 처리됩니다. 서버 업로드 없음, 결제 장벽 없음.</p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery">
+        <div class="container">
+            <h2 class="gallery-title" data-i18n="gallery_title">스크린샷</h2>
+            <div class="gallery-scroll" id="gallery-scroll">
+                <!-- Screenshots auto-loaded based on current locale. See images/screenshots/nxn/README.md -->
             </div>
         </div>
     </section>
 
     <section class="cta">
         <div class="container">
-            <h2 class="cta-title" data-i18n="cta_title">곧 만나요</h2>
-            <p class="cta-subtitle" data-i18n="cta_subtitle">App Store 심사가 완료되는 대로 다운로드 링크가 공개됩니다.</p>
+            <h2 class="cta-title" data-i18n="cta_title">지금 다운로드</h2>
+            <p class="cta-subtitle" data-i18n="cta_subtitle">App Store 에서 무료로 받을 수 있습니다.</p>
+            <a href="https://apps.apple.com/app/id6765649669" target="_blank" rel="noopener">
+                <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/white/en-us?size=250x83" alt="Download on the App Store" class="appstore-badge">
+            </a>
         </div>
     </section>
 
@@ -379,63 +466,109 @@
                 nav_apps: "Apps",
                 nav_support: "Support",
                 nav_privacy: "Privacy",
-                hero_tagline: "그리드 미디어 콜라주 → 영상",
-                review_badge: "App Store 심사 대기중",
-                description: "<span class=\"highlight\">N x N</span>은 사진과 영상을 그리드로 배치하고 한 편의 영상으로 내보내는 앱입니다. <span class=\"highlight\">1x1, 2x2, 3x3</span> 레이아웃 중 선택해 셀마다 미디어와 이모지 타이틀을 채우면, <span class=\"highlight\">1080×1350 H.264</span> 영상으로 변환됩니다. 모든 작업은 기기에서 로컬로 처리됩니다.",
-                features_title: "주요 기능",
-                feature_1_title: "유연한 그리드 레이아웃",
-                feature_1_desc: "1x1, 2x2, 3x3 중 선택. 레이아웃을 바꿔도 미디어는 보존됩니다.",
-                feature_2_title: "사진 + 영상 + 이모지",
-                feature_2_desc: "셀마다 사진/영상을 채우고 이모지로 타이틀을 더하세요.",
-                feature_3_title: "1080×1350 영상 출력",
-                feature_3_desc: "H.264, 30fps, 4:5 비율로 어디서든 공유하기 좋은 영상.",
-                feature_4_title: "로컬 처리, 프라이버시 우선",
-                feature_4_desc: "모든 미디어는 기기에서 처리되며, 서버에 저장되지 않습니다.",
-                cta_title: "곧 만나요",
-                cta_subtitle: "App Store 심사가 완료되는 대로 다운로드 링크가 공개됩니다.",
+                hero_title: "N x N",
+                hero_tagline: "영상 편집자가 아닌 사람들을 위한 영상 만들기 도구.",
+                narrative_1: "Reels 와 Stories 가 세상을 지배하지만, CapCut 이나 iMovie 같은 도구들은 여전히 평범한 사람들에게 <span class=\"highlight\">트랙과 키프레임</span>으로 사고하라고 요구합니다. 대부분은 한 번 열어보고, 길을 잃고, 조용히 포기합니다. 회고 영상은 끝내 만들어지지 않습니다.",
+                narrative_2: "<span class=\"highlight\">N x N 은 \"영상을 편집한다\"를 \"보드를 채운다\"로 바꿉니다.</span> 레이아웃을 고르고, 셀마다 사진이나 영상을 넣고, 폴라로이드처럼 이모지 캡션을 답니다. 추출 버튼 한 번. Reels 와 Stories 용 깔끔한 영상이 나옵니다 — 타임라인, 트랙, 튜토리얼, 결제 장벽 없음.",
+                features_title: "보드 위에서 할 수 있는 것",
+                feature_1_title: "6가지 보드 레이아웃",
+                feature_1_desc: "1×1, 1×2, 1×3, 2×2, 3×3, 9:16 풀스크린. 레이아웃을 바꿔도 미디어는 보존됩니다.",
+                feature_2_title: "폴라로이드 캡션",
+                feature_2_desc: "각 셀 위에 이모지 타이틀. 폴라로이드 다이어리처럼 보드 자체가 구도를 잡아줍니다.",
+                feature_3_title: "자유 배치 텍스트",
+                feature_3_desc: "커스텀 폰트, 외곽선, 색상 팔레트. 인스타 수준의 텍스트 렌더링.",
+                feature_4_title: "원터치 스티커",
+                feature_4_desc: "온디바이스 Vision Subject Lifting 으로 사진의 피사체를 잘라 스티커로. 여러 피사체면 선택 시트.",
+                feature_5_title: "클립보드 → 스티커",
+                feature_5_desc: "어떤 이미지든 복사해서 붙여넣으면 즉시 스티커로 변환. 외부 소스도 자유롭게.",
+                feature_6_title: "로컬 처리, 프라이버시 우선",
+                feature_6_desc: "모든 미디어는 기기에서 처리됩니다. 서버 업로드 없음, 결제 장벽 없음.",
+                gallery_title: "스크린샷",
+                gallery_placeholder: "스크린샷이 곧 준비됩니다.",
+                cta_title: "지금 다운로드",
+                cta_subtitle: "App Store 에서 무료로 받을 수 있습니다.",
                 footer_terms: "이용약관"
             },
             en: {
                 nav_apps: "Apps",
                 nav_support: "Support",
                 nav_privacy: "Privacy",
-                hero_tagline: "Grid Media Collage → Video",
-                review_badge: "In review on the App Store",
-                description: "<span class=\"highlight\">N x N</span> arranges your photos and videos into a grid and exports the whole thing as a single video. Pick a <span class=\"highlight\">1x1, 2x2, or 3x3</span> layout, fill each cell with media and an emoji title, and N x N renders it as a <span class=\"highlight\">1080×1350 H.264</span> clip. Everything is processed on-device.",
-                features_title: "Features",
-                feature_1_title: "Flexible Grid Layouts",
-                feature_1_desc: "Choose 1x1, 2x2, or 3x3. Switch layouts without losing your media.",
-                feature_2_title: "Photos + Videos + Emoji",
-                feature_2_desc: "Drop in photos or videos per cell and add an emoji title to each.",
-                feature_3_title: "1080×1350 Video Export",
-                feature_3_desc: "H.264 at 30fps in a 4:5 ratio — ready to share anywhere.",
-                feature_4_title: "On-Device, Privacy First",
-                feature_4_desc: "Every media operation runs on your device. Nothing is uploaded.",
-                cta_title: "Coming Soon",
-                cta_subtitle: "We'll publish the download link the moment App Store review wraps up.",
+                hero_title: "N x N",
+                hero_tagline: "The video composer for people who don't think of themselves as video editors.",
+                narrative_1: "Reels and Stories run the world, but tools like CapCut and iMovie still ask everyday people to think in <span class=\"highlight\">tracks and keyframes</span>. Most try once, get lost, and quietly give up. The recap video never gets made.",
+                narrative_2: "<span class=\"highlight\">N x N replaces \"edit a video\" with \"fill a board.\"</span> Pick a layout, drop a photo or clip into each cell, add a polaroid-style emoji caption. Tap export. A polished video for Reels and Stories — no timeline, no tracks, no tutorial, no paywall.",
+                features_title: "What you can do on the board",
+                feature_1_title: "Six board layouts",
+                feature_1_desc: "1×1, 1×2, 1×3, 2×2, 3×3, and 9:16 full-screen. Switch layouts without losing your media.",
+                feature_2_title: "Polaroid captions",
+                feature_2_desc: "An emoji title above each cell. The board composes the frame for you, polaroid-diary style.",
+                feature_3_title: "Free-placement text",
+                feature_3_desc: "Custom fonts, outlines, and a curated color palette. Instagram-grade text rendering.",
+                feature_4_title: "One-tap stickers",
+                feature_4_desc: "Lift any subject from your photo with on-device Vision. Picker sheet when multiple subjects are detected.",
+                feature_5_title: "Clipboard → sticker",
+                feature_5_desc: "Copy any image and paste — it becomes a sticker instantly. External sources welcome.",
+                feature_6_title: "On-device, privacy first",
+                feature_6_desc: "Every media operation runs locally. No uploads, no paywall blocking core features.",
+                gallery_title: "Screenshots",
+                gallery_placeholder: "Screenshots coming soon.",
+                cta_title: "Download now",
+                cta_subtitle: "Free on the App Store.",
                 footer_terms: "Terms of Use"
             },
             ja: {
                 nav_apps: "Apps",
                 nav_support: "Support",
                 nav_privacy: "Privacy",
-                hero_tagline: "グリッドメディアコラージュ → 動画",
-                review_badge: "App Store審査中",
-                description: "<span class=\"highlight\">N x N</span>は、写真や動画をグリッドに配置して1本の動画として書き出すアプリです。<span class=\"highlight\">1x1、2x2、3x3</span>のレイアウトから選び、各セルにメディアと絵文字のタイトルを入れると、<span class=\"highlight\">1080×1350 H.264</span>の動画に変換されます。すべて端末上で処理されます。",
-                features_title: "主な機能",
-                feature_1_title: "柔軟なグリッドレイアウト",
-                feature_1_desc: "1x1、2x2、3x3から選択。レイアウトを変えてもメディアは保持されます。",
-                feature_2_title: "写真 + 動画 + 絵文字",
-                feature_2_desc: "各セルに写真や動画を入れ、絵文字でタイトルを添えましょう。",
-                feature_3_title: "1080×1350の動画書き出し",
-                feature_3_desc: "H.264、30fps、4:5比率。どこでも共有しやすい動画に。",
-                feature_4_title: "端末内処理、プライバシー優先",
-                feature_4_desc: "すべてのメディア処理は端末上で行われ、サーバーに保存されません。",
-                cta_title: "もうすぐ公開",
-                cta_subtitle: "App Storeの審査が完了次第、ダウンロードリンクを公開します。",
+                hero_title: "N x N",
+                hero_tagline: "動画編集者ではない人のための、動画づくりツール。",
+                narrative_1: "Reels や Stories が世界を席巻していますが、CapCut や iMovie のようなツールは今でも普通の人に <span class=\"highlight\">トラックやキーフレーム</span> で考えることを求めます。多くの人は一度開いて、迷子になり、静かに諦めます。振り返り動画は結局できあがりません。",
+                narrative_2: "<span class=\"highlight\">N x N は「動画を編集する」を「ボードを埋める」に置き換えます。</span> レイアウトを選び、セルごとに写真や動画を入れ、ポラロイドのように絵文字キャプションを添えるだけ。書き出しボタン一つ。Reels や Stories 向けのきれいな動画ができあがります — タイムラインも、トラックも、チュートリアルも、課金の壁もありません。",
+                features_title: "ボードでできること",
+                feature_1_title: "6種類のボードレイアウト",
+                feature_1_desc: "1×1、1×2、1×3、2×2、3×3、9:16フルスクリーン。レイアウトを変えてもメディアは保持されます。",
+                feature_2_title: "ポラロイド風キャプション",
+                feature_2_desc: "各セルの上に絵文字タイトル。ポラロイド日記のように、ボードそのものが構図を整えてくれます。",
+                feature_3_title: "自由配置のテキスト",
+                feature_3_desc: "カスタムフォント、アウトライン、カラーパレット。Instagram レベルのテキスト描画。",
+                feature_4_title: "ワンタップ・ステッカー",
+                feature_4_desc: "オンデバイス Vision の Subject Lifting で写真の被写体を切り抜いてステッカーに。複数被写体時は選択シート。",
+                feature_5_title: "クリップボード → ステッカー",
+                feature_5_desc: "どんな画像でもコピーして貼り付ければ即ステッカー化。外部ソースも自由に。",
+                feature_6_title: "オンデバイス処理、プライバシー優先",
+                feature_6_desc: "すべてのメディア処理は端末上で完結。サーバーアップロードなし、課金の壁なし。",
+                gallery_title: "スクリーンショット",
+                gallery_placeholder: "スクリーンショットは近日公開。",
+                cta_title: "今すぐダウンロード",
+                cta_subtitle: "App Store で無料配信中。",
                 footer_terms: "利用規約"
             }
         };
+
+        function renderGallery(lang) {
+            const scroll = document.getElementById('gallery-scroll');
+            if (!scroll) return;
+            scroll.innerHTML = '';
+            const indices = [0, 1, 2, 3, 4];
+            const placeholderText = translations[lang].gallery_placeholder;
+            indices.forEach(i => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                const img = document.createElement('img');
+                img.alt = 'N x N screenshot ' + (i + 1);
+                img.loading = 'lazy';
+                img.src = '../images/screenshots/nxn/' + lang + '/' + i + '_APP_IPHONE_65_' + i + '.jpg';
+                img.onerror = function() {
+                    img.style.display = 'none';
+                    const ph = document.createElement('div');
+                    ph.className = 'placeholder';
+                    ph.textContent = placeholderText;
+                    item.appendChild(ph);
+                };
+                item.appendChild(img);
+                scroll.appendChild(item);
+            });
+        }
 
         function setLanguage(lang) {
             localStorage.setItem('pf-lang', lang);
@@ -456,6 +589,7 @@
                 }
             });
 
+            renderGallery(lang);
             document.body.style.opacity = '1';
         }
 
