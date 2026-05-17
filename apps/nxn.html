@@ -185,6 +185,21 @@
         .hero-cta { display: inline-block; }
         .appstore-badge { height: 56px; width: auto; }
 
+        .demo { padding: 0 0 80px; }
+        .demo-video-wrap {
+            max-width: 360px;
+            margin: 0 auto;
+            aspect-ratio: 886 / 1920;
+            border-radius: 32px;
+            overflow: hidden;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+        }
+        .demo-video-wrap video {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+        }
+
         .narrative { padding: 0 0 80px; }
         .narrative-card {
             background: var(--bg-card);
@@ -360,6 +375,14 @@
             <a href="https://apps.apple.com/app/id6765649669" target="_blank" rel="noopener" class="hero-cta">
                 <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/white/en-us?size=250x83" alt="Download on the App Store" class="appstore-badge">
             </a>
+        </div>
+    </section>
+
+    <section class="demo">
+        <div class="container">
+            <div class="demo-video-wrap">
+                <video id="demo-video" autoplay muted loop playsinline preload="metadata"></video>
+            </div>
         </div>
     </section>
 
@@ -545,6 +568,17 @@
             }
         };
 
+        function renderDemoVideo(lang) {
+            const v = document.getElementById('demo-video');
+            if (!v) return;
+            const newSrc = '../videos/nxn/' + lang + '.mov';
+            if (v.getAttribute('src') === newSrc) return;
+            v.setAttribute('src', newSrc);
+            v.load();
+            const p = v.play();
+            if (p && typeof p.catch === 'function') p.catch(() => {});
+        }
+
         function renderGallery(lang) {
             const scroll = document.getElementById('gallery-scroll');
             if (!scroll) return;
@@ -589,6 +623,7 @@
                 }
             });
 
+            renderDemoVideo(lang);
             renderGallery(lang);
             document.body.style.opacity = '1';
         }
