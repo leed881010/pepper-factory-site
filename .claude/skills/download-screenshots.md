@@ -27,10 +27,11 @@ App Store Connect에서 최신 스크린샷을 다운로드하고 웹사이트 �
 
 ### 1. API Key로 각 프로젝트에서 다운로드
 
-API Key 파일은 OneThing Fastfile에서 추출 가능 (key_id: JWVC2UU6Y7).
+API Key는 공용 외부 파일 `~/.config/appstore-connect/keys/AuthKey_87JVRXG5VW.p8`을 사용합니다.
+Fastfile이나 저장소에서 개인키를 추출·복사하지 않습니다.
 
 ```bash
-# API Key JSON 생성 (one_thing/fastlane/Fastfile에서 추출)
+# 각 프로젝트의 .env와 공용 .p8을 사용해 임시 API Key JSON 생성
 # /tmp/asc_api_key.json
 
 # 각 프로젝트에서 실행
