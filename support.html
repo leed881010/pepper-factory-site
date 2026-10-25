@@ -250,6 +250,7 @@
             .footer-inner { flex-direction: column; text-align: center; }
             .footer-links { flex-wrap: wrap; justify-content: center; }
         }
+            .nxn-legal-link { color: var(--accent); text-underline-offset: 3px; }
     </style>
 </head>
 <body>
@@ -292,6 +293,15 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="section" id="nxn-account-deletion" style="scroll-margin-top: 84px">
+            <h2 data-i18n="nxn_delete_0">N x N account and data deletion</h2>
+            <p data-i18n="nxn_delete_1">You can delete your N x N account in the Android app: My → Account → Delete Account. Reauthenticate with the same Google account and confirm. This deletes the N x N account, not your Google or Apple account.</p>
+            <p data-i18n="nxn_delete_2">Without the app, email leedi@pepper-factory.com from the address associated with your N x N sign-in. Use the subject “N x N account deletion”. State that you want to delete the account and profile data. Include share links if you also want shared packages removed. Never send a password, one-time code or identity document. If you want only a shared package deleted, say so; your account will remain.</p>
+            <p data-i18n="nxn_delete_3">We verify account ownership before deleting data and normally respond within 30 days. After verification we remove the uploaded profile photo and delete the Firebase identity, including its display name, email and provider association. Firebase may require up to 180 days to remove deleted authentication data from live and backup systems; its security IP logs remain for a few weeks.</p>
+            <p data-i18n="nxn_delete_4">Local boards and exported files remain on your device until you delete them or clear app storage. Recipients’ saved copies cannot be recalled. Ordinary shares are not linked to your account and expire through their seven-day lifecycle or import claim; include their links to request earlier removal. Unlinked analytics and aggregate statistics are handled under the privacy policy and are not automatically located by an account deletion request.</p>
+            <p><a class="nxn-legal-link" href="mailto:leedi@pepper-factory.com?subject=N%20x%20N%20account%20deletion" data-i18n="nxn_delete_5">Email a deletion request</a></p>
         </div>
 
         <div class="section">
@@ -368,6 +378,12 @@
     <script>
         const translations = {
             ko: {
+                nxn_delete_0: "N x N 계정 및 데이터 삭제",
+                nxn_delete_1: "Android 앱의 마이 → 계정 → 계정 삭제에서 삭제할 수 있습니다. 같은 Google 계정으로 재인증하고 확인하세요. N x N 계정을 삭제하며 Google·Apple 계정 자체를 삭제하지 않습니다.",
+                nxn_delete_2: "앱을 사용할 수 없다면 N x N 로그인에 연결된 이메일 주소로 leedi@pepper-factory.com에 “N x N 계정 삭제” 제목의 메일을 보내세요. 계정·프로필 데이터 삭제 요청임을 적고, 공유 패키지도 삭제하려면 공유 링크를 포함하세요. 비밀번호·일회용 인증번호·신분증은 보내지 마세요. 공유 패키지만 삭제하려면 그 점을 적어 주세요. 계정은 유지합니다.",
+                nxn_delete_3: "계정 소유권 확인 후 삭제하며, 일반적으로 30일 이내 회신합니다. 확인 후 업로드한 프로필 사진과 이름·이메일·로그인 제공자 연결이 포함된 Firebase 사용자를 삭제합니다. Firebase 운영·백업의 삭제된 인증 정보 제거에는 최대 180일이 걸릴 수 있고, 보안 IP 로그는 수 주간 보관됩니다.",
+                nxn_delete_4: "로컬 보드·내보낸 파일은 직접 삭제하거나 앱 저장공간을 지울 때까지 기기에 남습니다. 수신자가 저장한 사본은 회수할 수 없습니다. 일반 공유는 계정과 연결되지 않으며 7일 수명 주기 또는 가져오기 후 회수로 제거됩니다. 조기 삭제를 원하면 공유 링크를 알려주세요. 계정과 연결되지 않은 분석·집계 통계는 개인정보처리방침에 따라 별도 처리되며 계정 삭제 요청만으로 자동 식별되지 않습니다.",
+                nxn_delete_5: "이메일로 삭제 요청",
                 nav_apps: 'Apps',
                 nav_support: 'Support',
                 nav_privacy: 'Privacy',
@@ -395,6 +411,12 @@
                 footer_terms: 'Terms of Use'
             },
             en: {
+                nxn_delete_0: "N x N account and data deletion",
+                nxn_delete_1: "You can delete your N x N account in the Android app: My → Account → Delete Account. Reauthenticate with the same Google account and confirm. This deletes the N x N account, not your Google or Apple account.",
+                nxn_delete_2: "Without the app, email leedi@pepper-factory.com from the address associated with your N x N sign-in. Use the subject “N x N account deletion”. State that you want to delete the account and profile data. Include share links if you also want shared packages removed. Never send a password, one-time code or identity document. If you want only a shared package deleted, say so; your account will remain.",
+                nxn_delete_3: "We verify account ownership before deleting data and normally respond within 30 days. After verification we remove the uploaded profile photo and delete the Firebase identity, including its display name, email and provider association. Firebase may require up to 180 days to remove deleted authentication data from live and backup systems; its security IP logs remain for a few weeks.",
+                nxn_delete_4: "Local boards and exported files remain on your device until you delete them or clear app storage. Recipients’ saved copies cannot be recalled. Ordinary shares are not linked to your account and expire through their seven-day lifecycle or import claim; include their links to request earlier removal. Unlinked analytics and aggregate statistics are handled under the privacy policy and are not automatically located by an account deletion request.",
+                nxn_delete_5: "Email a deletion request",
                 nav_apps: 'Apps',
                 nav_support: 'Support',
                 nav_privacy: 'Privacy',
@@ -422,6 +444,12 @@
                 footer_terms: 'Terms of Use'
             },
             ja: {
+                nxn_delete_0: "N x Nアカウントとデータの削除",
+                nxn_delete_1: "AndroidアプリのMy → アカウント → アカウント削除から、同じGoogleアカウントで再認証して確認してください。削除するのはN x Nアカウントであり、Google・Appleアカウント自体ではありません。",
+                nxn_delete_2: "アプリを使えない場合は、N x Nログインに関連するメールアドレスからleedi@pepper-factory.comへ、件名「N x N account deletion」でアカウントとプロフィールの削除を依頼してください。共有パッケージも削除する場合はリンクを添えてください。パスワード、ワンタイムコード、本人確認書類は送らないでください。 共有パッケージのみの削除をご希望の場合は、その旨をご記入ください。アカウントは維持します。",
+                nxn_delete_3: "所有者確認後に削除し、通常30日以内に返信します。確認後、アップロードした写真と、表示名・メール・プロバイダーの関連付けを含むFirebaseユーザーを削除します。Firebaseの稼働・バックアップシステムからの削除には最大180日かかる場合があり、セキュリティIPログは数週間保持されます。",
+                nxn_delete_4: "端末内のボードや書き出したファイルは、自分で削除するかアプリの保存領域を消去するまで残ります。受信者の保存済みコピーは回収できません。通常の共有はアカウントと関連付けず、7日のライフサイクルまたはインポート後の回収で削除します。早期削除には共有リンクをお知らせください。アカウントと関連付けない分析・集計データはプライバシーポリシーに従い、アカウント削除依頼だけでは自動的に特定されません。",
+                nxn_delete_5: "メールで削除を依頼",
                 nav_apps: 'Apps',
                 nav_support: 'Support',
                 nav_privacy: 'Privacy',

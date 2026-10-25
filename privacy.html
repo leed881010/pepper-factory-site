@@ -215,6 +215,7 @@
             .footer-inner { flex-direction: column; text-align: center; }
             .footer-links { flex-wrap: wrap; justify-content: center; }
         }
+            .nxn-legal-link { color: var(--accent); text-underline-offset: 3px; }
     </style>
 </head>
 <body>
@@ -244,7 +245,7 @@
             <h1 data-i18n="page_title">Privacy Policy</h1>
             <p class="subtitle" data-i18n="page_subtitle">Pepper Factory Apps</p>
         </div>
-        <p class="updated" data-i18n="last_updated">Last updated: December 28, 2024</p>
+        <p class="updated" data-i18n="last_updated">Last updated: October 26, 2026</p>
 
         <p class="intro" data-i18n="intro">Pepper Factory ("we," "us," or "our") operates the following mobile applications (collectively, the "Services"): OneThing, Weekly, Workout Timy, Ad Revenue Tracker, Pop, MojiBoard, and N x N.</p>
 
@@ -313,9 +314,21 @@
                     <li data-i18n="app_7_item_1">Photos and videos you select from your library or capture with the camera (processed locally on device)</li>
                     <li data-i18n="app_7_item_2">Audio recorded with the microphone for board videos (processed locally on device)</li>
                     <li data-i18n="app_7_item_3">Exported board videos saved to your Photo Library (with your permission)</li>
-                    <li data-i18n="app_7_item_4">App usage statistics (anonymized)</li>
+                    <li data-i18n="app_7_item_4">App usage statistics and pseudonymous app/device identifiers</li>
                 </ul>
             </div>
+        </div>
+
+        <div class="section" id="nxn-android" style="scroll-margin-top: 84px">
+            <h2 data-i18n="nxn_android_0">N x N Android — account, sharing and analytics</h2>
+            <p data-i18n="nxn_android_1">Android supplement updated October 26, 2026. This section explains N x N Android 0.1.1 and takes precedence over general statements about local-only storage. Core board editing and export work without an account. Ads, subscriptions, cloud board backup and beta screenshot reporting are disabled in this Android release.</p>
+            <p data-i18n="nxn_android_2">Photos, videos, board text and drawings are normally processed and stored on your device. They are sent off-device when you choose to upload a profile photo or create a board share. Shared board packages can include the selected media, text, drawings, layout and a preview. Anyone with the share link and, when set, its password can access the shared content. Password protection controls server access; it is not end-to-end encryption.</p>
+            <p data-i18n="nxn_android_3">Optional Google sign-in uses Firebase Authentication. Firebase processes the account identifier, provider information, display name, email address and provider profile image where supplied. A profile photo you choose to upload is stored on our Cloudflare infrastructure. These data support sign-in, profile management and account security. Your Google or Apple account password is not provided to N x N.</p>
+            <p data-i18n="nxn_android_4">Firebase Analytics, Amplitude and our Cloudflare telemetry process app interactions, installation or device identifiers, app/OS versions, device model, language, and operational information such as download duration and failure codes. Analytics providers may derive approximate location from IP addresses. Our resource service receives search terms you enter to return matching templates or stickers. Network providers and Firebase process IP addresses and request information for security and abuse prevention. Analytics identifiers are pseudonymous, rather than a guarantee of anonymity.</p>
+            <p data-i18n="nxn_android_5">Google/Firebase, Amplitude and Cloudflare process information to provide authentication, analytics, hosting and delivery services. Transfers use HTTPS. Choosing a share deliberately makes its selected content available to recipients. We do not sell your personal information. Permissions are used for the feature you invoke; granting photo access does not upload your entire library.</p>
+            <p data-i18n="nxn_android_6">Account and profile information remains until you change it or delete the N x N account. The in-app deletion flow removes the uploaded profile image and requests deletion of the Firebase identity. Firebase states that authentication IP logs are retained for a few weeks and deleted authentication data is removed from live and backup systems within 180 days. Ordinary board shares are removed after their import claim or by a seven-day object lifecycle. Official persistent links remain until removed. Unlinked analytics and aggregate service statistics follow their separate provider or service retention settings; deleting an account does not automatically identify and erase those records.</p>
+            <p data-i18n="nxn_android_7">You can request access, correction or deletion by contacting leedi@pepper-factory.com. For account deletion without the app, use the steps linked below. Include a share link if you also want its uploaded package removed, because ordinary shares are not tied to a sign-in account. Local boards, exported media and recipients’ copies are controlled separately. Our services are not directed to children under 13.</p>
+            <p><a class="nxn-legal-link" href="support#nxn-account-deletion" data-i18n="nxn_android_8">N x N account and data deletion instructions</a></p>
         </div>
 
         <div class="section">
@@ -331,7 +344,7 @@
 
         <div class="section">
             <h2 data-i18n="section_3_title">3. Data Storage</h2>
-            <p data-i18n="section_3_text">Your data is stored locally on your device and, where applicable, in your personal iCloud account. <strong>We do not store any personal information on our servers.</strong></p>
+            <p data-i18n="section_3_text">Most app data is stored locally on your device and, where applicable, in your personal iCloud account. N x N Android account, profile, sharing and analytics data are handled as described in its supplement above.</p>
             <ul>
                 <li data-i18n="section_3_item_1">Local data is stored using Apple's secure frameworks (SwiftData)</li>
                 <li data-i18n="section_3_item_2">iCloud synchronization follows Apple's security policies</li>
@@ -405,12 +418,21 @@
     <script>
         const translations = {
             ko: {
+                nxn_android_0: "N x N Android — 계정·공유·분석 데이터",
+                nxn_android_1: "Android 추가 안내: 2026년 10월 26일 갱신. N x N Android 0.1.1의 처리 방식을 설명하며, 로컬 저장만을 설명하는 일반 조항보다 우선합니다. 기본 보드 편집과 내보내기는 계정 없이 사용할 수 있습니다. 이번 Android 버전은 광고·구독·보드 클라우드 백업·베타 스크린샷 제보를 사용하지 않습니다.",
+                nxn_android_2: "사진·영상·보드 문구·그림은 기본적으로 기기에서 처리·저장합니다. 프로필 사진 업로드나 보드 공유를 선택하면 해당 콘텐츠가 기기 밖으로 전송됩니다. 공유 패키지에는 선택한 미디어·문구·그림·레이아웃·미리보기가 포함될 수 있습니다. 링크와 설정된 비밀번호를 아는 사람이 공유 콘텐츠에 접근할 수 있습니다. 비밀번호는 서버 접근을 제어하며 종단 간 암호화가 아닙니다.",
+                nxn_android_3: "선택적 Google 로그인은 Firebase Authentication을 사용합니다. 제공되는 계정 식별자·로그인 제공자 정보·표시 이름·이메일·제공자의 프로필 이미지를 Firebase에서 처리합니다. 직접 업로드한 프로필 사진은 당사의 Cloudflare 인프라에 저장됩니다. 이 정보는 로그인·프로필 관리·계정 보안에 사용됩니다. Google·Apple 계정 비밀번호는 N x N에 제공되지 않습니다.",
+                nxn_android_4: "Firebase Analytics·Amplitude·당사의 Cloudflare 분석은 앱 상호작용·설치 또는 기기 식별자·앱 및 OS 버전·기기 모델·언어·다운로드 소요 시간·실패 코드 등의 운영 정보를 처리합니다. 분석 제공자는 IP 주소로 대략적인 위치를 추정할 수 있습니다. 리소스 서비스는 템플릿·스티커 검색 결과 제공을 위해 입력한 검색어를 받습니다. 네트워크 제공자와 Firebase는 보안·악용 방지를 위해 IP 주소와 요청 정보를 처리합니다. 분석 식별자는 가명 정보이며 완전한 익명성을 보장하지 않습니다.",
+                nxn_android_5: "Google/Firebase·Amplitude·Cloudflare는 인증·분석·호스팅·전송 서비스를 제공하기 위해 정보를 처리합니다. 전송에는 HTTPS를 사용합니다. 공유는 선택한 콘텐츠를 수신자에게 제공하는 사용자의 명시적 동작입니다. 개인정보를 판매하지 않습니다. 권한은 실행한 기능에 사용되며, 사진 접근 권한을 허용해도 전체 사진 보관함을 업로드하지 않습니다.",
+                nxn_android_6: "계정·프로필 정보는 변경하거나 N x N 계정을 삭제할 때까지 보관합니다. 앱 내 삭제 과정은 업로드한 프로필 사진을 제거하고 Firebase 사용자 삭제를 요청합니다. Firebase는 인증 IP 로그를 수 주간 보관하고, 삭제된 인증 정보를 운영·백업 시스템에서 180일 이내 제거한다고 안내합니다. 일반 보드 공유는 가져오기 후 회수되거나 7일 객체 수명 주기로 삭제됩니다. 공식 영구 링크는 제거할 때까지 유지됩니다. 계정과 연결되지 않은 분석 기록·집계 통계에는 제공자·서비스의 별도 보관 설정이 적용되며, 계정 삭제만으로 해당 기록을 식별해 자동 삭제하지는 않습니다.",
+                nxn_android_7: "열람·수정·삭제 요청은 leedi@pepper-factory.com으로 연락할 수 있습니다. 앱 없이 계정을 삭제하려면 아래 안내를 따르세요. 일반 공유는 로그인 계정과 연결되지 않으므로 업로드한 공유 패키지도 삭제하려면 해당 링크를 포함해 주세요. 로컬 보드·내보낸 미디어·수신자가 저장한 사본은 별도로 관리됩니다. 당사 서비스는 13세 미만 아동을 대상으로 하지 않습니다.",
+                nxn_android_8: "N x N 계정 및 데이터 삭제 안내",
                 nav_apps: 'Apps',
                 nav_support: 'Support',
                 nav_privacy: 'Privacy',
                 page_title: '개인정보 처리방침',
                 page_subtitle: 'Pepper Factory 앱',
-                last_updated: '최종 업데이트: 2024년 12월 28일',
+                last_updated: '최종 업데이트: 2026년 10월 26일',
                 intro: '페퍼팩토리(이하 "당사")는 다음의 모바일 애플리케이션(이하 "서비스")을 운영합니다: 원띵, Weekly, 운동 타이미, Ad Revenue Tracker, 뽁, MojiBoard, N x N.',
                 section_1_title: '1. 수집하는 정보',
                 section_1_intro: '수집하는 정보는 사용하는 앱에 따라 다릅니다:',
@@ -443,7 +465,7 @@
                 app_7_item_1: '사진 보관함에서 선택하거나 카메라로 촬영한 사진/영상 (기기에서 로컬 처리)',
                 app_7_item_2: '보드 영상에 녹음되는 마이크 오디오 (기기에서 로컬 처리)',
                 app_7_item_3: '내보낸 보드 영상은 사진 보관함에 저장 (사용자 권한 허용 시)',
-                app_7_item_4: '앱 사용 통계 (익명화)',
+                app_7_item_4: "앱 사용 통계 및 가명 앱·기기 식별자",
                 section_2_title: '2. 정보 사용 방법',
                 section_2_item_1: '서비스 제공 및 유지',
                 section_2_item_2: '기기 간 데이터 동기화 (해당되는 경우 iCloud를 통해)',
@@ -451,7 +473,7 @@
                 section_2_item_4: '구독 및 결제 처리',
                 section_2_item_5: '익명화된 분석을 통한 서비스 개선',
                 section_3_title: '3. 데이터 저장',
-                section_3_text: '귀하의 데이터는 기기에 로컬로 저장되며, 해당되는 경우 개인 iCloud 계정에 저장됩니다. <strong>당사는 서버에 어떠한 개인 정보도 저장하지 않습니다.</strong>',
+                section_3_text: '대부분의 앱 데이터는 기기에 로컬로 저장되며, 해당되는 경우 개인 iCloud 계정에 저장됩니다. N x N Android의 계정·프로필·공유·분석 데이터는 위의 추가 안내에 따라 처리합니다.',
                 section_3_item_1: '로컬 데이터는 Apple의 보안 프레임워크(SwiftData)를 사용하여 저장됩니다',
                 section_3_item_2: 'iCloud 동기화는 Apple의 보안 정책을 따릅니다',
                 section_3_item_3: '인증 토큰(Ad Revenue Tracker)은 iOS Keychain에 저장됩니다',
@@ -489,12 +511,21 @@
                 footer_terms: 'Terms of Use'
             },
             en: {
+                nxn_android_0: "N x N Android — account, sharing and analytics",
+                nxn_android_1: "Android supplement updated October 26, 2026. This section explains N x N Android 0.1.1 and takes precedence over general statements about local-only storage. Core board editing and export work without an account. Ads, subscriptions, cloud board backup and beta screenshot reporting are disabled in this Android release.",
+                nxn_android_2: "Photos, videos, board text and drawings are normally processed and stored on your device. They are sent off-device when you choose to upload a profile photo or create a board share. Shared board packages can include the selected media, text, drawings, layout and a preview. Anyone with the share link and, when set, its password can access the shared content. Password protection controls server access; it is not end-to-end encryption.",
+                nxn_android_3: "Optional Google sign-in uses Firebase Authentication. Firebase processes the account identifier, provider information, display name, email address and provider profile image where supplied. A profile photo you choose to upload is stored on our Cloudflare infrastructure. These data support sign-in, profile management and account security. Your Google or Apple account password is not provided to N x N.",
+                nxn_android_4: "Firebase Analytics, Amplitude and our Cloudflare telemetry process app interactions, installation or device identifiers, app/OS versions, device model, language, and operational information such as download duration and failure codes. Analytics providers may derive approximate location from IP addresses. Our resource service receives search terms you enter to return matching templates or stickers. Network providers and Firebase process IP addresses and request information for security and abuse prevention. Analytics identifiers are pseudonymous, rather than a guarantee of anonymity.",
+                nxn_android_5: "Google/Firebase, Amplitude and Cloudflare process information to provide authentication, analytics, hosting and delivery services. Transfers use HTTPS. Choosing a share deliberately makes its selected content available to recipients. We do not sell your personal information. Permissions are used for the feature you invoke; granting photo access does not upload your entire library.",
+                nxn_android_6: "Account and profile information remains until you change it or delete the N x N account. The in-app deletion flow removes the uploaded profile image and requests deletion of the Firebase identity. Firebase states that authentication IP logs are retained for a few weeks and deleted authentication data is removed from live and backup systems within 180 days. Ordinary board shares are removed after their import claim or by a seven-day object lifecycle. Official persistent links remain until removed. Unlinked analytics and aggregate service statistics follow their separate provider or service retention settings; deleting an account does not automatically identify and erase those records.",
+                nxn_android_7: "You can request access, correction or deletion by contacting leedi@pepper-factory.com. For account deletion without the app, use the steps linked below. Include a share link if you also want its uploaded package removed, because ordinary shares are not tied to a sign-in account. Local boards, exported media and recipients’ copies are controlled separately. Our services are not directed to children under 13.",
+                nxn_android_8: "N x N account and data deletion instructions",
                 nav_apps: 'Apps',
                 nav_support: 'Support',
                 nav_privacy: 'Privacy',
                 page_title: 'Privacy Policy',
                 page_subtitle: 'Pepper Factory Apps',
-                last_updated: 'Last updated: December 28, 2024',
+                last_updated: 'Last updated: October 26, 2026',
                 intro: 'Pepper Factory ("we," "us," or "our") operates the following mobile applications (collectively, the "Services"): One Thing, Weekly, Workout Timy, Ad Revenue Tracker, Pop, MojiBoard, and N x N.',
                 section_1_title: '1. Information We Collect',
                 section_1_intro: 'The information we collect varies depending on which app you use:',
@@ -527,7 +558,7 @@
                 app_7_item_1: 'Photos and videos you select from your library or capture with the camera (processed locally on device)',
                 app_7_item_2: 'Audio recorded with the microphone for board videos (processed locally on device)',
                 app_7_item_3: 'Exported board videos saved to your Photo Library (with your permission)',
-                app_7_item_4: 'App usage statistics (anonymized)',
+                app_7_item_4: "App usage statistics and pseudonymous app/device identifiers",
                 section_2_title: '2. How We Use Your Information',
                 section_2_item_1: 'To provide and maintain our Services',
                 section_2_item_2: 'To sync your data across devices (via iCloud where applicable)',
@@ -535,7 +566,7 @@
                 section_2_item_4: 'To process subscriptions and payments',
                 section_2_item_5: 'To improve our Services through anonymized analytics',
                 section_3_title: '3. Data Storage',
-                section_3_text: 'Your data is stored locally on your device and, where applicable, in your personal iCloud account. <strong>We do not store any personal information on our servers.</strong>',
+                section_3_text: 'Most app data is stored locally on your device and, where applicable, in your personal iCloud account. N x N Android account, profile, sharing and analytics data are handled as described in its supplement above.',
                 section_3_item_1: 'Local data is stored using Apple\'s secure frameworks (SwiftData)',
                 section_3_item_2: 'iCloud synchronization follows Apple\'s security policies',
                 section_3_item_3: 'Authentication tokens (Ad Revenue Tracker) are stored in iOS Keychain',
@@ -573,12 +604,21 @@
                 footer_terms: 'Terms of Use'
             },
             ja: {
+                nxn_android_0: "N x N Android — アカウント・共有・分析データ",
+                nxn_android_1: "Android 補足（2026年10月26日更新）。N x N Android 0.1.1に適用され、ローカル保存のみを説明する一般条項に優先します。基本のボード編集と書き出しはアカウントなしで利用できます。このAndroid版では広告、サブスクリプション、クラウドバックアップ、ベータ版スクリーンショット報告を使用しません。",
+                nxn_android_2: "写真・動画・ボードの文章・描画は通常端末内で処理・保存します。プロフィール写真のアップロードやボード共有を選ぶと、対象コンテンツを端末外に送信します。共有パッケージには選択したメディア、文章、描画、レイアウト、プレビューが含まれます。リンクと設定済みのパスワードを知る人がアクセスできます。パスワードはサーバーへのアクセス制御であり、エンドツーエンド暗号化ではありません。",
+                nxn_android_3: "任意のGoogleログインにはFirebase Authenticationを使用します。提供されたアカウント識別子、プロバイダー情報、表示名、メールアドレス、プロフィール画像をFirebaseが処理します。アップロードしたプロフィール写真は当社のCloudflare基盤に保存します。ログイン、プロフィール管理、セキュリティのために利用し、Google・AppleのパスワードがN x Nに渡されることはありません。",
+                nxn_android_4: "Firebase Analytics、Amplitude、当社のCloudflare分析は、アプリ操作、インストール・端末識別子、アプリ・OSバージョン、機種、言語、ダウンロード時間、失敗コード等を処理します。分析事業者はIPアドレスからおおよその位置を推定する場合があります。素材サービスは検索結果を返すため入力した検索語を受け取ります。ネットワーク事業者とFirebaseはセキュリティや不正防止のためIPアドレスとリクエスト情報を処理します。分析識別子は仮名情報であり、完全な匿名性を保証しません。",
+                nxn_android_5: "Google/Firebase、Amplitude、Cloudflareは認証・分析・ホスティング・配信のため情報を処理します。通信にはHTTPSを使用します。共有は選択したコンテンツを受信者に提供する明示的な操作です。個人情報を販売しません。写真へのアクセスを許可してもライブラリ全体をアップロードしません。",
+                nxn_android_6: "アカウント・プロフィール情報は変更またはN x Nアカウント削除まで保持します。アプリ内削除ではアップロードした写真を削除し、Firebaseのユーザー削除を要求します。Firebaseは認証IPログを数週間保持し、削除した認証情報を稼働・バックアップシステムから180日以内に削除すると説明しています。通常のボード共有はインポート後の回収または7日間のオブジェクトライフサイクルで削除します。公式の永続リンクは削除まで保持します。アカウントと関連付けない分析記録や集計統計は各事業者・サービスの保持設定に従い、アカウント削除だけで自動的に特定・削除されるものではありません。",
+                nxn_android_7: "開示・訂正・削除はleedi@pepper-factory.comへご連絡ください。アプリを使わずにアカウントを削除する手順は下記をご覧ください。通常の共有はログインアカウントと関連付けないため、共有パッケージも削除する場合はリンクを添えてください。端末内のボード、書き出したメディア、受信者のコピーは別途管理されます。13歳未満の児童を対象としたサービスではありません。",
+                nxn_android_8: "N x Nアカウントとデータの削除手順",
                 nav_apps: 'Apps',
                 nav_support: 'Support',
                 nav_privacy: 'Privacy',
                 page_title: 'プライバシーポリシー',
                 page_subtitle: 'Pepper Factory アプリ',
-                last_updated: '最終更新日: 2024年12月28日',
+                last_updated: '最終更新日: 2026年10月26日',
                 intro: 'ペッパーファクトリー（以下「当社」）は、以下のモバイルアプリケーション（総称して「サービス」）を運営しています：One Thing、Weekly、運動タイマー、Ad Revenue Tracker、プチプチ、MojiBoard、N x N。',
                 section_1_title: '1. 収集する情報',
                 section_1_intro: '収集する情報は、使用するアプリによって異なります：',
@@ -611,7 +651,7 @@
                 app_7_item_1: 'ライブラリから選択またはカメラで撮影した写真/動画（端末でローカル処理）',
                 app_7_item_2: 'ボード動画に録音されるマイク音声（端末でローカル処理）',
                 app_7_item_3: '書き出したボード動画を写真ライブラリに保存（許可がある場合）',
-                app_7_item_4: 'アプリ使用統計（匿名化）',
+                app_7_item_4: "アプリ使用統計と仮名のアプリ・端末識別子",
                 section_2_title: '2. 情報の使用方法',
                 section_2_item_1: 'サービスの提供と維持',
                 section_2_item_2: 'デバイス間でのデータ同期（該当する場合はiCloudを通じて）',
@@ -619,7 +659,7 @@
                 section_2_item_4: 'サブスクリプションと支払いの処理',
                 section_2_item_5: '匿名化された分析によるサービスの改善',
                 section_3_title: '3. データの保存',
-                section_3_text: 'お客様のデータはデバイスにローカルに保存され、該当する場合は個人のiCloudアカウントに保存されます。<strong>当社はサーバーにいかなる個人情報も保存しません。</strong>',
+                section_3_text: 'ほとんどのアプリデータは端末内と、該当する場合は個人のiCloudアカウントに保存します。N x N Androidのアカウント・プロフィール・共有・分析データは上記の補足に従って処理します。',
                 section_3_item_1: 'ローカルデータはAppleのセキュアフレームワーク（SwiftData）を使用して保存されます',
                 section_3_item_2: 'iCloud同期はAppleのセキュリティポリシーに従います',
                 section_3_item_3: '認証トークン（Ad Revenue Tracker）はiOS Keychainに保存されます',
